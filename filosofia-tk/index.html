@@ -690,7 +690,10 @@ kbd {
 <nav>
   <span class="nav-brand">Filosofia TK</span>
   <button class="active" onclick="showPage('home', this)">🏠 Início</button>
-  <button onclick="showPage('content', this)">📖 Conteúdo</button>
+  <button onclick="showPage('content', this)">📖 Teoria do Conhecimento</button>
+  <button onclick="showPage('etica', this)">⚖️ Consciência Moral & Ética</button>
+  <button onclick="showPage('dhumanos', this)">🌍 Direitos Humanos</button>
+  <button onclick="showPage('religiao', this)">🙏 Experiência Religiosa</button>
   <button onclick="showPage('flashcards', this)">🃏 Flashcards</button>
   <button onclick="showPage('quiz', this)">✏️ Quiz</button>
 </nav>
@@ -698,29 +701,44 @@ kbd {
 <!-- ══════════════════════════ HOME ══════════════════════════ -->
 <div id="home-page" class="page active">
   <div class="container">
-    <h1>Teoria do Conhecimento</h1>
-    <p class="subtitle">Guia interactivo completo · Gnosiologia · Racionalismo · Empirismo · Realismo · Idealismo</p>
+    <h1>Filosofia — Guia de Estudo</h1>
+    <p class="subtitle">Guia interactivo completo · Teoria do Conhecimento · Ética · Direitos Humanos · Experiência Religiosa</p>
 
     <div class="home-grid">
       <div class="home-card" onclick="showPage('content', document.querySelector('nav button:nth-child(3)'))">
         <span class="home-card-icon">📖</span>
-        <div class="home-card-title">Conteúdo</div>
-        <div class="home-card-desc">Todo o programa organizado por tema, com tabelas, exemplos e filósofos.</div>
+        <div class="home-card-title">Teoria do Conhecimento</div>
+        <div class="home-card-desc">Gnosiologia, Racionalismo, Empirismo, Realismo e Idealismo.</div>
       </div>
-      <div class="home-card" onclick="showPage('flashcards', document.querySelector('nav button:nth-child(4)'))">
+      <div class="home-card" onclick="showPage('etica', document.querySelector('nav button:nth-child(4)'))">
+        <span class="home-card-icon">⚖️</span>
+        <div class="home-card-title">Consciência Moral & Ética</div>
+        <div class="home-card-desc">Liberdade, Responsabilidade, Mill, Rawls, Hans Jonas e ética ambiental.</div>
+      </div>
+      <div class="home-card" onclick="showPage('dhumanos', document.querySelector('nav button:nth-child(5)'))">
+        <span class="home-card-icon">🌍</span>
+        <div class="home-card-title">Direitos Humanos</div>
+        <div class="home-card-desc">DUDH 1948 (artigos chave) e Constituição de Angola 2010.</div>
+      </div>
+      <div class="home-card" onclick="showPage('religiao', document.querySelector('nav button:nth-child(6)'))">
+        <span class="home-card-icon">🙏</span>
+        <div class="home-card-title">Experiência Religiosa</div>
+        <div class="home-card-desc">O Sagrado, Durkheim, visão Bantu-Kongo, Muntu e Kalunga.</div>
+      </div>
+      <div class="home-card" onclick="showPage('flashcards', document.querySelector('nav button:nth-child(7)'))">
         <span class="home-card-icon">🃏</span>
         <div class="home-card-title">Flashcards</div>
-        <div class="home-card-desc">40 cartões interactivos. Clica para revelar, avalia se soubeste ou precisas rever.</div>
+        <div class="home-card-desc">70 cartões interactivos. Clica para revelar, avalia se soubeste ou precisas rever.</div>
       </div>
-      <div class="home-card" onclick="showPage('quiz', document.querySelector('nav button:nth-child(5)'))">
+      <div class="home-card" onclick="showPage('quiz', document.querySelector('nav button:nth-child(8)'))">
         <span class="home-card-icon">✏️</span>
         <div class="home-card-title">Quiz</div>
-        <div class="home-card-desc">12 perguntas (MCQ + desenvolvimento) com feedback detalhado.</div>
+        <div class="home-card-desc">18 perguntas (MCQ + desenvolvimento) com feedback detalhado.</div>
       </div>
     </div>
 
     <div class="home-summary">
-      <h3>Mapa de Conceitos</h3>
+      <h3>Mapa de Conceitos — Teoria do Conhecimento</h3>
       <table class="data-table">
         <tr><th>Problema</th><th>Questão central</th><th>Posições</th></tr>
         <tr><td>Possibilidade</td><td>É possível conhecer?</td><td>Dogmatismo vs. Cepticismo</td></tr>
@@ -730,14 +748,18 @@ kbd {
     </div>
 
     <div class="home-summary" style="margin-top:0">
-      <h3>Filósofos-chave</h3>
+      <h3>Filósofos-chave (programa completo)</h3>
       <table class="data-table">
-        <tr><th>Filósofo</th><th>Corrente</th><th>Contribuição</th></tr>
+        <tr><th>Filósofo</th><th>Corrente / Área</th><th>Contribuição</th></tr>
         <tr><td>Edmund Husserl</td><td>Fenomenologia</td><td>Estrutura do acto de conhecer; sujeito-objecto</td></tr>
         <tr><td>René Descartes</td><td>Racionalismo</td><td>Dúvida metódica; cogito ergo sum; ideias inatas</td></tr>
         <tr><td>John Locke</td><td>Empirismo</td><td>Tabula rasa; conhecimento a posteriori</td></tr>
         <tr><td>David Hume</td><td>Empirismo</td><td>Impressões vs. ideias</td></tr>
         <tr><td>Johannes Hessen</td><td>Idealismo</td><td>Idealismo psicológico vs. lógico; exemplo do giz</td></tr>
+        <tr><td>John Stuart Mill</td><td>Utilitarismo</td><td>Princípio da maior felicidade; ética consequencialista</td></tr>
+        <tr><td>John Rawls</td><td>Justiça / Ética</td><td>Véu da ignorância; posição original; 2 princípios de justiça</td></tr>
+        <tr><td>Hans Jonas</td><td>Ética ambiental</td><td>Princípio responsabilidade; responsabilidade com gerações futuras</td></tr>
+        <tr><td>Imbamba</td><td>Filosofia africana</td><td>Consciência moral; dimensão religiosa do homem; visão bantu</td></tr>
       </table>
     </div>
   </div>
@@ -1052,16 +1074,281 @@ kbd {
   </div>
 </div>
 
+<!-- ══════════════════════════ ÉTICA ══════════════════════════ -->
+<div id="etica-page" class="page">
+  <div class="container">
+    <h1>Consciência Moral, Liberdade & Ética</h1>
+    <p class="subtitle">Capítulos 2.6 e 2.7 · Imbamba · John Stuart Mill · John Rawls · Hans Jonas</p>
+
+    <h2>2.6 · Consciência Moral</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é a Consciência Moral?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Para <strong>Imbamba (2003)</strong>, a consciência moral é o <em>"conhecimento do nosso eu e dos seus actos internos"</em>. É o acto pelo qual o sujeito toma conhecimento dos seus próprios actos enquanto moralmente bons ou maus.</p>
+      <p style="margin-top:12px">A consciência moral não é apenas uma faculdade cognitiva — é também normativa: orienta a conduta humana, distinguindo o bem do mal.</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Classificações da Consciência Moral</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <table class="data-table">
+        <tr><th>Tipo</th><th>Descrição</th></tr>
+        <tr><td><strong>Inata</strong></td><td>Nasce connosco; faz parte da natureza humana. Independente da educação ou experiência.</td></tr>
+        <tr><td><strong>Social</strong></td><td>Resulta da influência da sociedade, da cultura e das normas do grupo em que vivemos.</td></tr>
+        <tr><td><strong>Divina</strong></td><td>É a comunicação de Deus ao homem, que lhe revela o que é moralmente correcto ou incorrecto.</td></tr>
+        <tr><td><strong>Adquirida</strong></td><td>Resulta da educação, da experiência pessoal e do esforço do próprio sujeito ao longo da vida.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Liberdade — tipos e sentidos</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A liberdade é condição essencial da moralidade: só um ser livre pode ser responsável pelos seus actos. Três tipos principais:</p>
+      <table class="data-table" style="margin-top:12px">
+        <tr><th>Tipo</th><th>Definição</th></tr>
+        <tr><td><strong>Natural</strong></td><td>Autodeterminação — capacidade de o ser humano determinar por si mesmo as suas próprias acções, sem constrangimentos externos absolutos.</td></tr>
+        <tr><td><strong>Social</strong></td><td>Liberdade de viver em sociedade sem opressão; pressupõe a existência de direitos e deveres reconhecidos.</td></tr>
+        <tr><td><strong>Política</strong></td><td>Liberdade de participar na vida política, de expressar opiniões e de ser governado por leis justas.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Responsabilidade — a outra face da liberdade</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A responsabilidade é inseparável da liberdade. <strong>Quanto maior a liberdade, maior a responsabilidade.</strong></p>
+      <p style="margin-top:10px">Só quem age livremente pode ser responsabilizado pelos seus actos. Uma acção não livre (por coerção ou ignorância invencível) não é moralmente imputável ao sujeito.</p>
+      <div class="concept-box" style="margin-top:14px">
+        <strong>Princípio fundamental:</strong> Liberdade → Responsabilidade → Imputabilidade moral
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>John Stuart Mill (1806–1873) — Utilitarismo</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Mill é o principal representante do <strong>utilitarismo</strong>. O princípio central é o <em>princípio da maior felicidade</em>:</p>
+      <blockquote style="margin:14px 0;padding:12px 16px;border-left:3px solid var(--accent);color:var(--muted);font-style:italic">
+        "As acções são justas na medida em que tendem a promover a felicidade, e injustas quando tendem a produzir o contrário."
+      </blockquote>
+      <table class="data-table">
+        <tr><th>Conceito</th><th>Explicação</th></tr>
+        <tr><td>Utilitarismo</td><td>A moralidade de uma acção é determinada pelas suas consequências — o que maximiza a felicidade do maior número de pessoas é moralmente correcto.</td></tr>
+        <tr><td>Princípio da maior felicidade</td><td>O bem é a felicidade (prazer + ausência de dor); o mal é a infelicidade. As acções devem maximizar o bem-estar colectivo.</td></tr>
+        <tr><td>Relação com Imbamba</td><td>As nossas acções devem ter sempre em conta o bem da humanidade — não apenas o bem individual.</td></tr>
+      </table>
+    </div>
+
+    <h2 style="margin-top:36px">2.7 · Dimensão Ética: Ética, Estado e Direito</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>John Rawls — Teoria da Justiça</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p><strong>John Rawls (1921–2002)</strong> é o autor de <em>Uma Teoria da Justiça</em> (1971). A sua teoria assenta em dois conceitos fundamentais:</p>
+      <table class="data-table" style="margin:12px 0">
+        <tr><th>Conceito</th><th>Definição</th></tr>
+        <tr><td><strong>Posição Original</strong></td><td>Situação hipotética em que as pessoas escolhem os princípios de justiça de uma sociedade sem saber qual será o seu lugar nessa sociedade.</td></tr>
+        <tr><td><strong>Véu da Ignorância</strong></td><td>As pessoas na posição original desconhecem: a sua classe social, riqueza, talentos, inteligência, género, e concepção do bem. Garante imparcialidade.</td></tr>
+      </table>
+      <p><strong>Dois princípios de justiça</strong> (que racionais escolheriam sob o véu da ignorância):</p>
+      <div class="concept-box" style="margin-top:12px">
+        <strong>1.º Princípio — Liberdades Básicas:</strong><br>
+        Cada pessoa tem direito igual ao mais amplo sistema total de liberdades básicas, compatível com um sistema semelhante de liberdade para todos.
+      </div>
+      <div class="concept-box" style="margin-top:10px">
+        <strong>2.º Princípio — Princípio da Diferença:</strong><br>
+        As desigualdades sociais e económicas devem ser ordenadas de modo a que: (a) proporcionem o maior benefício aos membros menos favorecidos da sociedade, e (b) os cargos e posições estejam abertos a todos em condições de igualdade equitativa de oportunidades.
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Ética Ambiental — Paradigmas</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <table class="data-table">
+        <tr><th>Paradigma</th><th>Visão central</th><th>Autores</th></tr>
+        <tr><td><strong>Antropocêntrico</strong></td><td>O ser humano é o centro e o fim da natureza. A natureza tem valor instrumental — existe para servir o homem.</td><td>Tradição dominante ocidental</td></tr>
+        <tr><td><strong>Biocêntrico</strong></td><td>Todos os seres vivos têm valor intrínseco, independentemente da utilidade para o homem. O homem não é superior aos outros seres.</td><td>Peter Singer</td></tr>
+        <tr><td><strong>Ecocêntrico</strong></td><td>Não apenas os seres vivos, mas os ecossistemas como um todo têm valor. A ética deve incluir a Terra como comunidade.</td><td>Aldo Leopold</td></tr>
+      </table>
+      <p style="margin-top:14px"><strong>Hans Jonas</strong> — <em>O Princípio Responsabilidade</em> (1979):</p>
+      <blockquote style="margin:10px 0;padding:12px 16px;border-left:3px solid var(--green);color:var(--muted);font-style:italic">
+        "Age de tal modo que os efeitos das tuas acções sejam compatíveis com a permanência de uma vida humana autêntica na Terra."
+      </blockquote>
+      <p>Hans Jonas defende uma ética da responsabilidade dirigida às gerações futuras: as nossas acções presentes têm consequências para aqueles que ainda não existem. A tecnologia moderna exige uma nova ética da responsabilidade.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ DIREITOS HUMANOS ══════════════════════════ -->
+<div id="dhumanos-page" class="page">
+  <div class="container">
+    <h1>Direitos Humanos</h1>
+    <p class="subtitle">Capítulo 2.8 · DUDH 1948 · Constituição de Angola 2010</p>
+
+    <h2>2.8 · A Declaração Universal dos Direitos Humanos (1948)</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Contexto histórico e fundamento</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A <strong>Declaração Universal dos Direitos Humanos (DUDH)</strong> foi proclamada pela Assembleia Geral das Nações Unidas a <strong>10 de Dezembro de 1948</strong>, em resposta às atrocidades da Segunda Guerra Mundial.</p>
+      <p style="margin-top:10px">Assenta no reconhecimento de que <em>todos os seres humanos nascem livres e iguais em dignidade e direitos</em>, independentemente de raça, cor, sexo, língua, religião, opinião política, origem nacional ou social, fortuna, nascimento ou qualquer outra condição.</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Artigos fundamentais da DUDH</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <table class="data-table">
+        <tr><th>Artigo</th><th>Direito consagrado</th></tr>
+        <tr><td><strong>Art. 1</strong></td><td>Todos os seres humanos nascem livres e iguais em dignidade e em direitos. São dotados de razão e de consciência e devem agir uns para com os outros em espírito de fraternidade.</td></tr>
+        <tr><td><strong>Art. 2</strong></td><td>Universalidade — todo o ser humano tem capacidade para gozar os direitos e as liberdades estabelecidos, sem distinção de qualquer espécie.</td></tr>
+        <tr><td><strong>Art. 3</strong></td><td>Direito à vida, à liberdade e à segurança pessoal.</td></tr>
+        <tr><td><strong>Art. 4</strong></td><td>Proibição da escravidão e da servidão.</td></tr>
+        <tr><td><strong>Art. 5</strong></td><td>Proibição da tortura e de penas ou tratamentos cruéis, desumanos ou degradantes.</td></tr>
+        <tr><td><strong>Art. 10</strong></td><td>Direito a julgamento justo e público por um tribunal independente e imparcial.</td></tr>
+        <tr><td><strong>Art. 12</strong></td><td>Direito à privacidade — ninguém sofrerá intromissões na sua vida privada, família, domicílio ou correspondência.</td></tr>
+        <tr><td><strong>Art. 18</strong></td><td>Liberdade de pensamento, de consciência e de religião.</td></tr>
+        <tr><td><strong>Art. 19</strong></td><td>Liberdade de opinião e de expressão — inclui o direito de não ser inquietado pelas suas opiniões.</td></tr>
+        <tr><td><strong>Art. 20</strong></td><td>Liberdade de reunião e de associação pacíficas.</td></tr>
+        <tr><td><strong>Art. 21</strong></td><td>Direito de participar na governação do seu país e de aceder em condições de igualdade às funções públicas.</td></tr>
+        <tr><td><strong>Art. 23</strong></td><td>Direito ao trabalho, à livre escolha do emprego e a condições equitativas e satisfatórias de trabalho.</td></tr>
+        <tr><td><strong>Art. 24</strong></td><td>Direito ao repouso e aos lazeres, incluindo limitação razoável das horas de trabalho.</td></tr>
+        <tr><td><strong>Art. 25</strong></td><td>Direito a um nível de vida suficiente para assegurar saúde e bem-estar (alimentação, vestuário, habitação, cuidados médicos).</td></tr>
+        <tr><td><strong>Art. 26</strong></td><td>Direito à educação. A instrução elementar é obrigatória e gratuita. A instrução técnica e profissional deve ser generalizada.</td></tr>
+        <tr><td><strong>Art. 27</strong></td><td>Direito de participar livremente na vida cultural da comunidade e de gozar das artes.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Constituição da República de Angola (2010) — Direitos Fundamentais</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A <strong>Constituição de Angola de 2010</strong> consagra os direitos fundamentais no Título II. Artigos chave:</p>
+      <table class="data-table" style="margin-top:12px">
+        <tr><th>Artigo</th><th>Conteúdo</th></tr>
+        <tr><td><strong>Art. 22 — Princípio da Igualdade</strong></td><td>Todos os cidadãos são iguais perante a lei. Ninguém pode ser prejudicado, privilegiado, privado de qualquer direito ou isento de qualquer dever em razão de ascendência, sexo, raça, etnia, cor, deficiência, língua, local de nascimento, religião, convicções políticas, ideológicas ou filosóficas.</td></tr>
+        <tr><td><strong>Art. 23 — Universalidade</strong></td><td>Os direitos, liberdades e garantias são extensivos a todos os cidadãos e estrangeiros residentes em Angola.</td></tr>
+        <tr><td><strong>Direitos sociais</strong></td><td>Direito à saúde, educação, habitação, trabalho e segurança social estão consagrados na Constituição angolana de 2010.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>20 Conquistas dos Direitos Humanos (desde 1993)</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Desde a <strong>Conferência de Viena (1993)</strong>, que reafirmou a universalidade, indivisibilidade e interdependência dos direitos humanos, registaram-se avanços significativos:</p>
+      <ul style="margin-top:12px;padding-left:20px;line-height:2">
+        <li>Criação do Tribunal Penal Internacional (TPI) — 1998/2002</li>
+        <li>Declaração do Milénio da ONU — 2000</li>
+        <li>Protocolos adicionais às Convenções de Genebra</li>
+        <li>Convenção sobre os Direitos das Pessoas com Deficiência — 2006</li>
+        <li>Declaração das Nações Unidas sobre os Direitos dos Povos Indígenas — 2007</li>
+        <li>Objectivos de Desenvolvimento Sustentável (ODS) — 2015</li>
+        <li>Criminalização universal da tortura e do genocídio</li>
+        <li>Abolição progressiva da pena de morte em mais de 2/3 dos países</li>
+        <li>Reconhecimento do direito à água potável como direito humano — 2010</li>
+        <li>Ratificação crescente da Convenção sobre os Direitos da Criança</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ RELIGIÃO ══════════════════════════ -->
+<div id="religiao-page" class="page">
+  <div class="container">
+    <h1>Experiência Religiosa</h1>
+    <p class="subtitle">Capítulo 2.9 · Imbamba · Durkheim · Visão Bantu-Kongo · O Sagrado</p>
+
+    <h2>2.9 · O Fenómeno Religioso</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é a Religião?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A <strong>religião</strong> é a resposta do ser humano às questões fundamentais da existência:</p>
+      <div class="concept-box" style="margin:14px 0">
+        Quem somos? &nbsp;·&nbsp; De onde viemos? &nbsp;·&nbsp; Para onde vamos? &nbsp;·&nbsp; Qual o sentido da vida?
+      </div>
+      <p>Para <strong>Imbamba</strong>: <em>"Todo o homem é essencialmente um ser religioso."</em> A dimensão religiosa é constitutiva da pessoa humana — não é algo exterior ou opcional, mas faz parte da sua natureza mais profunda.</p>
+      <p style="margin-top:10px">Para <strong>Émile Durkheim</strong>, a religião é <em>"um sistema solidário de crenças e de práticas relativas a coisas sagradas"</em> que une numa mesma comunidade moral todos os que a ela aderem.</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O Sagrado — centro de toda a religião</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>O conceito de <strong>sagrado</strong> (em oposição ao profano) é o elemento central de qualquer fenómeno religioso. O sagrado é aquilo que é separado do mundo ordinário, que inspira temor reverencial, admiração e devoção.</p>
+      <table class="data-table" style="margin-top:12px">
+        <tr><th>Dimensão</th><th>Características</th></tr>
+        <tr><td><strong>Sagrado</strong></td><td>Separado, intocável, que pertence a outra ordem. Provoca o "mysterium tremendum et fascinans" (Rudolf Otto) — simultaneamente aterrador e fascinante.</td></tr>
+        <tr><td><strong>Profano</strong></td><td>O mundo ordinário, quotidiano, acessível a todos. Opõe-se ao sagrado na organização do espaço, do tempo e dos objectos.</td></tr>
+        <tr><td><strong>Rito</strong></td><td>Conjunto de actos que permitem a aproximação ao sagrado. Mediação entre o humano e o divino.</td></tr>
+        <tr><td><strong>Mito</strong></td><td>Narrativa sagrada que explica a origem do mundo, do homem e das normas fundamentais da sociedade.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Visão Bantu-Kongo — Religião e Natureza</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A tradição <strong>Bantu-Kongo</strong> (e mais amplamente Bantu) tem uma visão cosmológica em que o sagrado e o natural são inseparáveis.</p>
+      <table class="data-table" style="margin:12px 0">
+        <tr><th>Conceito</th><th>Significado</th></tr>
+        <tr><td><strong>O Muntu</strong></td><td>O ser humano na visão bantu — não é um indivíduo isolado, mas um ser em relação: com os antepassados, com a comunidade dos vivos, com a natureza e com Deus (Nzambi).</td></tr>
+        <tr><td><strong>O Kalunga</strong></td><td>A linha divisória entre o mundo dos vivos e o mundo dos mortos (antepassados). Os antepassados continuam presentes e activos na vida da comunidade.</td></tr>
+        <tr><td><strong>Nzambi</strong></td><td>O ser supremo, criador de tudo. Na visão bantu, Nzambi não está distante mas impregnado na criação.</td></tr>
+        <tr><td><strong>Força vital</strong></td><td>Conceito central de Placide Tempels: todos os seres têm uma força vital (força de ser), e a moral consiste em aumentar essa força — em si e nos outros.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>A Floresta como Espaço Sagrado</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Na tradição Bantu-Kongo, a <strong>floresta</strong> não é apenas um recurso natural — é um espaço sagrado, carregado de significado espiritual e comunitário.</p>
+      <ul style="margin-top:12px;padding-left:20px;line-height:2">
+        <li><strong>Biblioteca viva</strong>: a floresta contém o saber ancestral, os segredos medicinais e espirituais da comunidade.</li>
+        <li><strong>Templo natural</strong>: as cerimónias de iniciação, os ritos de passagem e os cultos aos antepassados realizam-se na floresta.</li>
+        <li><strong>Espaço de iniciação</strong>: é na floresta que os jovens passam pelos ritos de iniciação que os transformam em adultos membros plenos da comunidade.</li>
+        <li><strong>Morada dos antepassados</strong>: certas árvores, pedras ou rios são considerados pontos de contacto com os antepassados.</li>
+      </ul>
+      <div class="concept-box" style="margin-top:14px">
+        <strong>Implicação ética:</strong> A sacralidade da natureza na visão bantu tem uma dimensão ecológica avant la lettre: destruir a natureza é violar o sagrado e romper o equilíbrio cósmico.
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>A Religião como Sistema Solidário</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A religião bantu não é um assunto meramente privado ou individual. É fundamentalmente <strong>comunitária e solidária</strong>:</p>
+      <table class="data-table" style="margin-top:12px">
+        <tr><th>Dimensão</th><th>Expressão concreta</th></tr>
+        <tr><td><strong>Solidariedade intergeracional</strong></td><td>Os vivos cuidam dos mortos (através de ritos) e os mortos protegem os vivos. A comunidade inclui os antepassados.</td></tr>
+        <tr><td><strong>Solidariedade comunitária</strong></td><td>"Ubuntu": sou porque somos. O bem de cada um está ligado ao bem de todos.</td></tr>
+        <tr><td><strong>Solidariedade cósmica</strong></td><td>O ser humano é parte do cosmos, não o seu senhor. Responsabilidade para com a natureza e os outros seres.</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════════════════ FLASHCARDS ══════════════════════════ -->
 <div id="flashcards-page" class="page">
   <div class="container" id="fc-container">
     <h1>Flashcards</h1>
-    <p class="subtitle">40 cartões · clica para revelar · avalia o que soubeste</p>
+    <p class="subtitle">70 cartões · clica para revelar · avalia o que soubeste</p>
 
     <div class="fc-session-bar" id="fc-session-bar">
       <div class="fc-stat"><span class="fc-stat-val" id="fc-known">0</span><span class="fc-stat-lbl">Soube</span></div>
       <div class="fc-stat"><span class="fc-stat-val" id="fc-review">0</span><span class="fc-stat-lbl">A Rever</span></div>
-      <div class="fc-stat"><span class="fc-stat-val" id="fc-remain">40</span><span class="fc-stat-lbl">Restantes</span></div>
+      <div class="fc-stat"><span class="fc-stat-val" id="fc-remain">70</span><span class="fc-stat-lbl">Restantes</span></div>
     </div>
 
     <div class="fc-controls">
@@ -1071,6 +1358,10 @@ kbd {
       <button class="fc-filter" onclick="filterCards('empir', this)">Empirismo</button>
       <button class="fc-filter" onclick="filterCards('natureza', this)">Natureza</button>
       <button class="fc-filter" onclick="filterCards('filosofos', this)">Filósofos</button>
+      <button class="fc-filter" onclick="filterCards('consciencia', this)">Consciência</button>
+      <button class="fc-filter" onclick="filterCards('etica', this)">Ética</button>
+      <button class="fc-filter" onclick="filterCards('dhumanos', this)">Dir. Humanos</button>
+      <button class="fc-filter" onclick="filterCards('religiao', this)">Religião</button>
       <button class="fc-btn" style="margin-left:auto;padding:8px 16px;font-size:0.78rem" onclick="shuffleCards()">🔀 Baralhar</button>
     </div>
 
@@ -1122,8 +1413,8 @@ kbd {
 <!-- ══════════════════════════ QUIZ ══════════════════════════ -->
 <div id="quiz-page" class="page">
   <div class="container">
-    <h1>Quiz — Teoria do Conhecimento</h1>
-    <p class="subtitle">12 perguntas · escolha múltipla e desenvolvimento · tenta sem olhar para o conteúdo</p>
+    <h1>Quiz — Filosofia Completo</h1>
+    <p class="subtitle">18 perguntas · escolha múltipla e desenvolvimento · tenta sem olhar para o conteúdo</p>
 
     <div class="quiz-header">
       <div class="quiz-score-wrap">
@@ -1140,7 +1431,7 @@ kbd {
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" id="q-prog" style="width:0%"></div>
         </div>
-        <div class="progress-label" id="q-prog-label">0 / 12</div>
+        <div class="progress-label" id="q-prog-label">0 / 18</div>
       </div>
     </div>
 
@@ -1224,6 +1515,45 @@ const allCards = [
   { cat:'filosofos', q:'John Locke — corrente e contributo principal', a:'Empirismo. Tabula rasa — a mente nasce como folha em branco. Todo o conhecimento é a posteriori, derivado da experiência sensorial. Não há ideias inatas.' },
   { cat:'filosofos', q:'David Hume — corrente e contributo principal', a:'Empirismo. Distinção entre impressões (percepções vivas e directas) e ideias (cópias enfraquecidas). Qualquer ideia sem impressão correspondente deve ser rejeitada.' },
   { cat:'filosofos', q:'Johannes Hessen — corrente e contributo principal', a:'Sintetizou o problema da natureza do conhecimento. Distinguiu idealismo psicológico (o objecto existe só enquanto percebido) de idealismo lógico (o objecto é construído pelo conceito). Famoso pelo exemplo do giz.' },
+
+  // ── Consciência Moral & Liberdade ──
+  { cat:'consciencia', q:'Como define Imbamba a consciência moral?', a:'"Conhecimento do nosso eu e dos seus actos internos." A consciência moral permite ao sujeito tomar conhecimento dos seus próprios actos enquanto moralmente bons ou maus.' },
+  { cat:'consciencia', q:'Quais os 4 tipos de consciência moral segundo Imbamba?', a:'1. Inata — nasce connosco. 2. Social — influência da sociedade. 3. Divina — comunicação de Deus ao homem. 4. Adquirida — resulta da educação e experiência.' },
+  { cat:'consciencia', q:'Qual a relação entre liberdade e responsabilidade?', a:'A responsabilidade é a "outra face da liberdade". Só um ser livre pode ser responsabilizado pelos seus actos. Quanto maior a liberdade, maior a responsabilidade e a imputabilidade moral.' },
+  { cat:'consciencia', q:'Quais os 3 tipos de liberdade?', a:'1. Natural (autodeterminação — o ser determina as suas próprias acções). 2. Social (viver em sociedade sem opressão). 3. Política (participação na vida política e governação por leis justas).' },
+  { cat:'consciencia', q:'O que é o utilitarismo de John Stuart Mill?', a:'A moralidade de uma acção é determinada pelas suas consequências. O bem é a felicidade (prazer + ausência de dor). As acções são justas quando promovem a maior felicidade do maior número de pessoas.' },
+  { cat:'consciencia', q:'Qual o "princípio da maior felicidade" de Mill?', a:'"As acções são justas na medida em que tendem a promover a felicidade, e injustas quando tendem a produzir o contrário." O critério moral é o bem-estar colectivo.' },
+  { cat:'consciencia', q:'Quando uma acção não é moralmente imputável ao sujeito?', a:'Quando não é livre — praticada por coerção ou por ignorância invencível. A imputabilidade moral pressupõe liberdade.' },
+
+  // ── Ética / Rawls / Ambiental ──
+  { cat:'etica', q:'Quem é John Rawls e qual a sua obra principal?', a:'Filósofo americano (1921–2002), autor de "Uma Teoria da Justiça" (1971). Propôs uma teoria contratualista da justiça baseada na imparcialidade.' },
+  { cat:'etica', q:'O que é a "posição original" de Rawls?', a:'Situação hipotética em que as pessoas escolhem os princípios de justiça de uma sociedade sem saber qual será o seu lugar nessa sociedade. Garante imparcialidade.' },
+  { cat:'etica', q:'O que é o "véu da ignorância" de Rawls?', a:'Na posição original, as pessoas desconhecem: classe social, riqueza, talentos, inteligência, género e concepção do bem. O véu garante que os princípios escolhidos são verdadeiramente justos — sem favorecer grupos.' },
+  { cat:'etica', q:'Qual o 1.º princípio de justiça de Rawls?', a:'Cada pessoa tem direito igual ao mais amplo sistema total de liberdades básicas compatível com um sistema semelhante de liberdade para todos. (Princípio da liberdade igual)' },
+  { cat:'etica', q:'Qual o 2.º princípio de justiça de Rawls (princípio da diferença)?', a:'As desigualdades económicas e sociais devem beneficiar os membros menos favorecidos da sociedade, e os cargos devem estar abertos a todos em igualdade de oportunidades.' },
+  { cat:'etica', q:'O que é o paradigma antropocêntrico na ética ambiental?', a:'O ser humano é o centro e o fim da natureza. A natureza tem apenas valor instrumental — existe para servir o homem. É a visão dominante na tradição ocidental.' },
+  { cat:'etica', q:'O que é o paradigma biocêntrico (Peter Singer)?', a:'Todos os seres vivos têm valor intrínseco, independentemente da utilidade para o homem. O homem não é superior aos outros seres. Inclui a libertação animal como imperativo ético.' },
+  { cat:'etica', q:'O que defende Hans Jonas no "Princípio Responsabilidade"?', a:'"Age de tal modo que os efeitos das tuas acções sejam compatíveis com a permanência de uma vida humana autêntica na Terra." A tecnologia moderna exige uma nova ética da responsabilidade perante as gerações futuras.' },
+
+  // ── Direitos Humanos ──
+  { cat:'dhumanos', q:'Quando foi proclamada a DUDH e por quem?', a:'A Declaração Universal dos Direitos Humanos foi proclamada pela Assembleia Geral das Nações Unidas a 10 de Dezembro de 1948, em resposta às atrocidades da Segunda Guerra Mundial.' },
+  { cat:'dhumanos', q:'O que diz o Artigo 1.º da DUDH?', a:'"Todos os seres humanos nascem livres e iguais em dignidade e em direitos. São dotados de razão e de consciência e devem agir uns para com os outros em espírito de fraternidade."' },
+  { cat:'dhumanos', q:'O que consagra o Artigo 3.º da DUDH?', a:'O direito à vida, à liberdade e à segurança pessoal.' },
+  { cat:'dhumanos', q:'O que protege o Artigo 18.º da DUDH?', a:'A liberdade de pensamento, de consciência e de religião — incluindo o direito de mudar de religião e de manifestar a sua crença.' },
+  { cat:'dhumanos', q:'O que protege o Artigo 19.º da DUDH?', a:'A liberdade de opinião e de expressão — inclui o direito de não ser inquietado pelas suas opiniões e de procurar, receber e transmitir informações.' },
+  { cat:'dhumanos', q:'O que diz o Artigo 26.º da DUDH sobre educação?', a:'Toda a pessoa tem direito à educação. A instrução elementar é obrigatória e gratuita. A instrução superior deve ser acessível a todos em função do mérito.' },
+  { cat:'dhumanos', q:'O que diz o Artigo 22.º da Constituição de Angola 2010?', a:'Princípio da Igualdade: todos os cidadãos são iguais perante a lei. Ninguém pode ser prejudicado por razões de ascendência, sexo, raça, etnia, cor, deficiência, língua, local de nascimento, religião ou convicções políticas.' },
+  { cat:'dhumanos', q:'Quais são as características fundamentais dos direitos humanos?', a:'Universais (aplicam-se a todos), inalienáveis (não podem ser cedidos), indivisíveis (todos têm igual importância), interdependentes (a realização de uns depende dos outros) e imprescritíveis (não prescrevem com o tempo).' },
+
+  // ── Experiência Religiosa / Bantu ──
+  { cat:'religiao', q:'Qual é a definição de religião segundo Durkheim?', a:'"Um sistema solidário de crenças e de práticas relativas a coisas sagradas" que une numa mesma comunidade moral todos os que a ela aderem.' },
+  { cat:'religiao', q:'O que afirma Imbamba sobre a natureza religiosa do homem?', a:'"Todo o homem é essencialmente um ser religioso." A dimensão religiosa é constitutiva da pessoa humana — não é exterior ou opcional, mas parte da natureza mais profunda do ser humano.' },
+  { cat:'religiao', q:'Quais são as questões fundamentais que a religião procura responder?', a:'Quem somos? De onde viemos? Para onde vamos? Qual o sentido da vida e da morte? São as grandes questões existenciais que todas as religiões procuram responder.' },
+  { cat:'religiao', q:'O que é o conceito de "Sagrado" na fenomenologia da religião?', a:'O sagrado é aquilo que está separado do mundo ordinário (profano), que inspira temor reverencial e fascinação (mysterium tremendum et fascinans, segundo Rudolf Otto). É o centro de qualquer fenómeno religioso.' },
+  { cat:'religiao', q:'O que é o "Muntu" na visão bantu?', a:'O ser humano na visão bantu. Não é um indivíduo isolado, mas um ser em relação: com os antepassados, com a comunidade dos vivos, com a natureza e com Deus (Nzambi).' },
+  { cat:'religiao', q:'O que é o "Kalunga" na tradição Bantu-Kongo?', a:'A linha divisória entre o mundo dos vivos e o mundo dos mortos (antepassados). Os antepassados continuam presentes e activos na vida da comunidade — não estão "mortos" mas numa outra dimensão do ser.' },
+  { cat:'religiao', q:'Qual o significado da floresta para a tradição Bantu-Kongo?', a:'A floresta é um espaço sagrado: "biblioteca viva" que contém o saber ancestral, templo natural para ritos e iniciações, morada simbólica dos antepassados. Destruí-la é violar o sagrado.' },
+  { cat:'religiao', q:'O que é o conceito de "força vital" em Placide Tempels?', a:'Todos os seres têm uma força vital (força de ser). A moral bantu consiste em aumentar essa força — em si e nos outros. O bem é tudo o que aumenta a vida; o mal é tudo o que a diminui.' },
 ];
 
 const catLabels = {
@@ -1232,6 +1562,10 @@ const catLabels = {
   empir: 'Empirismo',
   natureza: 'Natureza do Conhecimento',
   filosofos: 'Filósofos-chave',
+  consciencia: 'Consciência Moral & Liberdade',
+  etica: 'Ética & Justiça',
+  dhumanos: 'Direitos Humanos',
+  religiao: 'Experiência Religiosa',
 };
 
 let deck = [...allCards];
@@ -1489,6 +1823,70 @@ const quizData = [
     q: 'Qual a diferença entre realismo e idealismo? Usa o exemplo do giz se achares útil.',
     keywords: ['realismo','idealismo','consciência','objecto','real','ideal','existe','independente','giz','sujeito'],
     feedbackModel: 'O realismo defende que os objectos existem independentemente da consciência — há uma realidade exterior. O idealismo defende que os objectos apenas existem na consciência do sujeito. No exemplo do giz: para o realista, o giz existe fora de mim; para o idealista psicológico, o giz só existe enquanto é percebido por mim; para o idealista lógico, o giz é um conceito construído pelo meu pensamento.'
+  },
+  {
+    type: 'mcq',
+    q: 'Segundo Imbamba, a consciência moral é:',
+    opts: [
+      'Apenas inata — nasce connosco e não pode ser modificada.',
+      'O conhecimento do nosso eu e dos seus actos internos, podendo ser inata, social, divina ou adquirida.',
+      'Exclusivamente social — determinada pelos valores da sociedade.',
+      'Uma capacidade racional que se desenvolveu na modernidade europeia.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. Para Imbamba, a consciência moral é o "conhecimento do nosso eu e dos seus actos internos" e tem 4 tipos: inata, social, divina e adquirida.',
+    feedbackNok: 'Incorreto. Imbamba define consciência moral como o "conhecimento do nosso eu e dos seus actos internos" e distingue 4 tipos: inata (nasce connosco), social (influência da sociedade), divina (comunicação de Deus) e adquirida (educação e experiência).'
+  },
+  {
+    type: 'mcq',
+    q: 'O "véu da ignorância" de John Rawls serve para:',
+    opts: [
+      'Demonstrar que o conhecimento moral é impossível.',
+      'Garantir que os princípios de justiça são escolhidos de forma imparcial, sem conhecer a posição social de cada um.',
+      'Provar que a ignorância é uma virtude na vida política.',
+      'Justificar a desigualdade social como inevitável.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. O véu da ignorância garante imparcialidade: ao não sabermos qual será o nosso lugar na sociedade, escolhemos princípios que sejam justos para todos — incluindo os mais desfavorecidos.',
+    feedbackNok: 'Incorreto. O véu da ignorância é um dispositivo teórico de Rawls para garantir que as pessoas escolham princípios de justiça de forma imparcial — sem saber a sua classe social, riqueza ou talentos.'
+  },
+  {
+    type: 'mcq',
+    q: 'O Artigo 1.º da Declaração Universal dos Direitos Humanos (1948) proclama que:',
+    opts: [
+      'Apenas os cidadãos de estados democráticos têm direitos fundamentais.',
+      'Todos os seres humanos nascem livres e iguais em dignidade e em direitos.',
+      'Os direitos humanos são concedidos pelo Estado e podem ser retirados.',
+      'A liberdade de expressão é o único direito verdadeiramente universal.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. O Art. 1.º da DUDH afirma que "Todos os seres humanos nascem livres e iguais em dignidade e em direitos. São dotados de razão e de consciência e devem agir uns para com os outros em espírito de fraternidade."',
+    feedbackNok: 'Incorreto. O Art. 1.º da DUDH proclama que todos os seres humanos nascem livres e iguais em dignidade e direitos — universalmente, não apenas para alguns.'
+  },
+  {
+    type: 'mcq',
+    q: 'Na visão Bantu-Kongo, o "Kalunga" representa:',
+    opts: [
+      'O ser supremo criador de tudo — equivalente a Deus.',
+      'A linha divisória entre o mundo dos vivos e o mundo dos antepassados (mortos).',
+      'O conjunto de rituais de iniciação praticados na floresta.',
+      'A força vital que anima todos os seres vivos.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. O Kalunga é a linha divisória entre o mundo dos vivos e o mundo dos mortos (antepassados). Os antepassados continuam presentes e activos na vida da comunidade.',
+    feedbackNok: 'Incorreto. O Kalunga é a linha divisória entre o mundo dos vivos e o mundo dos antepassados. Nzambi é o ser supremo; a força vital é o conceito de Placide Tempels.'
+  },
+  {
+    type: 'text',
+    q: 'Explica a diferença entre os dois princípios de justiça de John Rawls. Como se relacionam com o conceito de "véu da ignorância"?',
+    keywords: ['liberdade','igualdade','princípio','diferença','rawls','véu','ignorância','desfavorecidos','imparcial','posição'],
+    feedbackModel: 'Rawls propõe dois princípios: (1) o princípio das liberdades iguais — cada pessoa tem direito ao mais amplo sistema de liberdades básicas compatível com igual liberdade para todos; (2) o princípio da diferença — as desigualdades só são justas se beneficiarem os menos favorecidos e se os cargos forem abertos a todos. O véu da ignorância garante que estes princípios são escolhidos de forma imparcial: como não sabemos qual será o nosso lugar na sociedade, escolhemos princípios que protejam também os mais vulneráveis.'
+  },
+  {
+    type: 'text',
+    q: 'O que é a experiência religiosa na visão Bantu-Kongo? Refere os conceitos de Muntu, Kalunga e a importância da floresta.',
+    keywords: ['muntu','kalunga','floresta','sagrado','antepassados','comunidade','nzambi','relação','bantu','natural'],
+    feedbackModel: 'Na visão Bantu-Kongo, a religião é vivida de forma comunitária e integrada na natureza. O Muntu é o ser humano em relação — com os antepassados, a comunidade e Nzambi (o ser supremo). O Kalunga é a fronteira entre vivos e antepassados — estes continuam activos na vida comunitária. A floresta é espaço sagrado: biblioteca viva, templo natural e lugar de iniciação. O sagrado não está separado da natureza — a natureza É sagrada, o que implica responsabilidade ecológica.'
   },
 ];
 

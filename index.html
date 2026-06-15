@@ -23,316 +23,1982 @@
   --muted: #7878a0;
   --muted2: #555570;
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; min-height: 100vh; overflow-x: hidden; }
-nav { position: sticky; top: 0; z-index: 200; background: rgba(11,11,15,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0; overflow-x: auto; scrollbar-width: none; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Georgia', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(11,11,15,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
 nav::-webkit-scrollbar { display: none; }
-.nav-brand { padding: 0 20px; font-size: 0.8rem; color: var(--accent2); letter-spacing: 0.05em; white-space: nowrap; border-right: 1px solid var(--border); height: 100%; display: flex; align-items: center; flex-shrink: 0; }
-nav button { background: none; border: none; color: var(--muted); font-family: 'Georgia', serif; font-size: 0.8rem; padding: 15px 18px; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; letter-spacing: 0.03em; }
+
+.nav-brand {
+  padding: 0 20px;
+  font-size: 0.8rem;
+  color: var(--accent2);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  border-right: 1px solid var(--border);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+nav button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: 'Georgia', serif;
+  font-size: 0.8rem;
+  padding: 15px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
 nav button:hover { color: var(--text); }
-nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+nav button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ─── LAYOUT ─── */
 .page { display: none; }
 .page.active { display: block; }
-.container { max-width: 820px; margin: 0 auto; padding: 32px 20px 60px; }
-h1 { font-size: 1.6rem; color: var(--accent2); font-weight: normal; margin-bottom: 6px; line-height: 1.3; }
-h2 { font-size: 1.1rem; color: var(--accent); margin: 32px 0 14px; font-weight: normal; padding-left: 14px; border-left: 3px solid var(--accent); }
-h3 { font-size: 0.88rem; color: var(--gold); margin: 20px 0 10px; letter-spacing: 0.06em; text-transform: uppercase; }
-p { font-size: 0.88rem; line-height: 1.8; color: var(--text); margin-bottom: 10px; }
-.subtitle { color: var(--muted); font-size: 0.8rem; margin-bottom: 28px; line-height: 1.6; }
-.badge { display: inline-block; font-size: 0.68rem; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.04em; margin: 2px 3px 2px 0; }
+
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+/* ─── TYPOGRAPHY ─── */
+h1 {
+  font-size: 1.6rem;
+  color: var(--accent2);
+  font-weight: normal;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+h2 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin: 32px 0 14px;
+  font-weight: normal;
+  padding-left: 14px;
+  border-left: 3px solid var(--accent);
+}
+h3 {
+  font-size: 0.88rem;
+  color: var(--gold);
+  margin: 20px 0 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+p {
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.subtitle {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* ─── BADGES ─── */
+.badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  margin: 2px 3px 2px 0;
+}
 .badge-purple { background: rgba(124,106,247,0.15); color: var(--accent2); }
 .badge-gold { background: rgba(224,184,78,0.12); color: var(--gold); }
 .badge-green { background: rgba(74,222,128,0.12); color: var(--green); }
 .badge-blue { background: rgba(96,165,250,0.12); color: var(--blue); }
 .badge-red { background: rgba(248,113,113,0.12); color: var(--red); }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
-.concept-box { border-left: 3px solid var(--accent2); background: rgba(192,132,252,0.05); border-radius: 0 10px 10px 0; padding: 14px 16px; margin: 12px 0; font-size: 0.87rem; line-height: 1.8; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+
+.concept-box {
+  border-left: 3px solid var(--accent2);
+  background: rgba(192,132,252,0.05);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 16px;
+  margin: 12px 0;
+  font-size: 0.87rem;
+  line-height: 1.8;
+}
 .concept-box.gold { border-left-color: var(--gold); background: rgba(224,184,78,0.05); }
 .concept-box.green { border-left-color: var(--green); background: rgba(74,222,128,0.04); }
 .concept-box.blue { border-left-color: var(--blue); background: rgba(96,165,250,0.05); }
 .concept-box.red { border-left-color: var(--red); background: rgba(248,113,113,0.04); }
-.coll-head { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 13px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 0.88rem; transition: background 0.2s, border-color 0.2s; user-select: none; }
+
+/* ─── COLLAPSIBLE ─── */
+.coll-head {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 0.88rem;
+  transition: background 0.2s, border-color 0.2s;
+  user-select: none;
+}
 .coll-head:hover { background: var(--card2); border-color: var(--border2); }
 .coll-head.open { border-radius: 10px 10px 0 0; border-bottom-color: transparent; margin-bottom: 0; }
 .coll-arrow { font-size: 0.7rem; color: var(--muted); transition: transform 0.25s; }
 .coll-head.open .coll-arrow { transform: rotate(180deg); }
-.coll-body { display: none; background: #0f0f16; border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; padding: 18px 20px; margin-bottom: 10px; font-size: 0.87rem; line-height: 1.8; }
+.coll-body {
+  display: none;
+  background: #0f0f16;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+  font-size: 0.87rem;
+  line-height: 1.8;
+}
 .coll-body.open { display: block; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 14px 0; }
-.data-table th { background: rgba(124,106,247,0.12); color: var(--accent); padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-weight: normal; letter-spacing: 0.03em; }
-.data-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.65; }
+
+/* ─── TABLE ─── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 14px 0;
+}
+.data-table th {
+  background: rgba(124,106,247,0.12);
+  color: var(--accent);
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-weight: normal;
+  letter-spacing: 0.03em;
+}
+.data-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.65;
+}
 .data-table tr:last-child td { border-bottom: none; }
 .data-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
-.philosopher { display: flex; gap: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin: 12px 0; }
-.phil-avatar { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+
+/* ─── PHILOSOPHER ─── */
+.philosopher {
+  display: flex;
+  gap: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 12px 0;
+}
+.phil-avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
 .phil-name { color: var(--gold); font-size: 1rem; margin-bottom: 3px; }
 .phil-dates { color: var(--muted); font-size: 0.75rem; margin-bottom: 7px; }
 .phil-bio { font-size: 0.84rem; line-height: 1.7; }
-.worked { background: rgba(96,165,250,0.04); border: 1px solid rgba(96,165,250,0.18); border-radius: 10px; padding: 14px 16px; margin: 14px 0; font-size: 0.85rem; line-height: 1.8; }
-.worked-title { color: var(--blue); font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px; }
-.quote { background: rgba(124,106,247,0.05); border: 1px solid rgba(124,106,247,0.18); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-style: italic; font-size: 0.85rem; color: var(--muted); line-height: 1.75; }
+
+/* ─── WORKED EXAMPLE ─── */
+.worked {
+  background: rgba(96,165,250,0.04);
+  border: 1px solid rgba(96,165,250,0.18);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 14px 0;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+.worked-title {
+  color: var(--blue);
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* ─── QUOTE ─── */
+.quote {
+  background: rgba(124,106,247,0.05);
+  border: 1px solid rgba(124,106,247,0.18);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ─────────────────── FLASHCARDS ─────────────────── */
 #flashcards-page { user-select: none; }
-.fc-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
-.fc-filter { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 8px; font-family: 'Georgia', serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
-.fc-filter:hover, .fc-filter.active { border-color: var(--accent); color: var(--accent); background: rgba(124,106,247,0.1); }
-.fc-progress-wrap { background: var(--border); border-radius: 20px; height: 4px; margin-bottom: 24px; }
-.fc-progress { background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 20px; height: 4px; transition: width 0.4s ease; }
-.fc-scene { width: 100%; height: 300px; perspective: 1000px; margin-bottom: 20px; cursor: pointer; }
+
+.fc-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.fc-filter {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-family: 'Georgia', serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.fc-filter:hover, .fc-filter.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(124,106,247,0.1);
+}
+
+.fc-stats {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.fc-progress-wrap {
+  background: var(--border);
+  border-radius: 20px;
+  height: 4px;
+  margin-bottom: 24px;
+}
+.fc-progress {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 20px;
+  height: 4px;
+  transition: width 0.4s ease;
+}
+
+/* card flip */
+.fc-scene {
+  width: 100%;
+  height: 300px;
+  perspective: 1000px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
 @media (max-width: 600px) { .fc-scene { height: 260px; } }
-.fc-card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
+
+.fc-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
 .fc-scene.flipped .fc-card-inner { transform: rotateY(180deg); }
-.fc-face { position: absolute; inset: 0; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 28px 30px; backface-visibility: hidden; -webkit-backface-visibility: hidden; text-align: center; }
-.fc-front { background: var(--card2); border: 1px solid var(--border2); }
-.fc-back { background: linear-gradient(145deg, #16162a, #1a1a2e); border: 1px solid rgba(124,106,247,0.3); transform: rotateY(180deg); }
-.fc-category { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
-.fc-question { font-size: 1.05rem; color: var(--text); line-height: 1.6; }
-.fc-answer { font-size: 0.88rem; color: var(--text); line-height: 1.75; }
-.fc-hint { margin-top: 16px; font-size: 0.72rem; color: var(--muted2); letter-spacing: 0.05em; }
-.fc-nav { display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap; }
-.fc-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 11px 24px; border-radius: 10px; cursor: pointer; font-family: 'Georgia', serif; font-size: 0.85rem; transition: all 0.2s; display: flex; align-items: center; gap: 7px; }
+
+.fc-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 28px 30px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  text-align: center;
+}
+
+.fc-front {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+}
+.fc-back {
+  background: linear-gradient(145deg, #16162a, #1a1a2e);
+  border: 1px solid rgba(124,106,247,0.3);
+  transform: rotateY(180deg);
+}
+
+.fc-category {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.fc-question {
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.fc-answer {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.75;
+}
+.fc-hint {
+  margin-top: 16px;
+  font-size: 0.72rem;
+  color: var(--muted2);
+  letter-spacing: 0.05em;
+}
+
+/* nav buttons */
+.fc-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.fc-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 11px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Georgia', serif;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
 .fc-btn:hover { background: var(--card2); border-color: var(--border2); }
 .fc-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .fc-btn.primary:hover { background: #6b59e0; }
 .fc-btn:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
-.fc-counter { font-size: 0.85rem; color: var(--muted); min-width: 64px; text-align: center; }
-.fc-rating { display: flex; justify-content: center; gap: 10px; margin-top: 16px; }
-.fc-rate-btn { padding: 8px 20px; border-radius: 8px; border: 1px solid; cursor: pointer; font-family: 'Georgia', serif; font-size: 0.8rem; transition: all 0.2s; }
-.fc-rate-btn.knew { border-color: var(--green); color: var(--green); background: rgba(74,222,128,0.06); }
+
+.fc-counter {
+  font-size: 0.85rem;
+  color: var(--muted);
+  min-width: 64px;
+  text-align: center;
+}
+
+.fc-rating {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+.fc-rate-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid;
+  cursor: pointer;
+  font-family: 'Georgia', serif;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.fc-rate-btn.knew {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(74,222,128,0.06);
+}
 .fc-rate-btn.knew:hover { background: rgba(74,222,128,0.14); }
-.fc-rate-btn.review { border-color: var(--gold); color: var(--gold); background: rgba(224,184,78,0.06); }
+.fc-rate-btn.review {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(224,184,78,0.06);
+}
 .fc-rate-btn.review:hover { background: rgba(224,184,78,0.14); }
-.fc-session-bar { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap; font-size: 0.82rem; }
+
+.fc-session-bar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+}
 .fc-stat { text-align: center; }
 .fc-stat-val { font-size: 1.2rem; color: var(--accent2); display: block; margin-bottom: 2px; }
 .fc-stat-lbl { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; }
-.fc-complete { text-align: center; padding: 40px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: none; }
+
+.fc-complete {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: none;
+}
 .fc-complete-icon { font-size: 2.5rem; margin-bottom: 14px; }
 .fc-complete h2 { text-align: center; border: none; padding: 0; margin: 0 0 8px; }
-.kbd-hint { text-align: center; font-size: 0.72rem; color: var(--muted2); margin-top: 12px; letter-spacing: 0.04em; }
-kbd { background: var(--card2); border: 1px solid var(--border2); border-radius: 4px; padding: 1px 6px; font-family: monospace; font-size: 0.8em; color: var(--muted); }
-.quiz-header { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+
+/* keyboard hint */
+.kbd-hint {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--muted2);
+  margin-top: 12px;
+  letter-spacing: 0.04em;
+}
+kbd {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+/* ─────────────────── QUIZ ─────────────────── */
+.quiz-header {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
 .quiz-score-wrap { display: flex; gap: 20px; flex-wrap: wrap; }
 .quiz-score-item { text-align: center; }
 .quiz-score-val { font-size: 1.3rem; color: var(--accent2); display: block; }
 .quiz-score-lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
 .progress-bar-wrap { flex: 1; min-width: 140px; }
 .progress-bar-bg { background: var(--border); border-radius: 20px; height: 6px; }
 .progress-bar-fill { background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 20px; height: 6px; transition: width 0.4s; }
 .progress-label { font-size: 0.75rem; color: var(--muted); margin-top: 5px; text-align: right; }
-.quiz-q { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin-bottom: 18px; transition: border-color 0.3s; }
+
+.quiz-q {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  transition: border-color 0.3s;
+}
 .quiz-q-num { color: var(--accent); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 7px; }
-.quiz-q-type { display: inline-block; font-size: 0.68rem; background: rgba(224,184,78,0.12); color: var(--gold); padding: 2px 9px; border-radius: 10px; margin-bottom: 12px; letter-spacing: 0.03em; }
+.quiz-q-type {
+  display: inline-block;
+  font-size: 0.68rem;
+  background: rgba(224,184,78,0.12);
+  color: var(--gold);
+  padding: 2px 9px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  letter-spacing: 0.03em;
+}
 .quiz-q-text { font-size: 0.9rem; line-height: 1.7; margin-bottom: 16px; }
-.quiz-opt { display: flex; align-items: flex-start; gap: 11px; padding: 11px 14px; border: 1px solid var(--border); border-radius: 9px; cursor: pointer; margin-bottom: 8px; font-size: 0.85rem; line-height: 1.5; transition: all 0.2s; background: var(--surface); }
+
+.quiz-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  transition: all 0.2s;
+  background: var(--surface);
+}
 .quiz-opt:hover { border-color: var(--accent); background: rgba(124,106,247,0.07); }
 .quiz-opt.correct { border-color: var(--green); background: rgba(74,222,128,0.08); color: var(--green); }
 .quiz-opt.wrong { border-color: var(--red); background: rgba(248,113,113,0.08); color: var(--red); }
 .quiz-opt.disabled { pointer-events: none; }
-.quiz-opt-letter { min-width: 22px; height: 22px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; margin-top: 1px; }
-.quiz-feedback { display: none; margin-top: 12px; padding: 12px 16px; border-radius: 9px; font-size: 0.83rem; line-height: 1.7; }
+.quiz-opt-letter {
+  min-width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.quiz-feedback {
+  display: none;
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 9px;
+  font-size: 0.83rem;
+  line-height: 1.7;
+}
 .quiz-feedback.show { display: block; }
 .quiz-feedback.ok { background: rgba(74,222,128,0.07); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
 .quiz-feedback.nok { background: rgba(248,113,113,0.07); color: var(--red); border: 1px solid rgba(248,113,113,0.2); }
 .quiz-feedback strong { display: block; margin-bottom: 5px; }
-.quiz-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 11px 14px; border-radius: 9px; font-family: 'Georgia', serif; font-size: 0.85rem; resize: vertical; min-height: 80px; margin-bottom: 10px; line-height: 1.65; }
+
+.quiz-textarea {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 11px 14px;
+  border-radius: 9px;
+  font-family: 'Georgia', serif;
+  font-size: 0.85rem;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 10px;
+  line-height: 1.65;
+}
 .quiz-textarea:focus { outline: none; border-color: var(--accent); }
 .quiz-textarea:disabled { opacity: 0.6; }
-.quiz-check-btn { background: var(--accent); border: none; color: #fff; padding: 9px 22px; border-radius: 8px; cursor: pointer; font-family: 'Georgia', serif; font-size: 0.83rem; transition: background 0.2s; }
+
+.quiz-check-btn {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 9px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Georgia', serif;
+  font-size: 0.83rem;
+  transition: background 0.2s;
+}
 .quiz-check-btn:hover { background: #6b59e0; }
 .quiz-check-btn:disabled { opacity: 0.4; cursor: default; }
-.quiz-result { display: none; text-align: center; padding: 36px 24px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin-top: 20px; }
+
+.quiz-result {
+  display: none;
+  text-align: center;
+  padding: 36px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-top: 20px;
+}
 .quiz-result-big { font-size: 3.2rem; color: var(--accent2); line-height: 1; }
 .quiz-result-label { color: var(--muted); font-size: 0.85rem; margin-top: 6px; margin-bottom: 16px; }
 .quiz-result-msg { font-size: 0.9rem; line-height: 1.7; color: var(--text); margin-bottom: 20px; }
-.quiz-restart-btn { background: var(--accent); border: none; color: #fff; padding: 11px 28px; border-radius: 10px; cursor: pointer; font-family: 'Georgia', serif; font-size: 0.88rem; transition: background 0.2s; }
+.quiz-restart-btn {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 11px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Georgia', serif;
+  font-size: 0.88rem;
+  transition: background 0.2s;
+}
 .quiz-restart-btn:hover { background: #6b59e0; }
-.home-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin: 24px 0; }
-.home-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px; cursor: pointer; transition: all 0.25s; text-align: left; }
-.home-card:hover { border-color: var(--accent); background: rgba(124,106,247,0.07); transform: translateY(-2px); }
+
+/* ─── HOME ─── */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+.home-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 20px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: left;
+}
+.home-card:hover {
+  border-color: var(--accent);
+  background: rgba(124,106,247,0.07);
+  transform: translateY(-2px);
+}
 .home-card-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
 .home-card-title { font-size: 1rem; color: var(--accent2); margin-bottom: 6px; }
 .home-card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
-.home-summary { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin: 20px 0; }
+
+.home-summary {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin: 20px 0;
+}
 .home-summary h3 { margin-top: 0; }
-@media (max-width: 600px) { nav button { padding: 13px 14px; font-size: 0.76rem; } .container { padding: 22px 14px 50px; } h1 { font-size: 1.3rem; } .fc-question { font-size: 0.95rem; } .philosopher { flex-direction: column; gap: 12px; } }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 600px) {
+  nav button { padding: 13px 14px; font-size: 0.76rem; }
+  .container { padding: 22px 14px 50px; }
+  h1 { font-size: 1.3rem; }
+  .fc-question { font-size: 0.95rem; }
+  .philosopher { flex-direction: column; gap: 12px; }
+}
 </style>
 </head>
 <body>
+
 <nav>
   <span class="nav-brand">Filosofia TK</span>
-  <button class="active" onclick="showPage('home', this)">&#127968; In&iacute;cio</button>
-  <button onclick="showPage('content', this)">&#128214; Conte&uacute;do</button>
-  <button onclick="showPage('flashcards', this)">&#127183; Flashcards</button>
-  <button onclick="showPage('quiz', this)">&#9999;&#65039; Quiz</button>
+  <button class="active" onclick="showPage('home', this)">🏠 Início</button>
+  <button onclick="showPage('content', this)">📖 Teoria do Conhecimento</button>
+  <button onclick="showPage('etica', this)">⚖️ Consciência Moral & Ética</button>
+  <button onclick="showPage('dhumanos', this)">🌍 Direitos Humanos</button>
+  <button onclick="showPage('religiao', this)">🙏 Experiência Religiosa</button>
+  <button onclick="showPage('flashcards', this)">🃏 Flashcards</button>
+  <button onclick="showPage('quiz', this)">✏️ Quiz</button>
 </nav>
-<div id="home-page" class="page active"><div class="container">
-  <h1>Teoria do Conhecimento</h1>
-  <p class="subtitle">Guia interactivo completo &middot; Gnosiologia &middot; Racionalismo &middot; Empirismo &middot; Realismo &middot; Idealismo</p>
-  <div class="home-grid">
-    <div class="home-card" onclick="showPage('content', document.querySelector('nav button:nth-child(3)'))"><span class="home-card-icon">&#128214;</span><div class="home-card-title">Conte&uacute;do</div><div class="home-card-desc">Todo o programa organizado por tema, com tabelas, exemplos e fil&oacute;sofos.</div></div>
-    <div class="home-card" onclick="showPage('flashcards', document.querySelector('nav button:nth-child(4)'))"><span class="home-card-icon">&#127183;</span><div class="home-card-title">Flashcards</div><div class="home-card-desc">40 cart&otilde;es interactivos. Clica para revelar, avalia se soubeste ou precisas rever.</div></div>
-    <div class="home-card" onclick="showPage('quiz', document.querySelector('nav button:nth-child(5)'))"><span class="home-card-icon">&#9999;&#65039;</span><div class="home-card-title">Quiz</div><div class="home-card-desc">12 perguntas (MCQ + desenvolvimento) com feedback detalhado.</div></div>
-  </div>
-  <div class="home-summary"><h3>Mapa de Conceitos</h3><table class="data-table"><tr><th>Problema</th><th>Quest&atilde;o central</th><th>Posi&ccedil;&otilde;es</th></tr><tr><td>Possibilidade</td><td>&Eacute; poss&iacute;vel conhecer?</td><td>Dogmatismo vs. Cepticismo</td></tr><tr><td>Origem</td><td>De onde vem o conhecimento?</td><td>Racionalismo vs. Empirismo</td></tr><tr><td>Natureza/Ess&ecirc;ncia</td><td>O objecto existe independentemente?</td><td>Realismo vs. Idealismo</td></tr></table></div>
-  <div class="home-summary" style="margin-top:0"><h3>Fil&oacute;sofos-chave</h3><table class="data-table"><tr><th>Fil&oacute;sofo</th><th>Corrente</th><th>Contribui&ccedil;&atilde;o</th></tr><tr><td>Edmund Husserl</td><td>Fenomenologia</td><td>Estrutura do acto de conhecer; sujeito-objecto</td></tr><tr><td>Ren&eacute; Descartes</td><td>Racionalismo</td><td>D&uacute;vida met&oacute;dica; cogito ergo sum; ideias inatas</td></tr><tr><td>John Locke</td><td>Empirismo</td><td>Tabula rasa; conhecimento a posteriori</td></tr><tr><td>David Hume</td><td>Empirismo</td><td>Impress&otilde;es vs. ideias</td></tr><tr><td>Johannes Hessen</td><td>Idealismo</td><td>Idealismo psicol&oacute;gico vs. l&oacute;gico; exemplo do giz</td></tr></table></div>
-</div></div>
-<div id="content-page" class="page"><div class="container">
-  <h1>Conte&uacute;do &mdash; Teoria do Conhecimento</h1>
-  <p class="subtitle">Programa completo organizado por sec&ccedil;&otilde;es &middot; clica em cada t&iacute;tulo para expandir</p>
-  <h2>1 &middot; Gnosiologia &amp; Epistemologia</h2>
-  <div class="coll-head" onclick="coll(this)"><span>O que &eacute; a Gnosiologia?</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><p><strong>Gnosiologia</strong> &eacute; a &aacute;rea da Filosofia que estuda criticamente o conhecimento &mdash; o que &eacute;, de onde vem, quais os seus limites e qual a sua validade. O termo vem de <em>gnose</em> (conhecimento em grego) + <em>logos</em> (estudo).</p></div>
-  <div class="coll-head" onclick="coll(this)"><span>O que &eacute; a Epistemologia?</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><p>Em sentido estrito, a <strong>epistemologia</strong> reflecte sobre as possibilidades e limites do <strong>conhecimento cient&iacute;fico</strong> &mdash; a sua metodologia, princ&iacute;pios, leis e hip&oacute;teses.</p><div class="concept-box gold"><strong>Rela&ccedil;&atilde;o-chave:</strong> A epistemologia (sentido estrito) est&aacute; <em>dentro</em> da gnosiologia.</div><table class="data-table"><tr><th>Gnosiologia</th><th>Epistemologia (estrito)</th></tr><tr><td>Conhecimento em geral</td><td>Conhecimento cient&iacute;fico</td></tr><tr><td>Mais ampla</td><td>Contida na gnosiologia</td></tr></table></div>
-  <h2>2 &middot; Estrutura do Acto de Conhecer</h2>
-  <div class="coll-head" onclick="coll(this)"><span>A Fenomenologia de Husserl</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><p>O fundador do m&eacute;todo fenomenol&oacute;gico foi <strong>Edmund Husserl</strong>. Objectivo: descrever a estrutura geral do acto de conhecer.</p><div class="philosopher"><div class="phil-avatar">&#128301;</div><div><div class="phil-name">Edmund Husserl</div><div class="phil-dates">1859 &ndash; 1938</div><div class="phil-bio">Fundador da fenomenologia. Aplicou o m&eacute;todo fenomenol&oacute;gico ao fen&oacute;meno do conhecimento, descrevendo a estrutura sujeito-objecto.</div></div></div></div>
-  <div class="coll-head" onclick="coll(this)"><span>A Dicotomia Sujeito-Objecto</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="concept-box"><strong>Sujeito</strong> &mdash; quem conhece. Fun&ccedil;&atilde;o: <em>apreender</em> o objecto.</div><div class="concept-box gold" style="margin-top:8px"><strong>Objecto</strong> &mdash; o que &eacute; conhecido. Fun&ccedil;&atilde;o: <em>ser apreendido</em> pelo sujeito.</div><p style="margin-top:12px">A rela&ccedil;&atilde;o &eacute; <strong>irrevers&iacute;vel</strong> e de <strong>correla&ccedil;&atilde;o</strong>. O objecto permanece <em>transcendente</em> ao sujeito.</p><div class="worked"><div class="worked-title">Exemplo</div><p>Est&aacute;s a olhar para uma cadeira. <strong>Tu</strong> = sujeito. <strong>Cadeira</strong> = objecto. A tua imagem mental da cadeira &eacute; o conhecimento &mdash; mas a cadeira continua a existir sem ti.</p></div></div>
-  <div class="coll-head" onclick="coll(this)"><span>Os 3 Problemas do Conhecimento</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="concept-box"><strong>1. Possibilidade</strong> &mdash; &Eacute; poss&iacute;vel conhecer?<br>Dogmatismo (sim) vs. Cepticismo (n&atilde;o).</div><div class="concept-box gold" style="margin-top:8px"><strong>2. Origem</strong> &mdash; De onde vem?<br>Racionalismo (raz&atilde;o) vs. Empirismo (experi&ecirc;ncia).</div><div class="concept-box green" style="margin-top:8px"><strong>3. Natureza</strong> &mdash; O objecto existe independentemente?<br>Realismo (sim) vs. Idealismo (n&atilde;o).</div></div>
-  <h2>3 &middot; Racionalismo &mdash; Descartes</h2>
-  <div class="coll-head" onclick="coll(this)"><span>O que &eacute; o Racionalismo?</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="concept-box">O <strong>racionalismo</strong> defende que o conhecimento tem a sua origem na <strong>raz&atilde;o</strong>. S&oacute; atrav&eacute;s da raz&atilde;o conseguimos atingir um conhecimento l&oacute;gico e universal.</div><div class="philosopher"><div class="phil-avatar">&#127917;</div><div><div class="phil-name">Ren&eacute; Descartes</div><div class="phil-dates">1596 &ndash; 1650</div><div class="phil-bio">Principal representante do racionalismo. Quest&atilde;o central: encontrar fundamentos s&oacute;lidos para o conhecimento verdadeiro, contra o cepticismo da sua &eacute;poca.</div></div></div></div>
-  <div class="coll-head" onclick="coll(this)"><span>A D&uacute;vida Met&oacute;dica</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><p>A d&uacute;vida de Descartes &eacute; <strong>diferente do cepticismo</strong>. Usa a d&uacute;vida como <em>m&eacute;todo</em> para encontrar a verdade.</p><div style="margin:10px 0"><span class="badge badge-purple">Universal</span><span class="badge badge-gold">Radical</span><span class="badge badge-red">Hiperb&oacute;lica</span><span class="badge badge-green">Met&oacute;dica</span></div><div class="concept-box blue" style="margin-top:12px"><strong>N&iacute;vel 1 &mdash; Sentidos:</strong> Os sentidos j&aacute; nos enganaram antes.</div><div class="concept-box gold" style="margin-top:8px"><strong>N&iacute;vel 2 &mdash; Matem&aacute;tica:</strong> Nem 2+2=4 &eacute; imune &agrave; d&uacute;vida.</div><div class="concept-box red" style="margin-top:8px"><strong>N&iacute;vel 3 &mdash; Deus enganador:</strong> E se existe um Deus que nos engana sempre?</div><div class="quote">&ldquo;Tudo o que recebi, at&eacute; ao presente, como o mais verdadeiro e seguro, aprendi-o dos sentidos ou pelos sentidos: ora, experimentei algumas vezes que esses sentidos eram enganosos.&rdquo;</div></div>
-  <div class="coll-head" onclick="coll(this)"><span>Cogito, Ergo Sum</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="concept-box green"><strong>&ldquo;Cogito, ergo sum&rdquo;</strong> &mdash; Penso, logo existo.<br><br>Para duvidar, tenho de pensar; para pensar, tenho de existir. Esta &eacute; a primeira verdade indubit&aacute;vel.</div><div class="worked"><div class="worked-title">Sequ&ecirc;ncia l&oacute;gica de Descartes</div><p>1. Sentidos enganam &rarr; d&uacute;vida dos sentidos</p><p>2. Matem&aacute;tica pode falhar &rarr; d&uacute;vida da raz&atilde;o</p><p>3. Deus enganador? &rarr; d&uacute;vida de tudo</p><p>4. Para duvidar tenho de pensar &rarr; <strong>Cogito, ergo sum</strong></p><p>5. Tenho a ideia de perfei&ccedil;&atilde;o &rarr; Deus existe</p><p>6. Deus perfeito n&atilde;o engana &rarr; o que &eacute; claro e distinto &eacute; <strong>verdadeiro</strong></p></div></div>
-  <div class="coll-head" onclick="coll(this)"><span>Ideias Inatas &amp; Crit&eacute;rios do Conhecimento</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="concept-box"><strong>Evid&ecirc;ncia</strong> &mdash; a verdade apresenta-se de forma ineg&aacute;vel.<br><strong>Clareza</strong> &mdash; o conte&uacute;do &eacute; imediatamente acess&iacute;vel.<br><strong>Distin&ccedil;&atilde;o</strong> &mdash; o conte&uacute;do &eacute; preciso, sem confus&atilde;o.</div><p>As <strong>ideias inatas</strong> t&ecirc;m a sua origem na <em>raz&atilde;o</em> &mdash; surgem de forma evidente, independentes dos sentidos.</p></div>
-  <h2>4 &middot; Empirismo &mdash; Locke &amp; Hume</h2>
-  <div class="coll-head" onclick="coll(this)"><span>O que &eacute; o Empirismo?</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="concept-box">O <strong>empirismo</strong> defende que n&atilde;o existe no nosso intelecto nenhum conhecimento verdadeiro que n&atilde;o encontre a sua fonte nos dados dos sentidos. Do grego <em>empeiria</em> (experi&ecirc;ncia).</div></div>
-  <div class="coll-head" onclick="coll(this)"><span>John Locke &mdash; Tabula Rasa</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="philosopher"><div class="phil-avatar">&#128218;</div><div><div class="phil-name">John Locke</div><div class="phil-dates">1632 &ndash; 1704</div><div class="phil-bio">A mente humana nasce como uma <em>tabula rasa</em> (folha em branco). N&atilde;o h&aacute; ideias inatas. Tudo o que sabemos vem da experi&ecirc;ncia.</div></div></div></div>
-  <div class="coll-head" onclick="coll(this)"><span>David Hume &mdash; Impress&otilde;es e Ideias</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="philosopher"><div class="phil-avatar">&#128302;</div><div><div class="phil-name">David Hume</div><div class="phil-dates">1711 &ndash; 1776</div><div class="phil-bio">Distingue dois tipos de conte&uacute;dos mentais:</div></div></div><div class="concept-box gold" style="margin-top:10px"><strong>Impress&otilde;es</strong> &mdash; percep&ccedil;&otilde;es vivas e directas dos sentidos.<br><br><strong>Ideias</strong> &mdash; c&oacute;pias enfraquecidas das impress&otilde;es.</div></div>
-  <div class="coll-head" onclick="coll(this)"><span>Racionalismo vs. Empirismo</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><table class="data-table"><tr><th></th><th>Racionalismo</th><th>Empirismo</th></tr><tr><td><strong>Origem</strong></td><td>Raz&atilde;o</td><td>Experi&ecirc;ncia sensorial</td></tr><tr><td><strong>Ideias inatas?</strong></td><td>Sim</td><td>N&atilde;o &mdash; tabula rasa</td></tr><tr><td><strong>Validade</strong></td><td>A priori</td><td>A posteriori</td></tr><tr><td><strong>Representante</strong></td><td>Descartes</td><td>Locke, Hume</td></tr></table></div>
-  <h2>5 &middot; Natureza do Conhecimento &mdash; Realismo</h2>
-  <div class="coll-head" onclick="coll(this)"><span>Os 3 Tipos de Realismo</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="concept-box"><strong>Realismo Ing&eacute;nuo</strong><br>Atitude do senso comum. Aceita sem questionar que o que percebemos &eacute; a realidade.</div><div class="concept-box gold" style="margin-top:8px"><strong>Realismo Natural</strong><br>Com reflex&otilde;es cr&iacute;ticas. Procura demonstrar que as teses s&atilde;o verdadeiras.</div><div class="concept-box blue" style="margin-top:8px"><strong>Realismo Cr&iacute;tico</strong><br>Aceita objectos reais mas reconhece que n&atilde;o &eacute; poss&iacute;vel apreend&ecirc;-los exactamente como s&atilde;o.</div></div>
-  <h2>6 &middot; Natureza do Conhecimento &mdash; Idealismo</h2>
-  <div class="coll-head" onclick="coll(this)"><span>O que &eacute; o Idealismo?</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="concept-box gold">O <strong>idealismo</strong> defende que os objectos apenas t&ecirc;m exist&ecirc;ncia <em>na consci&ecirc;ncia do sujeito</em>.</div><div class="philosopher"><div class="phil-avatar">&#127891;</div><div><div class="phil-name">Johannes Hessen</div><div class="phil-dates">1889 &ndash; 1971</div><div class="phil-bio">Sintetiza o problema na obra <em>Teoria do Conhecimento</em>. Distingue idealismo psicol&oacute;gico de l&oacute;gico.</div></div></div></div>
-  <div class="coll-head" onclick="coll(this)"><span>O Exemplo do Giz</span><span class="coll-arrow">&#9660;</span></div>
-  <div class="coll-body"><div class="worked"><div class="worked-title">O Exemplo do Giz (Hessen)</div><p><strong>Realista:</strong> O giz existe exteriormente &agrave; minha consci&ecirc;ncia.</p><p style="margin-top:10px"><strong>Idealista psicol&oacute;gico:</strong> O giz existe apenas em minha consci&ecirc;ncia. Fora de mim, n&atilde;o existe.</p><p style="margin-top:10px"><strong>Idealista l&oacute;gico:</strong> O giz &eacute; um conceito constru&iacute;do pelo meu pensamento &mdash; um ser l&oacute;gico-ideal.</p></div><table class="data-table"><tr><th></th><th>Realismo</th><th>Idealismo</th></tr><tr><td><strong>Exist&ecirc;ncia</strong></td><td>Independente da consci&ecirc;ncia</td><td>S&oacute; existe na consci&ecirc;ncia</td></tr><tr><td><strong>Tipos</strong></td><td>Ing&eacute;nuo / Natural / Cr&iacute;tico</td><td>Psicol&oacute;gico / L&oacute;gico</td></tr></table></div>
-</div></div>
-<div id="flashcards-page" class="page"><div class="container" id="fc-container">
-  <h1>Flashcards</h1>
-  <p class="subtitle">40 cart&otilde;es &middot; clica para revelar &middot; avalia o que soubeste</p>
-  <div class="fc-session-bar"><div class="fc-stat"><span class="fc-stat-val" id="fc-known">0</span><span class="fc-stat-lbl">Soube</span></div><div class="fc-stat"><span class="fc-stat-val" id="fc-review">0</span><span class="fc-stat-lbl">A Rever</span></div><div class="fc-stat"><span class="fc-stat-val" id="fc-remain">40</span><span class="fc-stat-lbl">Restantes</span></div></div>
-  <div class="fc-controls">
-    <button class="fc-filter active" onclick="filterCards('all',this)">Todos</button>
-    <button class="fc-filter" onclick="filterCards('gnosio',this)">Gnosiologia</button>
-    <button class="fc-filter" onclick="filterCards('racion',this)">Racionalismo</button>
-    <button class="fc-filter" onclick="filterCards('empir',this)">Empirismo</button>
-    <button class="fc-filter" onclick="filterCards('natureza',this)">Natureza</button>
-    <button class="fc-filter" onclick="filterCards('filosofos',this)">Fil&oacute;sofos</button>
-    <button class="fc-btn" style="margin-left:auto;padding:8px 16px;font-size:0.78rem" onclick="shuffleCards()">&#128256; Baralhar</button>
-  </div>
-  <div class="fc-progress-wrap"><div class="fc-progress" id="fc-prog" style="width:0%"></div></div>
-  <div class="fc-scene" id="fc-scene" onclick="flipCard()">
-    <div class="fc-card-inner" id="fc-inner">
-      <div class="fc-face fc-front"><div class="fc-category" id="fc-cat">&mdash;</div><div class="fc-question" id="fc-q">&mdash;</div><div class="fc-hint">Clica para revelar</div></div>
-      <div class="fc-face fc-back"><div class="fc-category" id="fc-cat-back">&mdash;</div><div class="fc-answer" id="fc-a">&mdash;</div></div>
+
+<!-- ══════════════════════════ HOME ══════════════════════════ -->
+<div id="home-page" class="page active">
+  <div class="container">
+    <h1>Filosofia — Guia de Estudo</h1>
+    <p class="subtitle">Guia interactivo completo · Teoria do Conhecimento · Ética · Direitos Humanos · Experiência Religiosa</p>
+
+    <div class="home-grid">
+      <div class="home-card" onclick="showPage('content', document.querySelector('nav button:nth-child(3)'))">
+        <span class="home-card-icon">📖</span>
+        <div class="home-card-title">Teoria do Conhecimento</div>
+        <div class="home-card-desc">Gnosiologia, Racionalismo, Empirismo, Realismo e Idealismo.</div>
+      </div>
+      <div class="home-card" onclick="showPage('etica', document.querySelector('nav button:nth-child(4)'))">
+        <span class="home-card-icon">⚖️</span>
+        <div class="home-card-title">Consciência Moral & Ética</div>
+        <div class="home-card-desc">Liberdade, Responsabilidade, Mill, Rawls, Hans Jonas e ética ambiental.</div>
+      </div>
+      <div class="home-card" onclick="showPage('dhumanos', document.querySelector('nav button:nth-child(5)'))">
+        <span class="home-card-icon">🌍</span>
+        <div class="home-card-title">Direitos Humanos</div>
+        <div class="home-card-desc">DUDH 1948 (artigos chave) e Constituição de Angola 2010.</div>
+      </div>
+      <div class="home-card" onclick="showPage('religiao', document.querySelector('nav button:nth-child(6)'))">
+        <span class="home-card-icon">🙏</span>
+        <div class="home-card-title">Experiência Religiosa</div>
+        <div class="home-card-desc">O Sagrado, Durkheim, visão Bantu-Kongo, Muntu e Kalunga.</div>
+      </div>
+      <div class="home-card" onclick="showPage('flashcards', document.querySelector('nav button:nth-child(7)'))">
+        <span class="home-card-icon">🃏</span>
+        <div class="home-card-title">Flashcards</div>
+        <div class="home-card-desc">70 cartões interactivos. Clica para revelar, avalia se soubeste ou precisas rever.</div>
+      </div>
+      <div class="home-card" onclick="showPage('quiz', document.querySelector('nav button:nth-child(8)'))">
+        <span class="home-card-icon">✏️</span>
+        <div class="home-card-title">Quiz</div>
+        <div class="home-card-desc">18 perguntas (MCQ + desenvolvimento) com feedback detalhado.</div>
+      </div>
+    </div>
+
+    <div class="home-summary">
+      <h3>Mapa de Conceitos — Teoria do Conhecimento</h3>
+      <table class="data-table">
+        <tr><th>Problema</th><th>Questão central</th><th>Posições</th></tr>
+        <tr><td>Possibilidade</td><td>É possível conhecer?</td><td>Dogmatismo vs. Cepticismo</td></tr>
+        <tr><td>Origem</td><td>De onde vem o conhecimento?</td><td>Racionalismo vs. Empirismo</td></tr>
+        <tr><td>Natureza/Essência</td><td>O objecto existe independentemente?</td><td>Realismo vs. Idealismo</td></tr>
+      </table>
+    </div>
+
+    <div class="home-summary" style="margin-top:0">
+      <h3>Filósofos-chave (programa completo)</h3>
+      <table class="data-table">
+        <tr><th>Filósofo</th><th>Corrente / Área</th><th>Contribuição</th></tr>
+        <tr><td>Edmund Husserl</td><td>Fenomenologia</td><td>Estrutura do acto de conhecer; sujeito-objecto</td></tr>
+        <tr><td>René Descartes</td><td>Racionalismo</td><td>Dúvida metódica; cogito ergo sum; ideias inatas</td></tr>
+        <tr><td>John Locke</td><td>Empirismo</td><td>Tabula rasa; conhecimento a posteriori</td></tr>
+        <tr><td>David Hume</td><td>Empirismo</td><td>Impressões vs. ideias</td></tr>
+        <tr><td>Johannes Hessen</td><td>Idealismo</td><td>Idealismo psicológico vs. lógico; exemplo do giz</td></tr>
+        <tr><td>John Stuart Mill</td><td>Utilitarismo</td><td>Princípio da maior felicidade; ética consequencialista</td></tr>
+        <tr><td>John Rawls</td><td>Justiça / Ética</td><td>Véu da ignorância; posição original; 2 princípios de justiça</td></tr>
+        <tr><td>Hans Jonas</td><td>Ética ambiental</td><td>Princípio responsabilidade; responsabilidade com gerações futuras</td></tr>
+        <tr><td>Imbamba</td><td>Filosofia africana</td><td>Consciência moral; dimensão religiosa do homem; visão bantu</td></tr>
+      </table>
     </div>
   </div>
-  <div class="fc-rating" id="fc-rating" style="display:none"><button class="fc-rate-btn review" onclick="rateCard('review')">&#8617; Rever</button><button class="fc-rate-btn knew" onclick="rateCard('knew')">&#10003; Soube!</button></div>
-  <div class="fc-nav" style="margin-top:16px"><button class="fc-btn" id="fc-prev" onclick="prevCard()">&#8592; Anterior</button><span class="fc-counter" id="fc-counter">1 / 40</span><button class="fc-btn" id="fc-next" onclick="nextCard()">Pr&oacute;ximo &#8594;</button></div>
-  <div class="kbd-hint"><kbd>Space</kbd> revelar &nbsp;&middot;&nbsp; <kbd>&larr;</kbd><kbd>&rarr;</kbd> navegar &nbsp;&middot;&nbsp; <kbd>1</kbd> rever &nbsp;&middot;&nbsp; <kbd>2</kbd> soube</div>
-  <div class="fc-complete" id="fc-complete"><div class="fc-complete-icon">&#127881;</div><h2>Sess&atilde;o Conclu&iacute;da!</h2><p style="color:var(--muted);margin:10px 0 20px;font-size:0.88rem" id="fc-complete-msg"></p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="fc-btn primary" onclick="restartCards()">&#8634; Repetir todos</button></div></div>
-</div></div>
-<div id="quiz-page" class="page"><div class="container">
-  <h1>Quiz &mdash; Teoria do Conhecimento</h1>
-  <p class="subtitle">12 perguntas &middot; escolha m&uacute;ltipla e desenvolvimento</p>
-  <div class="quiz-header"><div class="quiz-score-wrap"><div class="quiz-score-item"><span class="quiz-score-val" id="q-correct">0</span><span class="quiz-score-lbl">Certas</span></div><div class="quiz-score-item"><span class="quiz-score-val" id="q-wrong">0</span><span class="quiz-score-lbl">Erradas</span></div></div><div class="progress-bar-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" id="q-prog" style="width:0%"></div></div><div class="progress-label" id="q-prog-label">0 / 12</div></div></div>
-  <div id="quiz-questions-container"></div>
-  <div class="quiz-result" id="quiz-result"><div class="quiz-result-big" id="q-final-score">&mdash;</div><div class="quiz-result-label">Pontua&ccedil;&atilde;o Final</div><div class="quiz-result-msg" id="q-final-msg"></div><button class="quiz-restart-btn" onclick="restartQuiz()">&#8634; Tentar de Novo</button></div>
-</div></div>
+</div>
+
+<!-- ══════════════════════════ CONTENT ══════════════════════════ -->
+<div id="content-page" class="page">
+  <div class="container">
+    <h1>Conteúdo — Teoria do Conhecimento</h1>
+    <p class="subtitle">Programa completo organizado por secções · clica em cada título para expandir</p>
+
+    <h2>1 · Gnosiologia & Epistemologia</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é a Gnosiologia?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p><strong>Gnosiologia</strong> é a área da Filosofia que estuda criticamente o conhecimento — o que é, de onde vem, quais os seus limites e qual a sua validade. O termo vem de <em>gnose</em> (conhecimento em grego) + <em>logos</em> (estudo).</p>
+      <p>Questões centrais: o que é o conhecimento? É possível conhecer? Quais os seus limites? Onde reside a sua origem?</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é a Epistemologia?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Em sentido amplo, <strong>epistemologia</strong> é usada como sinónimo de gnosiologia. Em <em>sentido estrito</em>, reflecte sobre as possibilidades e limites do <strong>conhecimento científico</strong> em particular — a sua metodologia, princípios, leis e hipóteses.</p>
+      <div class="concept-box gold">
+        <strong>Relação-chave:</strong> A epistemologia (sentido estrito) está <em>dentro</em> da gnosiologia — é um ramo mais específico.
+      </div>
+      <table class="data-table">
+        <tr><th>Gnosiologia</th><th>Epistemologia (estrito)</th></tr>
+        <tr><td>Conhecimento em geral</td><td>Conhecimento científico</td></tr>
+        <tr><td>Mais ampla</td><td>Contida na gnosiologia</td></tr>
+        <tr><td>Possibilidade, origem, natureza</td><td>Metodologia, limites, princípios</td></tr>
+      </table>
+    </div>
+
+    <h2>2 · Estrutura do Acto de Conhecer</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>A Fenomenologia de Husserl</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>O fundador do método fenomenológico foi <strong>Edmund Husserl</strong>. O objectivo da análise fenomenológica é <em>descrever a estrutura geral do acto de conhecer</em> — os seus elementos essenciais, independentemente de qualquer teoria.</p>
+      <div class="philosopher">
+        <div class="phil-avatar">🔭</div>
+        <div>
+          <div class="phil-name">Edmund Husserl</div>
+          <div class="phil-dates">1859 – 1938</div>
+          <div class="phil-bio">Fundador da fenomenologia. Aplicou o método fenomenológico ao fenómeno do conhecimento, descrevendo a estrutura sujeito-objecto como constitutiva de todo o acto de conhecer.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>A Dicotomia Sujeito-Objecto</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="concept-box">
+        <strong>Sujeito</strong> — quem conhece. Função: <em>apreender</em> o objecto.
+      </div>
+      <div class="concept-box gold" style="margin-top:8px">
+        <strong>Objecto</strong> — o que é conhecido. Função: <em>ser apreendido</em> pelo sujeito.
+      </div>
+      <p style="margin-top:12px">A relação é <strong>irreversível</strong> e de <strong>correlação</strong>: sujeito e objecto são inseparáveis — um só existe em relação ao outro. Não podem trocar funções.</p>
+      <p><strong>Pelo lado do sujeito:</strong> o conhecimento é uma "saída" do sujeito até ao objecto, captando as suas características, e um regresso a si com uma imagem desse objecto. O objecto permanece <em>transcendente</em>.</p>
+      <p><strong>Pelo lado do objecto:</strong> transferência das propriedades do objecto para a esfera do sujeito. O objecto é determinante; o conhecimento é objectivo.</p>
+      <div class="worked">
+        <div class="worked-title">Exemplo</div>
+        <p>Estás a olhar para uma cadeira. <strong>Tu</strong> = sujeito. <strong>Cadeira</strong> = objecto. A tua imagem mental da cadeira é o conhecimento — mas a cadeira continua a existir sem ti (transcendente ao sujeito).</p>
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Os 3 Problemas do Conhecimento</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="concept-box">
+        <strong>1. Possibilidade</strong> — É possível conhecer?<br>
+        Dogmatismo (sim, sem reservas) vs. Cepticismo (não, nunca certeza absoluta).
+      </div>
+      <div class="concept-box gold" style="margin-top:8px">
+        <strong>2. Origem</strong> — De onde vem o conhecimento?<br>
+        Racionalismo (da razão) vs. Empirismo (da experiência).
+      </div>
+      <div class="concept-box green" style="margin-top:8px">
+        <strong>3. Natureza/Essência</strong> — O objecto existe independentemente do sujeito?<br>
+        Realismo (sim) vs. Idealismo (não — depende da consciência).
+      </div>
+    </div>
+
+    <h2>3 · Racionalismo — Descartes</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é o Racionalismo?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="concept-box">
+        O <strong>racionalismo</strong> defende que o conhecimento tem a sua origem na <strong>razão</strong>. Só através da razão conseguimos atingir um conhecimento lógico e universal. A experiência sensorial pode enganar; a razão pura, devidamente usada, não.
+      </div>
+      <div class="philosopher">
+        <div class="phil-avatar">🎭</div>
+        <div>
+          <div class="phil-name">René Descartes</div>
+          <div class="phil-dates">31 Março 1596 — 11 Fevereiro 1650</div>
+          <div class="phil-bio">Principal representante do racionalismo. Viveu num universo marcado pela incerteza pós-copernicana. A sua missão: encontrar fundamentos sólidos para o conhecimento verdadeiro, contra o cepticismo generalizado da sua época.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>A Dúvida Metódica</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A dúvida de Descartes é <strong>diferente do cepticismo</strong>. O céptico duvida para nunca concluir nada. Descartes usa a dúvida como <em>método</em> para encontrar a verdade.</p>
+      <div style="margin:10px 0">
+        <span class="badge badge-purple">Universal</span>
+        <span class="badge badge-gold">Radical</span>
+        <span class="badge badge-red">Hiperbólica</span>
+        <span class="badge badge-green">Metódica (não céptica)</span>
+      </div>
+      <div class="concept-box blue" style="margin-top:12px">
+        <strong>Nível 1 — Sentidos:</strong> Os sentidos já nos enganaram antes. Se enganaram uma vez, podem sempre enganar. Tudo o que nos chega pelos sentidos está em dúvida.
+      </div>
+      <div class="concept-box gold" style="margin-top:8px">
+        <strong>Nível 2 — Matemática:</strong> Se há homens que se enganam a raciocinar, Descartes também pode. Nem 2+2=4 é imune à dúvida.
+      </div>
+      <div class="concept-box red" style="margin-top:8px">
+        <strong>Nível 3 — Deus enganador (hiperbólica):</strong> E se existe um Deus poderoso que criou a nossa mente de modo que nos engana sempre? Nem a realidade física está garantida.
+      </div>
+      <div class="quote">
+        "Tudo o que recebi, até ao presente, como o mais verdadeiro e seguro, aprendi-o dos sentidos ou pelos sentidos: ora, experimentei algumas vezes que esses sentidos eram enganosos, e é de prudência nunca se fiar inteiramente em quem já se enganou uma vez."
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Cogito, Ergo Sum — A Primeira Verdade</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="concept-box green">
+        <strong>"Cogito, ergo sum"</strong> — Penso, logo existo.<br><br>
+        Mesmo que duvide de tudo, o acto de duvidar prova que existe algo a duvidar: <em>eu</em>. Esta é a primeira verdade indubitável — respeita os critérios de evidência, clareza e distinção.
+      </div>
+      <p>A partir daqui, Descartes estabelece o <em>cogito</em> como primeiro princípio do seu edifício do conhecimento.</p>
+      <div class="worked">
+        <div class="worked-title">Sequência lógica completa de Descartes</div>
+        <p>1. Sentidos enganam → dúvida dos sentidos</p>
+        <p>2. Matemática pode falhar → dúvida da razão</p>
+        <p>3. Deus enganador? → dúvida de tudo</p>
+        <p>4. Para duvidar tenho de pensar → para pensar tenho de existir → <strong>Cogito, ergo sum</strong></p>
+        <p>5. Sou imperfeito mas tenho a ideia de perfeição → só um ser perfeito a pode ter colocado → <strong>Deus existe</strong></p>
+        <p>6. Deus perfeito não engana → o que é claro e distinto na razão é <strong>verdadeiro</strong></p>
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Ideias Inatas & Critérios do Conhecimento</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Para Descartes, os critérios que permitem distinguir o verdadeiro do falso são:</p>
+      <div class="concept-box">
+        <strong>Evidência</strong> — a verdade apresenta-se de forma clara e inegável.<br>
+        <strong>Clareza</strong> — o conteúdo é imediatamente acessível à mente.<br>
+        <strong>Distinção</strong> — o conteúdo é preciso, sem confusão com outros.
+      </div>
+      <p>Estes critérios pertencem às <strong>ideias inatas</strong> — ideias com origem na <em>razão</em>, surgem de forma evidente, independentes dos sentidos. São as únicas ao abrigo de qualquer suspeita.</p>
+      <div class="concept-box gold">
+        <strong>Racionalismo em síntese:</strong> Existem verdades universalmente válidas que não são fornecidas pela experiência. Podemos conhecer realidades sem recorrer à experiência — <em>a priori</em>.
+      </div>
+    </div>
+
+    <h2>4 · Empirismo — Locke & Hume</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é o Empirismo?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="concept-box">
+        O <strong>empirismo</strong> defende que <strong>não existe</strong> no nosso intelecto nenhum conhecimento verdadeiro que não encontre a sua fonte nos dados dos sentidos e chegue até nós através da experiência. Vem do grego <em>empeiria</em> (experiência).
+      </div>
+      <p>Para os empiristas, o conhecimento só é válido <strong><em>a posteriori</em></strong> — após e a partir da experiência.</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>John Locke — Tabula Rasa</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="philosopher">
+        <div class="phil-avatar">📚</div>
+        <div>
+          <div class="phil-name">John Locke</div>
+          <div class="phil-dates">1632 – 1704</div>
+          <div class="phil-bio">Principal representante do empirismo. Contrapõe-se directamente ao racionalismo cartesiano. Para Locke, a mente humana nasce como uma <em>tabula rasa</em> (folha em branco) — não há ideias inatas. Tudo o que sabemos vem da experiência.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>David Hume — Impressões e Ideias</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="philosopher">
+        <div class="phil-avatar">🔬</div>
+        <div>
+          <div class="phil-name">David Hume</div>
+          <div class="phil-dates">1711 – 1776</div>
+          <div class="phil-bio">Desenvolve o empirismo. Distingue dois tipos de conteúdos mentais:</div>
+        </div>
+      </div>
+      <div class="concept-box gold" style="margin-top:10px">
+        <strong>Impressões</strong> — percepções vivas e directas dos sentidos (ver, ouvir, tocar). São mais fortes e imediatas.<br><br>
+        <strong>Ideias</strong> — cópias enfraquecidas das impressões, que surgem quando recordamos ou imaginamos algo sem o objecto presente.
+      </div>
+      <p>Para Hume, qualquer ideia que não possa ser rastreada a uma impressão sensorial deve ser rejeitada como sem fundamento.</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Racionalismo vs. Empirismo — Tabela Comparativa</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <table class="data-table">
+        <tr><th></th><th>Racionalismo</th><th>Empirismo</th></tr>
+        <tr><td><strong>Origem</strong></td><td>Razão</td><td>Experiência sensorial</td></tr>
+        <tr><td><strong>Ideias inatas?</strong></td><td>Sim</td><td>Não — tabula rasa</td></tr>
+        <tr><td><strong>Validade</strong></td><td>A priori (antes da exp.)</td><td>A posteriori (após a exp.)</td></tr>
+        <tr><td><strong>Representante</strong></td><td>Descartes</td><td>Locke, Hume</td></tr>
+        <tr><td><strong>Critério</strong></td><td>Clareza e distinção</td><td>Confirmação pela experiência</td></tr>
+      </table>
+      <div class="worked">
+        <div class="worked-title">Exemplo — A priori vs. A posteriori</div>
+        <p><strong>A priori (racionalismo):</strong> "Todos os triângulos têm 180°." — Sei pela razão pura, sem medir triângulos reais.</p>
+        <p style="margin-top:8px"><strong>A posteriori (empirismo):</strong> "O mel é doce." — Só sei porque o experimentei. Sem experiência, não posso saber.</p>
+      </div>
+    </div>
+
+    <h2>5 · Natureza do Conhecimento — Realismo</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O Problema da Natureza do Conhecimento</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A questão central: <em>existe um objecto real que podemos conhecer tal qual é — independente do sujeito — ou tudo o que conhecemos se reduz ao que existe na nossa consciência?</em></p>
+      <div class="concept-box">
+        <strong>Realismo</strong> — o objecto existe independentemente da consciência. (Transcendente)
+      </div>
+      <div class="concept-box gold" style="margin-top:8px">
+        <strong>Idealismo</strong> — o objecto apenas existe na consciência do sujeito. (Imanente)
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Os 3 Tipos de Realismo</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="concept-box">
+        <strong>Realismo Ingénuo (pré-filosófico)</strong><br>
+        Atitude do senso comum. Aceita a identidade do conhecimento com as coisas sem questionar. "O açúcar é doce porque é doce." Não há reflexão filosófica.
+      </div>
+      <div class="concept-box gold" style="margin-top:8px">
+        <strong>Realismo Natural (aristotélico)</strong><br>
+        Com reflexões críticas e epistémicas. Procura demonstrar que as teses são verdadeiras. É absurdo dizer que o sangue não é vermelho — é uma propriedade real, não apenas da consciência.
+      </div>
+      <div class="concept-box blue" style="margin-top:8px">
+        <strong>Realismo Crítico</strong><br>
+        Aceita que existem objectos reais além da consciência, mas reconhece que <em>não é possível apreendê-los exactamente como são</em>. A nossa percepção pode não corresponder ao objecto tal como ele é em si.
+      </div>
+      <table class="data-table" style="margin-top:14px">
+        <tr><th>Tipo</th><th>Questiona a essência?</th><th>Percepção = realidade?</th></tr>
+        <tr><td>Ingénuo</td><td>Não</td><td>Sim (sem questionar)</td></tr>
+        <tr><td>Natural</td><td>Sim (com fundamento)</td><td>Sim</td></tr>
+        <tr><td>Crítico</td><td>Sim (com rigor)</td><td>Não necessariamente</td></tr>
+      </table>
+    </div>
+
+    <h2>6 · Natureza do Conhecimento — Idealismo</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é o Idealismo?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="concept-box gold">
+        O <strong>idealismo</strong> opõe-se ao realismo. Os objectos apenas têm existência <em>na consciência do sujeito</em> — não passam de ideias ou conceitos que existem na nossa mente. O objecto do conhecimento não é algo real e independente — é ideal.
+      </div>
+      <div class="philosopher">
+        <div class="phil-avatar">🎓</div>
+        <div>
+          <div class="phil-name">Johannes Hessen</div>
+          <div class="phil-dates">1889 – 1971</div>
+          <div class="phil-bio">Filósofo que sintetiza o problema na obra <em>Teoria do Conhecimento</em>. Distingue dois tipos de idealismo com o famoso exemplo do giz.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O Exemplo do Giz — Idealismo Psicológico vs. Lógico</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="worked">
+        <div class="worked-title">O Exemplo do Giz (Hessen)</div>
+        <p><strong>Para o realista:</strong> O giz existe exteriormente à minha consciência, independentemente dela.</p>
+        <p style="margin-top:10px"><strong>Para o idealista psicológico/subjectivo:</strong> O giz existe apenas em minha consciência. Todo o seu ser consiste em ser percebido por mim. Fora de mim, o giz não existe.</p>
+        <p style="margin-top:10px"><strong>Para o idealista lógico:</strong> O giz não está em mim nem fora de mim — não está disponível de antemão. Na medida em que formo o conceito "giz", o meu pensamento constrói o objecto giz. Não é uma coisa real nem um conteúdo de consciência — é um conceito, um ser lógico-ideal.</p>
+      </div>
+      <table class="data-table">
+        <tr><th></th><th>Realismo</th><th>Idealismo</th></tr>
+        <tr><td><strong>Existência do objecto</strong></td><td>Independente da consciência</td><td>Só existe na consciência</td></tr>
+        <tr><td><strong>Natureza</strong></td><td>Real (transcendente)</td><td>Ideal (imanente)</td></tr>
+        <tr><td><strong>Relação</strong></td><td>Objecto determina o sujeito</td><td>Sujeito constrói o objecto</td></tr>
+        <tr><td><strong>Tipos</strong></td><td>Ingénuo / Natural / Crítico</td><td>Psicológico / Lógico</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ ÉTICA ══════════════════════════ -->
+<div id="etica-page" class="page">
+  <div class="container">
+    <h1>Consciência Moral, Liberdade & Ética</h1>
+    <p class="subtitle">Capítulos 2.6 e 2.7 · Imbamba · John Stuart Mill · John Rawls · Hans Jonas</p>
+
+    <h2>2.6 · Consciência Moral</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é a Consciência Moral?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Para <strong>Imbamba (2003)</strong>, a consciência moral é o <em>"conhecimento do nosso eu e dos seus actos internos"</em>. É o acto pelo qual o sujeito toma conhecimento dos seus próprios actos enquanto moralmente bons ou maus.</p>
+      <p style="margin-top:12px">A consciência moral não é apenas uma faculdade cognitiva — é também normativa: orienta a conduta humana, distinguindo o bem do mal.</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Classificações da Consciência Moral</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <table class="data-table">
+        <tr><th>Tipo</th><th>Descrição</th></tr>
+        <tr><td><strong>Inata</strong></td><td>Nasce connosco; faz parte da natureza humana. Independente da educação ou experiência.</td></tr>
+        <tr><td><strong>Social</strong></td><td>Resulta da influência da sociedade, da cultura e das normas do grupo em que vivemos.</td></tr>
+        <tr><td><strong>Divina</strong></td><td>É a comunicação de Deus ao homem, que lhe revela o que é moralmente correcto ou incorrecto.</td></tr>
+        <tr><td><strong>Adquirida</strong></td><td>Resulta da educação, da experiência pessoal e do esforço do próprio sujeito ao longo da vida.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Liberdade — tipos e sentidos</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A liberdade é condição essencial da moralidade: só um ser livre pode ser responsável pelos seus actos. Três tipos principais:</p>
+      <table class="data-table" style="margin-top:12px">
+        <tr><th>Tipo</th><th>Definição</th></tr>
+        <tr><td><strong>Natural</strong></td><td>Autodeterminação — capacidade de o ser humano determinar por si mesmo as suas próprias acções, sem constrangimentos externos absolutos.</td></tr>
+        <tr><td><strong>Social</strong></td><td>Liberdade de viver em sociedade sem opressão; pressupõe a existência de direitos e deveres reconhecidos.</td></tr>
+        <tr><td><strong>Política</strong></td><td>Liberdade de participar na vida política, de expressar opiniões e de ser governado por leis justas.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Responsabilidade — a outra face da liberdade</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A responsabilidade é inseparável da liberdade. <strong>Quanto maior a liberdade, maior a responsabilidade.</strong></p>
+      <p style="margin-top:10px">Só quem age livremente pode ser responsabilizado pelos seus actos. Uma acção não livre (por coerção ou ignorância invencível) não é moralmente imputável ao sujeito.</p>
+      <div class="concept-box" style="margin-top:14px">
+        <strong>Princípio fundamental:</strong> Liberdade → Responsabilidade → Imputabilidade moral
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>John Stuart Mill (1806–1873) — Utilitarismo</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Mill é o principal representante do <strong>utilitarismo</strong>. O princípio central é o <em>princípio da maior felicidade</em>:</p>
+      <blockquote style="margin:14px 0;padding:12px 16px;border-left:3px solid var(--accent);color:var(--muted);font-style:italic">
+        "As acções são justas na medida em que tendem a promover a felicidade, e injustas quando tendem a produzir o contrário."
+      </blockquote>
+      <table class="data-table">
+        <tr><th>Conceito</th><th>Explicação</th></tr>
+        <tr><td>Utilitarismo</td><td>A moralidade de uma acção é determinada pelas suas consequências — o que maximiza a felicidade do maior número de pessoas é moralmente correcto.</td></tr>
+        <tr><td>Princípio da maior felicidade</td><td>O bem é a felicidade (prazer + ausência de dor); o mal é a infelicidade. As acções devem maximizar o bem-estar colectivo.</td></tr>
+        <tr><td>Relação com Imbamba</td><td>As nossas acções devem ter sempre em conta o bem da humanidade — não apenas o bem individual.</td></tr>
+      </table>
+    </div>
+
+    <h2 style="margin-top:36px">2.7 · Dimensão Ética: Ética, Estado e Direito</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>John Rawls — Teoria da Justiça</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p><strong>John Rawls (1921–2002)</strong> é o autor de <em>Uma Teoria da Justiça</em> (1971). A sua teoria assenta em dois conceitos fundamentais:</p>
+      <table class="data-table" style="margin:12px 0">
+        <tr><th>Conceito</th><th>Definição</th></tr>
+        <tr><td><strong>Posição Original</strong></td><td>Situação hipotética em que as pessoas escolhem os princípios de justiça de uma sociedade sem saber qual será o seu lugar nessa sociedade.</td></tr>
+        <tr><td><strong>Véu da Ignorância</strong></td><td>As pessoas na posição original desconhecem: a sua classe social, riqueza, talentos, inteligência, género, e concepção do bem. Garante imparcialidade.</td></tr>
+      </table>
+      <p><strong>Dois princípios de justiça</strong> (que racionais escolheriam sob o véu da ignorância):</p>
+      <div class="concept-box" style="margin-top:12px">
+        <strong>1.º Princípio — Liberdades Básicas:</strong><br>
+        Cada pessoa tem direito igual ao mais amplo sistema total de liberdades básicas, compatível com um sistema semelhante de liberdade para todos.
+      </div>
+      <div class="concept-box" style="margin-top:10px">
+        <strong>2.º Princípio — Princípio da Diferença:</strong><br>
+        As desigualdades sociais e económicas devem ser ordenadas de modo a que: (a) proporcionem o maior benefício aos membros menos favorecidos da sociedade, e (b) os cargos e posições estejam abertos a todos em condições de igualdade equitativa de oportunidades.
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Ética Ambiental — Paradigmas</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <table class="data-table">
+        <tr><th>Paradigma</th><th>Visão central</th><th>Autores</th></tr>
+        <tr><td><strong>Antropocêntrico</strong></td><td>O ser humano é o centro e o fim da natureza. A natureza tem valor instrumental — existe para servir o homem.</td><td>Tradição dominante ocidental</td></tr>
+        <tr><td><strong>Biocêntrico</strong></td><td>Todos os seres vivos têm valor intrínseco, independentemente da utilidade para o homem. O homem não é superior aos outros seres.</td><td>Peter Singer</td></tr>
+        <tr><td><strong>Ecocêntrico</strong></td><td>Não apenas os seres vivos, mas os ecossistemas como um todo têm valor. A ética deve incluir a Terra como comunidade.</td><td>Aldo Leopold</td></tr>
+      </table>
+      <p style="margin-top:14px"><strong>Hans Jonas</strong> — <em>O Princípio Responsabilidade</em> (1979):</p>
+      <blockquote style="margin:10px 0;padding:12px 16px;border-left:3px solid var(--green);color:var(--muted);font-style:italic">
+        "Age de tal modo que os efeitos das tuas acções sejam compatíveis com a permanência de uma vida humana autêntica na Terra."
+      </blockquote>
+      <p>Hans Jonas defende uma ética da responsabilidade dirigida às gerações futuras: as nossas acções presentes têm consequências para aqueles que ainda não existem. A tecnologia moderna exige uma nova ética da responsabilidade.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ DIREITOS HUMANOS ══════════════════════════ -->
+<div id="dhumanos-page" class="page">
+  <div class="container">
+    <h1>Direitos Humanos</h1>
+    <p class="subtitle">Capítulo 2.8 · DUDH 1948 · Constituição de Angola 2010</p>
+
+    <h2>2.8 · A Declaração Universal dos Direitos Humanos (1948)</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Contexto histórico e fundamento</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A <strong>Declaração Universal dos Direitos Humanos (DUDH)</strong> foi proclamada pela Assembleia Geral das Nações Unidas a <strong>10 de Dezembro de 1948</strong>, em resposta às atrocidades da Segunda Guerra Mundial.</p>
+      <p style="margin-top:10px">Assenta no reconhecimento de que <em>todos os seres humanos nascem livres e iguais em dignidade e direitos</em>, independentemente de raça, cor, sexo, língua, religião, opinião política, origem nacional ou social, fortuna, nascimento ou qualquer outra condição.</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Artigos fundamentais da DUDH</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <table class="data-table">
+        <tr><th>Artigo</th><th>Direito consagrado</th></tr>
+        <tr><td><strong>Art. 1</strong></td><td>Todos os seres humanos nascem livres e iguais em dignidade e em direitos. São dotados de razão e de consciência e devem agir uns para com os outros em espírito de fraternidade.</td></tr>
+        <tr><td><strong>Art. 2</strong></td><td>Universalidade — todo o ser humano tem capacidade para gozar os direitos e as liberdades estabelecidos, sem distinção de qualquer espécie.</td></tr>
+        <tr><td><strong>Art. 3</strong></td><td>Direito à vida, à liberdade e à segurança pessoal.</td></tr>
+        <tr><td><strong>Art. 4</strong></td><td>Proibição da escravidão e da servidão.</td></tr>
+        <tr><td><strong>Art. 5</strong></td><td>Proibição da tortura e de penas ou tratamentos cruéis, desumanos ou degradantes.</td></tr>
+        <tr><td><strong>Art. 10</strong></td><td>Direito a julgamento justo e público por um tribunal independente e imparcial.</td></tr>
+        <tr><td><strong>Art. 12</strong></td><td>Direito à privacidade — ninguém sofrerá intromissões na sua vida privada, família, domicílio ou correspondência.</td></tr>
+        <tr><td><strong>Art. 18</strong></td><td>Liberdade de pensamento, de consciência e de religião.</td></tr>
+        <tr><td><strong>Art. 19</strong></td><td>Liberdade de opinião e de expressão — inclui o direito de não ser inquietado pelas suas opiniões.</td></tr>
+        <tr><td><strong>Art. 20</strong></td><td>Liberdade de reunião e de associação pacíficas.</td></tr>
+        <tr><td><strong>Art. 21</strong></td><td>Direito de participar na governação do seu país e de aceder em condições de igualdade às funções públicas.</td></tr>
+        <tr><td><strong>Art. 23</strong></td><td>Direito ao trabalho, à livre escolha do emprego e a condições equitativas e satisfatórias de trabalho.</td></tr>
+        <tr><td><strong>Art. 24</strong></td><td>Direito ao repouso e aos lazeres, incluindo limitação razoável das horas de trabalho.</td></tr>
+        <tr><td><strong>Art. 25</strong></td><td>Direito a um nível de vida suficiente para assegurar saúde e bem-estar (alimentação, vestuário, habitação, cuidados médicos).</td></tr>
+        <tr><td><strong>Art. 26</strong></td><td>Direito à educação. A instrução elementar é obrigatória e gratuita. A instrução técnica e profissional deve ser generalizada.</td></tr>
+        <tr><td><strong>Art. 27</strong></td><td>Direito de participar livremente na vida cultural da comunidade e de gozar das artes.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Constituição da República de Angola (2010) — Direitos Fundamentais</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A <strong>Constituição de Angola de 2010</strong> consagra os direitos fundamentais no Título II. Artigos chave:</p>
+      <table class="data-table" style="margin-top:12px">
+        <tr><th>Artigo</th><th>Conteúdo</th></tr>
+        <tr><td><strong>Art. 22 — Princípio da Igualdade</strong></td><td>Todos os cidadãos são iguais perante a lei. Ninguém pode ser prejudicado, privilegiado, privado de qualquer direito ou isento de qualquer dever em razão de ascendência, sexo, raça, etnia, cor, deficiência, língua, local de nascimento, religião, convicções políticas, ideológicas ou filosóficas.</td></tr>
+        <tr><td><strong>Art. 23 — Universalidade</strong></td><td>Os direitos, liberdades e garantias são extensivos a todos os cidadãos e estrangeiros residentes em Angola.</td></tr>
+        <tr><td><strong>Direitos sociais</strong></td><td>Direito à saúde, educação, habitação, trabalho e segurança social estão consagrados na Constituição angolana de 2010.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>20 Conquistas dos Direitos Humanos (desde 1993)</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Desde a <strong>Conferência de Viena (1993)</strong>, que reafirmou a universalidade, indivisibilidade e interdependência dos direitos humanos, registaram-se avanços significativos:</p>
+      <ul style="margin-top:12px;padding-left:20px;line-height:2">
+        <li>Criação do Tribunal Penal Internacional (TPI) — 1998/2002</li>
+        <li>Declaração do Milénio da ONU — 2000</li>
+        <li>Protocolos adicionais às Convenções de Genebra</li>
+        <li>Convenção sobre os Direitos das Pessoas com Deficiência — 2006</li>
+        <li>Declaração das Nações Unidas sobre os Direitos dos Povos Indígenas — 2007</li>
+        <li>Objectivos de Desenvolvimento Sustentável (ODS) — 2015</li>
+        <li>Criminalização universal da tortura e do genocídio</li>
+        <li>Abolição progressiva da pena de morte em mais de 2/3 dos países</li>
+        <li>Reconhecimento do direito à água potável como direito humano — 2010</li>
+        <li>Ratificação crescente da Convenção sobre os Direitos da Criança</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ RELIGIÃO ══════════════════════════ -->
+<div id="religiao-page" class="page">
+  <div class="container">
+    <h1>Experiência Religiosa</h1>
+    <p class="subtitle">Capítulo 2.9 · Imbamba · Durkheim · Visão Bantu-Kongo · O Sagrado</p>
+
+    <h2>2.9 · O Fenómeno Religioso</h2>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O que é a Religião?</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A <strong>religião</strong> é a resposta do ser humano às questões fundamentais da existência:</p>
+      <div class="concept-box" style="margin:14px 0">
+        Quem somos? &nbsp;·&nbsp; De onde viemos? &nbsp;·&nbsp; Para onde vamos? &nbsp;·&nbsp; Qual o sentido da vida?
+      </div>
+      <p>Para <strong>Imbamba</strong>: <em>"Todo o homem é essencialmente um ser religioso."</em> A dimensão religiosa é constitutiva da pessoa humana — não é algo exterior ou opcional, mas faz parte da sua natureza mais profunda.</p>
+      <p style="margin-top:10px">Para <strong>Émile Durkheim</strong>, a religião é <em>"um sistema solidário de crenças e de práticas relativas a coisas sagradas"</em> que une numa mesma comunidade moral todos os que a ela aderem.</p>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>O Sagrado — centro de toda a religião</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>O conceito de <strong>sagrado</strong> (em oposição ao profano) é o elemento central de qualquer fenómeno religioso. O sagrado é aquilo que é separado do mundo ordinário, que inspira temor reverencial, admiração e devoção.</p>
+      <table class="data-table" style="margin-top:12px">
+        <tr><th>Dimensão</th><th>Características</th></tr>
+        <tr><td><strong>Sagrado</strong></td><td>Separado, intocável, que pertence a outra ordem. Provoca o "mysterium tremendum et fascinans" (Rudolf Otto) — simultaneamente aterrador e fascinante.</td></tr>
+        <tr><td><strong>Profano</strong></td><td>O mundo ordinário, quotidiano, acessível a todos. Opõe-se ao sagrado na organização do espaço, do tempo e dos objectos.</td></tr>
+        <tr><td><strong>Rito</strong></td><td>Conjunto de actos que permitem a aproximação ao sagrado. Mediação entre o humano e o divino.</td></tr>
+        <tr><td><strong>Mito</strong></td><td>Narrativa sagrada que explica a origem do mundo, do homem e das normas fundamentais da sociedade.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>Visão Bantu-Kongo — Religião e Natureza</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A tradição <strong>Bantu-Kongo</strong> (e mais amplamente Bantu) tem uma visão cosmológica em que o sagrado e o natural são inseparáveis.</p>
+      <table class="data-table" style="margin:12px 0">
+        <tr><th>Conceito</th><th>Significado</th></tr>
+        <tr><td><strong>O Muntu</strong></td><td>O ser humano na visão bantu — não é um indivíduo isolado, mas um ser em relação: com os antepassados, com a comunidade dos vivos, com a natureza e com Deus (Nzambi).</td></tr>
+        <tr><td><strong>O Kalunga</strong></td><td>A linha divisória entre o mundo dos vivos e o mundo dos mortos (antepassados). Os antepassados continuam presentes e activos na vida da comunidade.</td></tr>
+        <tr><td><strong>Nzambi</strong></td><td>O ser supremo, criador de tudo. Na visão bantu, Nzambi não está distante mas impregnado na criação.</td></tr>
+        <tr><td><strong>Força vital</strong></td><td>Conceito central de Placide Tempels: todos os seres têm uma força vital (força de ser), e a moral consiste em aumentar essa força — em si e nos outros.</td></tr>
+      </table>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>A Floresta como Espaço Sagrado</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>Na tradição Bantu-Kongo, a <strong>floresta</strong> não é apenas um recurso natural — é um espaço sagrado, carregado de significado espiritual e comunitário.</p>
+      <ul style="margin-top:12px;padding-left:20px;line-height:2">
+        <li><strong>Biblioteca viva</strong>: a floresta contém o saber ancestral, os segredos medicinais e espirituais da comunidade.</li>
+        <li><strong>Templo natural</strong>: as cerimónias de iniciação, os ritos de passagem e os cultos aos antepassados realizam-se na floresta.</li>
+        <li><strong>Espaço de iniciação</strong>: é na floresta que os jovens passam pelos ritos de iniciação que os transformam em adultos membros plenos da comunidade.</li>
+        <li><strong>Morada dos antepassados</strong>: certas árvores, pedras ou rios são considerados pontos de contacto com os antepassados.</li>
+      </ul>
+      <div class="concept-box" style="margin-top:14px">
+        <strong>Implicação ética:</strong> A sacralidade da natureza na visão bantu tem uma dimensão ecológica avant la lettre: destruir a natureza é violar o sagrado e romper o equilíbrio cósmico.
+      </div>
+    </div>
+
+    <div class="coll-head" onclick="coll(this)">
+      <span>A Religião como Sistema Solidário</span><span class="coll-arrow">▼</span>
+    </div>
+    <div class="coll-body">
+      <p>A religião bantu não é um assunto meramente privado ou individual. É fundamentalmente <strong>comunitária e solidária</strong>:</p>
+      <table class="data-table" style="margin-top:12px">
+        <tr><th>Dimensão</th><th>Expressão concreta</th></tr>
+        <tr><td><strong>Solidariedade intergeracional</strong></td><td>Os vivos cuidam dos mortos (através de ritos) e os mortos protegem os vivos. A comunidade inclui os antepassados.</td></tr>
+        <tr><td><strong>Solidariedade comunitária</strong></td><td>"Ubuntu": sou porque somos. O bem de cada um está ligado ao bem de todos.</td></tr>
+        <tr><td><strong>Solidariedade cósmica</strong></td><td>O ser humano é parte do cosmos, não o seu senhor. Responsabilidade para com a natureza e os outros seres.</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ FLASHCARDS ══════════════════════════ -->
+<div id="flashcards-page" class="page">
+  <div class="container" id="fc-container">
+    <h1>Flashcards</h1>
+    <p class="subtitle">70 cartões · clica para revelar · avalia o que soubeste</p>
+
+    <div class="fc-session-bar" id="fc-session-bar">
+      <div class="fc-stat"><span class="fc-stat-val" id="fc-known">0</span><span class="fc-stat-lbl">Soube</span></div>
+      <div class="fc-stat"><span class="fc-stat-val" id="fc-review">0</span><span class="fc-stat-lbl">A Rever</span></div>
+      <div class="fc-stat"><span class="fc-stat-val" id="fc-remain">70</span><span class="fc-stat-lbl">Restantes</span></div>
+    </div>
+
+    <div class="fc-controls">
+      <button class="fc-filter active" onclick="filterCards('all', this)">Todos</button>
+      <button class="fc-filter" onclick="filterCards('gnosio', this)">Gnosiologia</button>
+      <button class="fc-filter" onclick="filterCards('racion', this)">Racionalismo</button>
+      <button class="fc-filter" onclick="filterCards('empir', this)">Empirismo</button>
+      <button class="fc-filter" onclick="filterCards('natureza', this)">Natureza</button>
+      <button class="fc-filter" onclick="filterCards('filosofos', this)">Filósofos</button>
+      <button class="fc-filter" onclick="filterCards('consciencia', this)">Consciência</button>
+      <button class="fc-filter" onclick="filterCards('etica', this)">Ética</button>
+      <button class="fc-filter" onclick="filterCards('dhumanos', this)">Dir. Humanos</button>
+      <button class="fc-filter" onclick="filterCards('religiao', this)">Religião</button>
+      <button class="fc-btn" style="margin-left:auto;padding:8px 16px;font-size:0.78rem" onclick="shuffleCards()">🔀 Baralhar</button>
+    </div>
+
+    <div class="fc-progress-wrap">
+      <div class="fc-progress" id="fc-prog" style="width:0%"></div>
+    </div>
+
+    <div class="fc-scene" id="fc-scene" onclick="flipCard()">
+      <div class="fc-card-inner" id="fc-inner">
+        <div class="fc-face fc-front">
+          <div class="fc-category" id="fc-cat">—</div>
+          <div class="fc-question" id="fc-q">—</div>
+          <div class="fc-hint">Clica para revelar</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-category" id="fc-cat-back">—</div>
+          <div class="fc-answer" id="fc-a">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fc-rating" id="fc-rating" style="display:none">
+      <button class="fc-rate-btn review" onclick="rateCard('review')">↩ Rever</button>
+      <button class="fc-rate-btn knew" onclick="rateCard('knew')">✓ Soube!</button>
+    </div>
+
+    <div class="fc-nav" style="margin-top:16px">
+      <button class="fc-btn" id="fc-prev" onclick="prevCard()">← Anterior</button>
+      <span class="fc-counter" id="fc-counter">1 / 40</span>
+      <button class="fc-btn" id="fc-next" onclick="nextCard()">Próximo →</button>
+    </div>
+
+    <div class="kbd-hint">
+      <kbd>Space</kbd> revelar &nbsp;·&nbsp; <kbd>←</kbd><kbd>→</kbd> navegar &nbsp;·&nbsp; <kbd>1</kbd> rever &nbsp;·&nbsp; <kbd>2</kbd> soube
+    </div>
+
+    <div class="fc-complete" id="fc-complete">
+      <div class="fc-complete-icon">🎉</div>
+      <h2>Sessão Concluída!</h2>
+      <p style="color:var(--muted);margin:10px 0 20px;font-size:0.88rem" id="fc-complete-msg"></p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="fc-btn primary" onclick="restartCards()">↺ Repetir todos</button>
+        <button class="fc-btn" onclick="reviewOnly()">🔁 Só os "A Rever"</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div id="quiz-page" class="page">
+  <div class="container">
+    <h1>Quiz — Filosofia Completo</h1>
+    <p class="subtitle">18 perguntas · escolha múltipla e desenvolvimento · tenta sem olhar para o conteúdo</p>
+
+    <div class="quiz-header">
+      <div class="quiz-score-wrap">
+        <div class="quiz-score-item">
+          <span class="quiz-score-val" id="q-correct">0</span>
+          <span class="quiz-score-lbl">Certas</span>
+        </div>
+        <div class="quiz-score-item">
+          <span class="quiz-score-val" id="q-wrong">0</span>
+          <span class="quiz-score-lbl">Erradas</span>
+        </div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="q-prog" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="q-prog-label">0 / 18</div>
+      </div>
+    </div>
+
+    <div id="quiz-questions-container"></div>
+
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-result-big" id="q-final-score">—</div>
+      <div class="quiz-result-label">Pontuação Final</div>
+      <div class="quiz-result-msg" id="q-final-msg"></div>
+      <button class="quiz-restart-btn" onclick="restartQuiz()">↺ Tentar de Novo</button>
+    </div>
+  </div>
+</div>
+
 <script>
-function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById(id+'-page').classList.add('active');if(btn)btn.classList.add('active');}
-function coll(head){head.classList.toggle('open');head.nextElementSibling.classList.toggle('open');}
-const allCards=[
-  {cat:'gnosio',q:'O que é a Gnosiologia?',a:'&Aacute;rea da Filosofia que estuda criticamente o conhecimento — o que é, de onde vem, quais os seus limites e qual a sua validade. Vem de gnose (conhecimento) + logos (estudo).'},
-  {cat:'gnosio',q:'O que é a Epistemologia em sentido estrito?',a:'Centra-se no conhecimento científico: os seus métodos, princípios, leis, hipóteses e limites. Está dentro da gnosiologia.'},
-  {cat:'gnosio',q:'Qual a diferença principal entre Gnosiologia e Epistemologia?',a:'A gnosiologia estuda o conhecimento em geral. A epistemologia (sentido estrito) é um ramo mais específico, dentro da gnosiologia, que se ocupa do conhecimento científico.'},
-  {cat:'gnosio',q:'Quem foi Edmund Husserl e qual o seu contributo?',a:'Fundador do método fenomenológico. Aplicou-o ao estudo do conhecimento com o objectivo de descrever a estrutura geral do acto de conhecer.'},
-  {cat:'gnosio',q:'O que é a análise fenomenológica do conhecimento?',a:'Descrição da estrutura geral do acto de conhecer — identificar os seus elementos essenciais: sujeito, objecto e a relação entre ambos.'},
-  {cat:'gnosio',q:'Qual a função do Sujeito no acto de conhecer?',a:'Apreender o objecto — o sujeito é quem conhece, quem capta as propriedades do objecto.'},
-  {cat:'gnosio',q:'Qual a função do Objecto no acto de conhecer?',a:'Ser apreendido pelo sujeito. O objecto é o que é conhecido. É transcendente — existe independentemente do sujeito.'},
-  {cat:'gnosio',q:'A relação sujeito-objecto é reversível?',a:'Não. É irreversível: o sujeito apreende e o objecto é apreendido. As funções não se podem inverter.'},
-  {cat:'gnosio',q:'Quais os 3 grandes problemas do conhecimento?',a:'1. Possibilidade (é possível conhecer?) · 2. Origem (de onde vem?) · 3. Natureza/Essência (o objecto existe independentemente?)'},
-  {cat:'racion',q:'O que é o Racionalismo?',a:'Posição gnosiógica que defende que o conhecimento tem a sua origem na razão. Só através da razão conseguimos atingir um conhecimento lógico e universal.'},
-  {cat:'racion',q:'Quem é o principal representante do Racionalismo?',a:'René Descartes (1596–1650).'},
-  {cat:'racion',q:'Em que contexto surge o pensamento de Descartes?',a:'Num universo marcado pela incerteza (revolução copernicana) e pelo cepticismo generalizado. Descartes quer encontrar fundamentos sólidos para o conhecimento verdadeiro.'},
-  {cat:'racion',q:'Em que consiste a dúvida metódica de Descartes?',a:'Descartes duvida de tudo o que pode ser posto em causa — não para concluir que nada se pode conhecer, mas como método para encontrar uma verdade indubitável.'},
-  {cat:'racion',q:'Qual a diferença entre a dúvida cartesiana e o cepticismo?',a:'O céptico duvida e fica na dúvida como posição final. Descartes duvida como método para encontrar a verdade.'},
-  {cat:'racion',q:'O que é o 1.º nível da dúvida cartesiana?',a:'Dúvida dos sentidos. Os sentidos já nos enganaram antes — se enganaram uma vez, podem sempre enganar.'},
-  {cat:'racion',q:'O que é o 2.º nível da dúvida cartesiana?',a:'Dúvida das verdades matemáticas. Se há homens que erram ao raciocinar, Descartes também pode errar. Nem 2+2=4 é imune à dúvida.'},
-  {cat:'racion',q:'O que é o 3.º nível da dúvida cartesiana (hiperbólica)?',a:'A hipótese do Deus enganador. E se existe um ser poderoso que criou a nossa mente de modo que nos engana sempre?'},
-  {cat:'racion',q:'O que é o "Cogito, ergo sum"?',a:'"Penso, logo existo." É a primeira verdade indubitável de Descartes. Para duvidar, tenho de pensar; para pensar, tenho de existir.'},
-  {cat:'racion',q:'Quais os 3 critérios do conhecimento verdadeiro para Descartes?',a:'Evidência (a verdade apresenta-se de forma inegável) · Clareza (o conteúdo é imediatamente acessível) · Distinção (o conteúdo é preciso, sem confusão).'},
-  {cat:'racion',q:'O que são as ideias inatas para Descartes?',a:'Ideias que têm a sua origem na razão — surgem de forma evidente, clara e distinta, independentemente da experiência sensorial.'},
-  {cat:'racion',q:'Como prova Descartes a existência de Deus?',a:'Sente-se imperfeito mas tem a ideia de perfeição. Essa ideia só pode ter sido colocada por um ser perfeito — Deus. Como Deus é perfeito, não pode ser enganador.'},
-  {cat:'racion',q:'O que é o conhecimento "a priori"?',a:'Conhecimento que vale independentemente da experiência. Caracteriza o racionalismo. Exemplo: "Todos os triângulos têm 180°."'},
-  {cat:'empir',q:'O que é o Empirismo?',a:'Posição gnosiógica que defende que não existe no nosso intelecto nenhum conhecimento verdadeiro que não encontre a sua fonte nos dados dos sentidos. (Grego: empeiria = experiência)'},
-  {cat:'empir',q:'Quem é o fundador do Empirismo?',a:'John Locke (1632–1704).'},
-  {cat:'empir',q:'O que significa "tabula rasa" na perspectiva de Locke?',a:'A mente humana nasce como uma folha em branco. Não há ideias inatas — todo o conhecimento vem da experiência sensorial.'},
-  {cat:'empir',q:'O que são "impressões" para Hume?',a:'Percepções vivas e directas obtidas pelos sentidos (ver, ouvir, tocar). São mais fortes e imediatas do que as ideias.'},
-  {cat:'empir',q:'O que são "ideias" para Hume?',a:'Cópias enfraquecidas das impressões. Surgem quando recordamos ou imaginamos algo sem a presença directa do objecto.'},
-  {cat:'empir',q:'O que é o conhecimento "a posteriori"?',a:'Conhecimento que é válido apenas após e a partir da experiência. Caracteriza o empirismo. Exemplo: "O mel é doce" — só sei porque o experimentei.'},
-  {cat:'empir',q:'Para os empiristas, quando é um conhecimento válido?',a:'Quando é a posteriori — confirmado pela experiência sensorial. Nenhum conhecimento verdadeiro existe independentemente da experiência.'},
-  {cat:'natureza',q:'Qual é a questão central do problema da natureza do conhecimento?',a:'Os objectos existem independentemente da consciência do sujeito, ou tudo o que conhecemos existe apenas na nossa consciência?'},
-  {cat:'natureza',q:'O que defende o Realismo?',a:'Que existem objectos ou entidades reais, transcendentes à consciência. O objecto existe mesmo que não seja percebido pelo sujeito.'},
-  {cat:'natureza',q:'O que é o Realismo Ingénuo?',a:'A atitude pré-filosófica do senso comum. Aceita sem questionar que o que a mente percebe corresponde directamente à realidade.'},
-  {cat:'natureza',q:'O que é o Realismo Natural?',a:'Tem reflexões críticas e epistémicas. Procura demonstrar que as teses são verdadeiras. Defende que as propriedades perceptivas são reais.'},
-  {cat:'natureza',q:'O que é o Realismo Crítico?',a:'Aceita que existem objectos reais além da consciência, mas reconhece que não é possível apreendê-los exactamente como são.'},
-  {cat:'natureza',q:'O que defende o Idealismo?',a:'Que os objectos apenas têm existência na consciência do sujeito. Não passam de ideias ou conceitos existentes na nossa mente.'},
-  {cat:'natureza',q:'O que é o Idealismo Psicológico/Subjectivo?',a:'O objecto existe apenas em minha consciência — todo o seu ser consiste em ser percebido por mim. Fora de mim, o objecto não existe.'},
-  {cat:'natureza',q:'O que é o Idealismo Lógico?',a:'O objecto não está em mim nem fora de mim. Quando formo o conceito, o meu pensamento constrói o objecto. É um ser lógico-ideal.'},
-  {cat:'natureza',q:'Qual a diferença entre Realismo e Idealismo quanto à relação sujeito-objecto?',a:'No realismo o objecto determina e é independente do sujeito. No idealismo o sujeito constrói o objecto.'},
-  {cat:'filosofos',q:'Edmund Husserl — corrente e contributo principal',a:'Fenomenologia. Fundou o método fenomenológico e aplicou-o ao estudo do conhecimento. Descreveu a estrutura do acto de conhecer: correlação irreversível sujeito-objecto.'},
-  {cat:'filosofos',q:'René Descartes — corrente e contributo principal',a:'Racionalismo. Dúvida metódica (3 níveis), cogito ergo sum, ideias inatas, critérios de evidência/clareza/distinção, prova da existência de Deus.'},
-  {cat:'filosofos',q:'John Locke — corrente e contributo principal',a:'Empirismo. Tabula rasa — a mente nasce como folha em branco. Todo o conhecimento é a posteriori. Não há ideias inatas.'},
-  {cat:'filosofos',q:'David Hume — corrente e contributo principal',a:'Empirismo. Distinção entre impressões (percepções vivas e directas) e ideias (cópias enfraquecidas). Qualquer ideia sem impressão correspondente deve ser rejeitada.'},
-  {cat:'filosofos',q:'Johannes Hessen — corrente e contributo principal',a:'Sintetizou o problema da natureza do conhecimento. Distinguiu idealismo psicológico de lógico. Famoso pelo exemplo do giz.'}
+// ──────────────── NAV ────────────────
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id + '-page').classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ──────────────── COLLAPSIBLE ────────────────
+function coll(head) {
+  head.classList.toggle('open');
+  head.nextElementSibling.classList.toggle('open');
+}
+
+// ──────────────── FLASHCARD DATA ────────────────
+const allCards = [
+  // ── Gnosiologia ──
+  { cat:'gnosio', q:'O que é a Gnosiologia?', a:'Área da Filosofia que estuda criticamente o conhecimento — o que é, de onde vem, quais os seus limites e qual a sua validade. Vem de gnose (conhecimento) + logos (estudo).' },
+  { cat:'gnosio', q:'O que é a Epistemologia em sentido estrito?', a:'Centra-se no conhecimento científico em particular: os seus métodos, princípios, leis, hipóteses e limites. Distingue ciências humanas de ciências exactas. Está dentro da gnosiologia.' },
+  { cat:'gnosio', q:'Qual a diferença principal entre Gnosiologia e Epistemologia?', a:'A gnosiologia estuda o conhecimento em geral. A epistemologia (sentido estrito) é um ramo mais específico, dentro da gnosiologia, que se ocupa do conhecimento científico.' },
+  { cat:'gnosio', q:'Quem foi Edmund Husserl e qual o seu contributo?', a:'Fundador do método fenomenológico. Aplicou-o ao estudo do conhecimento com o objectivo de descrever a estrutura geral do acto de conhecer.' },
+  { cat:'gnosio', q:'O que é a análise fenomenológica do conhecimento?', a:'Descrição da estrutura geral do acto de conhecer — identificar os seus elementos essenciais: sujeito, objecto e a relação entre ambos.' },
+  { cat:'gnosio', q:'Qual a função do Sujeito no acto de conhecer?', a:'Apreender o objecto — o sujeito é quem conhece, quem capta as propriedades do objecto.' },
+  { cat:'gnosio', q:'Qual a função do Objecto no acto de conhecer?', a:'Ser apreendido pelo sujeito. O objecto é o que é conhecido. É transcendente — existe independentemente do sujeito.' },
+  { cat:'gnosio', q:'A relação sujeito-objecto é reversível?', a:'Não. É irreversível: o sujeito apreende e o objecto é apreendido. As funções não se podem inverter.' },
+  { cat:'gnosio', q:'Quais os 3 grandes problemas do conhecimento?', a:'1. Possibilidade (é possível conhecer?) · 2. Origem (de onde vem — razão ou experiência?) · 3. Natureza/Essência (o objecto existe independentemente?)' },
+
+  // ── Racionalismo ──
+  { cat:'racion', q:'O que é o Racionalismo?', a:'Posição gnosiológica que defende que o conhecimento tem a sua origem na razão. Só através da razão conseguimos atingir um conhecimento lógico e universal. A experiência pode enganar; a razão não.' },
+  { cat:'racion', q:'Quem é o principal representante do Racionalismo?', a:'René Descartes (1596–1650).' },
+  { cat:'racion', q:'Em que contexto surge o pensamento de Descartes?', a:'Num universo marcado pela incerteza (revolução copernicana, novas viagens marítimas) e pelo cepticismo generalizado. Descartes quer encontrar fundamentos sólidos para o conhecimento verdadeiro.' },
+  { cat:'racion', q:'Em que consiste a dúvida metódica de Descartes?', a:'Descartes duvida de tudo o que pode ser posto em causa — não para concluir que nada se pode conhecer, mas como método para encontrar uma verdade indubitável. É universal, radical, hiperbólica e metódica.' },
+  { cat:'racion', q:'Qual a diferença entre a dúvida cartesiana e o cepticismo?', a:'O céptico duvida e fica na dúvida como posição final. Descartes duvida como método para encontrar a verdade — a dúvida é instrumental, não o destino.' },
+  { cat:'racion', q:'O que é o 1.º nível da dúvida cartesiana?', a:'Dúvida dos sentidos. Os sentidos já nos enganaram antes — se enganaram uma vez, podem sempre enganar. Tudo o que nos chega pelos sentidos está em dúvida.' },
+  { cat:'racion', q:'O que é o 2.º nível da dúvida cartesiana?', a:'Dúvida das verdades matemáticas. Se há homens que erram ao raciocinar, Descartes também pode errar. Nem 2+2=4 é imune à dúvida.' },
+  { cat:'racion', q:'O que é o 3.º nível da dúvida cartesiana (dúvida hiperbólica)?', a:'A hipótese do Deus enganador. E se existe um ser poderoso que criou a nossa mente de modo que nos engana sempre, mesmo quando julgamos estar certos? Nem a realidade física está garantida.' },
+  { cat:'racion', q:'O que é o "Cogito, ergo sum"?', a:'"Penso, logo existo." É a primeira verdade indubitável de Descartes. Para duvidar, tenho de pensar; para pensar, tenho de existir. O próprio acto de duvidar prova que existo.' },
+  { cat:'racion', q:'Quais os 3 critérios do conhecimento verdadeiro para Descartes?', a:'Evidência (a verdade apresenta-se de forma inegável) · Clareza (o conteúdo é imediatamente acessível) · Distinção (o conteúdo é preciso, sem confusão).' },
+  { cat:'racion', q:'O que são as ideias inatas para Descartes?', a:'Ideias que têm a sua origem na razão — surgem de forma evidente, clara e distinta, independentemente da experiência sensorial. São as únicas ao abrigo de qualquer suspeita.' },
+  { cat:'racion', q:'Como prova Descartes a existência de Deus?', a:'Sente-se imperfeito mas tem a ideia de perfeição. Essa ideia só pode ter sido colocada por um ser perfeito — Deus. Como Deus é perfeito, não pode ser enganador; logo, o que é claro e distinto na razão é verdadeiro.' },
+  { cat:'racion', q:'O que é o conhecimento "a priori"?', a:'Conhecimento que vale independentemente da experiência — anterior à experiência. Caracteriza o racionalismo. Exemplo: "Todos os triângulos têm 180°."' },
+
+  // ── Empirismo ──
+  { cat:'empir', q:'O que é o Empirismo?', a:'Posição gnosiológica que defende que não existe no nosso intelecto nenhum conhecimento verdadeiro que não encontre a sua fonte nos dados dos sentidos e chegue até nós através da experiência. (Grego: empeiria = experiência)' },
+  { cat:'empir', q:'Quem é o fundador do Empirismo?', a:'John Locke (1632–1704).' },
+  { cat:'empir', q:'O que significa "tabula rasa" na perspectiva de Locke?', a:'A mente humana nasce como uma folha em branco. Não há ideias inatas — todo o conhecimento vem da experiência sensorial.' },
+  { cat:'empir', q:'O que são "impressões" para Hume?', a:'Percepções vivas e directas obtidas pelos sentidos (ver, ouvir, tocar). São mais fortes e imediatas do que as ideias.' },
+  { cat:'empir', q:'O que são "ideias" para Hume?', a:'Cópias enfraquecidas das impressões. Surgem quando recordamos ou imaginamos algo sem a presença directa do objecto.' },
+  { cat:'empir', q:'O que é o conhecimento "a posteriori"?', a:'Conhecimento que é válido apenas após e a partir da experiência. Caracteriza o empirismo. Exemplo: "O mel é doce" — só sei porque o experimentei.' },
+  { cat:'empir', q:'Para os empiristas, quando é um conhecimento válido?', a:'Quando é a posteriori — confirmado pela experiência sensorial. Nenhum conhecimento verdadeiro existe independentemente da experiência.' },
+
+  // ── Natureza do Conhecimento ──
+  { cat:'natureza', q:'Qual é a questão central do problema da natureza do conhecimento?', a:'Os objectos existem independentemente da consciência do sujeito, ou tudo o que conhecemos existe apenas na nossa consciência?' },
+  { cat:'natureza', q:'O que defende o Realismo?', a:'Que existem objectos ou entidades reais, transcendentes à consciência. O objecto existe mesmo que não seja percebido pelo sujeito.' },
+  { cat:'natureza', q:'O que é o Realismo Ingénuo?', a:'A atitude pré-filosófica do senso comum. Aceita sem questionar que o que a mente percebe corresponde directamente à realidade. Não coloca qualquer questão filosófica.' },
+  { cat:'natureza', q:'O que é o Realismo Natural?', a:'Tem reflexões críticas e epistémicas. Procura demonstrar que as teses são verdadeiras. Defende que as propriedades perceptivas (cor, sabor) são reais, não apenas da nossa consciência.' },
+  { cat:'natureza', q:'O que é o Realismo Crítico?', a:'Aceita que existem objectos reais além da consciência, mas reconhece que não é possível apreendê-los exactamente como são. A percepção pode não corresponder ao objecto tal como ele é em si.' },
+  { cat:'natureza', q:'O que defende o Idealismo?', a:'Que os objectos apenas têm existência na consciência do sujeito. Não passam de ideias ou conceitos existentes na nossa mente. Opõe-se ao realismo.' },
+  { cat:'natureza', q:'O que é o Idealismo Psicológico/Subjectivo?', a:'O objecto existe apenas em minha consciência — todo o seu ser consiste em ser percebido por mim. Fora de mim, o objecto não existe. (Exemplo do giz: o giz só existe enquanto eu o percebo.)' },
+  { cat:'natureza', q:'O que é o Idealismo Lógico?', a:'O objecto não está em mim nem fora de mim — ele não está disponível de antemão. Quando formo o conceito, o meu pensamento constrói o objecto. É um ser lógico-ideal, não uma coisa real nem um conteúdo de consciência.' },
+  { cat:'natureza', q:'Qual a diferença entre Realismo e Idealismo quanto à relação sujeito-objecto?', a:'No realismo o objecto determina e é independente do sujeito. No idealismo o sujeito constrói o objecto — sem sujeito, não há objecto.' },
+
+  // ── Filósofos ──
+  { cat:'filosofos', q:'Edmund Husserl — corrente e contributo principal', a:'Fenomenologia. Fundou o método fenomenológico e aplicou-o ao estudo do conhecimento. Descreveu a estrutura do acto de conhecer: correlação irreversível sujeito-objecto.' },
+  { cat:'filosofos', q:'René Descartes — corrente e contributo principal', a:'Racionalismo. Dúvida metódica (3 níveis), cogito ergo sum, ideias inatas, critérios de evidência/clareza/distinção, prova da existência de Deus como garante do conhecimento racional.' },
+  { cat:'filosofos', q:'John Locke — corrente e contributo principal', a:'Empirismo. Tabula rasa — a mente nasce como folha em branco. Todo o conhecimento é a posteriori, derivado da experiência sensorial. Não há ideias inatas.' },
+  { cat:'filosofos', q:'David Hume — corrente e contributo principal', a:'Empirismo. Distinção entre impressões (percepções vivas e directas) e ideias (cópias enfraquecidas). Qualquer ideia sem impressão correspondente deve ser rejeitada.' },
+  { cat:'filosofos', q:'Johannes Hessen — corrente e contributo principal', a:'Sintetizou o problema da natureza do conhecimento. Distinguiu idealismo psicológico (o objecto existe só enquanto percebido) de idealismo lógico (o objecto é construído pelo conceito). Famoso pelo exemplo do giz.' },
+
+  // ── Consciência Moral & Liberdade ──
+  { cat:'consciencia', q:'Como define Imbamba a consciência moral?', a:'"Conhecimento do nosso eu e dos seus actos internos." A consciência moral permite ao sujeito tomar conhecimento dos seus próprios actos enquanto moralmente bons ou maus.' },
+  { cat:'consciencia', q:'Quais os 4 tipos de consciência moral segundo Imbamba?', a:'1. Inata — nasce connosco. 2. Social — influência da sociedade. 3. Divina — comunicação de Deus ao homem. 4. Adquirida — resulta da educação e experiência.' },
+  { cat:'consciencia', q:'Qual a relação entre liberdade e responsabilidade?', a:'A responsabilidade é a "outra face da liberdade". Só um ser livre pode ser responsabilizado pelos seus actos. Quanto maior a liberdade, maior a responsabilidade e a imputabilidade moral.' },
+  { cat:'consciencia', q:'Quais os 3 tipos de liberdade?', a:'1. Natural (autodeterminação — o ser determina as suas próprias acções). 2. Social (viver em sociedade sem opressão). 3. Política (participação na vida política e governação por leis justas).' },
+  { cat:'consciencia', q:'O que é o utilitarismo de John Stuart Mill?', a:'A moralidade de uma acção é determinada pelas suas consequências. O bem é a felicidade (prazer + ausência de dor). As acções são justas quando promovem a maior felicidade do maior número de pessoas.' },
+  { cat:'consciencia', q:'Qual o "princípio da maior felicidade" de Mill?', a:'"As acções são justas na medida em que tendem a promover a felicidade, e injustas quando tendem a produzir o contrário." O critério moral é o bem-estar colectivo.' },
+  { cat:'consciencia', q:'Quando uma acção não é moralmente imputável ao sujeito?', a:'Quando não é livre — praticada por coerção ou por ignorância invencível. A imputabilidade moral pressupõe liberdade.' },
+
+  // ── Ética / Rawls / Ambiental ──
+  { cat:'etica', q:'Quem é John Rawls e qual a sua obra principal?', a:'Filósofo americano (1921–2002), autor de "Uma Teoria da Justiça" (1971). Propôs uma teoria contratualista da justiça baseada na imparcialidade.' },
+  { cat:'etica', q:'O que é a "posição original" de Rawls?', a:'Situação hipotética em que as pessoas escolhem os princípios de justiça de uma sociedade sem saber qual será o seu lugar nessa sociedade. Garante imparcialidade.' },
+  { cat:'etica', q:'O que é o "véu da ignorância" de Rawls?', a:'Na posição original, as pessoas desconhecem: classe social, riqueza, talentos, inteligência, género e concepção do bem. O véu garante que os princípios escolhidos são verdadeiramente justos — sem favorecer grupos.' },
+  { cat:'etica', q:'Qual o 1.º princípio de justiça de Rawls?', a:'Cada pessoa tem direito igual ao mais amplo sistema total de liberdades básicas compatível com um sistema semelhante de liberdade para todos. (Princípio da liberdade igual)' },
+  { cat:'etica', q:'Qual o 2.º princípio de justiça de Rawls (princípio da diferença)?', a:'As desigualdades económicas e sociais devem beneficiar os membros menos favorecidos da sociedade, e os cargos devem estar abertos a todos em igualdade de oportunidades.' },
+  { cat:'etica', q:'O que é o paradigma antropocêntrico na ética ambiental?', a:'O ser humano é o centro e o fim da natureza. A natureza tem apenas valor instrumental — existe para servir o homem. É a visão dominante na tradição ocidental.' },
+  { cat:'etica', q:'O que é o paradigma biocêntrico (Peter Singer)?', a:'Todos os seres vivos têm valor intrínseco, independentemente da utilidade para o homem. O homem não é superior aos outros seres. Inclui a libertação animal como imperativo ético.' },
+  { cat:'etica', q:'O que defende Hans Jonas no "Princípio Responsabilidade"?', a:'"Age de tal modo que os efeitos das tuas acções sejam compatíveis com a permanência de uma vida humana autêntica na Terra." A tecnologia moderna exige uma nova ética da responsabilidade perante as gerações futuras.' },
+
+  // ── Direitos Humanos ──
+  { cat:'dhumanos', q:'Quando foi proclamada a DUDH e por quem?', a:'A Declaração Universal dos Direitos Humanos foi proclamada pela Assembleia Geral das Nações Unidas a 10 de Dezembro de 1948, em resposta às atrocidades da Segunda Guerra Mundial.' },
+  { cat:'dhumanos', q:'O que diz o Artigo 1.º da DUDH?', a:'"Todos os seres humanos nascem livres e iguais em dignidade e em direitos. São dotados de razão e de consciência e devem agir uns para com os outros em espírito de fraternidade."' },
+  { cat:'dhumanos', q:'O que consagra o Artigo 3.º da DUDH?', a:'O direito à vida, à liberdade e à segurança pessoal.' },
+  { cat:'dhumanos', q:'O que protege o Artigo 18.º da DUDH?', a:'A liberdade de pensamento, de consciência e de religião — incluindo o direito de mudar de religião e de manifestar a sua crença.' },
+  { cat:'dhumanos', q:'O que protege o Artigo 19.º da DUDH?', a:'A liberdade de opinião e de expressão — inclui o direito de não ser inquietado pelas suas opiniões e de procurar, receber e transmitir informações.' },
+  { cat:'dhumanos', q:'O que diz o Artigo 26.º da DUDH sobre educação?', a:'Toda a pessoa tem direito à educação. A instrução elementar é obrigatória e gratuita. A instrução superior deve ser acessível a todos em função do mérito.' },
+  { cat:'dhumanos', q:'O que diz o Artigo 22.º da Constituição de Angola 2010?', a:'Princípio da Igualdade: todos os cidadãos são iguais perante a lei. Ninguém pode ser prejudicado por razões de ascendência, sexo, raça, etnia, cor, deficiência, língua, local de nascimento, religião ou convicções políticas.' },
+  { cat:'dhumanos', q:'Quais são as características fundamentais dos direitos humanos?', a:'Universais (aplicam-se a todos), inalienáveis (não podem ser cedidos), indivisíveis (todos têm igual importância), interdependentes (a realização de uns depende dos outros) e imprescritíveis (não prescrevem com o tempo).' },
+
+  // ── Experiência Religiosa / Bantu ──
+  { cat:'religiao', q:'Qual é a definição de religião segundo Durkheim?', a:'"Um sistema solidário de crenças e de práticas relativas a coisas sagradas" que une numa mesma comunidade moral todos os que a ela aderem.' },
+  { cat:'religiao', q:'O que afirma Imbamba sobre a natureza religiosa do homem?', a:'"Todo o homem é essencialmente um ser religioso." A dimensão religiosa é constitutiva da pessoa humana — não é exterior ou opcional, mas parte da natureza mais profunda do ser humano.' },
+  { cat:'religiao', q:'Quais são as questões fundamentais que a religião procura responder?', a:'Quem somos? De onde viemos? Para onde vamos? Qual o sentido da vida e da morte? São as grandes questões existenciais que todas as religiões procuram responder.' },
+  { cat:'religiao', q:'O que é o conceito de "Sagrado" na fenomenologia da religião?', a:'O sagrado é aquilo que está separado do mundo ordinário (profano), que inspira temor reverencial e fascinação (mysterium tremendum et fascinans, segundo Rudolf Otto). É o centro de qualquer fenómeno religioso.' },
+  { cat:'religiao', q:'O que é o "Muntu" na visão bantu?', a:'O ser humano na visão bantu. Não é um indivíduo isolado, mas um ser em relação: com os antepassados, com a comunidade dos vivos, com a natureza e com Deus (Nzambi).' },
+  { cat:'religiao', q:'O que é o "Kalunga" na tradição Bantu-Kongo?', a:'A linha divisória entre o mundo dos vivos e o mundo dos mortos (antepassados). Os antepassados continuam presentes e activos na vida da comunidade — não estão "mortos" mas numa outra dimensão do ser.' },
+  { cat:'religiao', q:'Qual o significado da floresta para a tradição Bantu-Kongo?', a:'A floresta é um espaço sagrado: "biblioteca viva" que contém o saber ancestral, templo natural para ritos e iniciações, morada simbólica dos antepassados. Destruí-la é violar o sagrado.' },
+  { cat:'religiao', q:'O que é o conceito de "força vital" em Placide Tempels?', a:'Todos os seres têm uma força vital (força de ser). A moral bantu consiste em aumentar essa força — em si e nos outros. O bem é tudo o que aumenta a vida; o mal é tudo o que a diminui.' },
 ];
-const catLabels={gnosio:'Gnosiologia',racion:'Racionalismo',empir:'Empirismo',natureza:'Natureza do Conhecimento',filosofos:'Filósofos-chave'};
-let deck=[...allCards],fcIdx=0,fcFlipped=false,fcKnown=0,fcReview=0,fcRated=0;
-function filterCards(cat,btn){document.querySelectorAll('.fc-filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');deck=cat==='all'?[...allCards]:allCards.filter(c=>c.cat===cat);fcIdx=0;fcKnown=0;fcReview=0;fcRated=0;document.getElementById('fc-complete').style.display='none';document.getElementById('fc-scene').style.display='';showCard();updateFcStats();}
-function shuffleCards(){for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;fcKnown=0;fcReview=0;fcRated=0;document.getElementById('fc-complete').style.display='none';document.getElementById('fc-scene').style.display='';showCard();updateFcStats();}
-function showCard(){if(fcIdx>=deck.length){completeFc();return;}const c=deck[fcIdx];document.getElementById('fc-q').textContent=c.q;document.getElementById('fc-a').textContent=c.a;document.getElementById('fc-cat').textContent=catLabels[c.cat]||c.cat;document.getElementById('fc-cat-back').textContent=catLabels[c.cat]||c.cat;document.getElementById('fc-counter').textContent=`${fcIdx+1} / ${deck.length}`;document.getElementById('fc-prev').disabled=fcIdx===0;document.getElementById('fc-next').disabled=fcIdx>=deck.length-1;document.getElementById('fc-prog').style.width=`${(fcRated/deck.length)*100}%`;document.getElementById('fc-remain').textContent=deck.length-fcRated;if(fcFlipped){document.getElementById('fc-scene').classList.remove('flipped');fcFlipped=false;document.getElementById('fc-rating').style.display='none';}}
-function flipCard(){fcFlipped=!fcFlipped;document.getElementById('fc-scene').classList.toggle('flipped',fcFlipped);document.getElementById('fc-rating').style.display=fcFlipped?'flex':'none';}
-function rateCard(r){if(r==='knew')fcKnown++;else fcReview++;fcRated++;updateFcStats();fcIdx++;showCard();}
-function updateFcStats(){document.getElementById('fc-known').textContent=fcKnown;document.getElementById('fc-review').textContent=fcReview;document.getElementById('fc-remain').textContent=deck.length-fcRated;}
-function nextCard(){if(fcIdx<deck.length-1){fcIdx++;showCard();}}
-function prevCard(){if(fcIdx>0){fcIdx--;showCard();}}
-function completeFc(){const el=document.getElementById('fc-complete');el.style.display='block';const pct=Math.round((fcKnown/deck.length)*100);document.getElementById('fc-complete-msg').textContent=`Soubeste ${fcKnown} de ${deck.length} cartões (${pct}%). ${fcReview} para rever.`;document.getElementById('fc-scene').style.display='none';document.getElementById('fc-rating').style.display='none';document.getElementById('fc-prog').style.width='100%';document.getElementById('fc-remain').textContent='0';}
-function restartCards(){deck=[...allCards];fcIdx=0;fcKnown=0;fcReview=0;fcRated=0;document.getElementById('fc-complete').style.display='none';document.getElementById('fc-scene').style.display='';updateFcStats();showCard();}
-document.addEventListener('keydown',e=>{if(!document.getElementById('flashcards-page').classList.contains('active'))return;if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return;if(e.code==='Space'){e.preventDefault();flipCard();}if(e.code==='ArrowRight')nextCard();if(e.code==='ArrowLeft')prevCard();if(e.key==='2'&&fcFlipped)rateCard('knew');if(e.key==='1'&&fcFlipped)rateCard('review');});
-const quizData=[
-  {type:'mcq',q:'Qual a diferença principal entre gnosiologia e epistemologia (em sentido estrito)?',opts:['A gnosiologia estuda apenas as ciências exactas; a epistemologia estuda o conhecimento em geral.','A gnosiologia estuda o conhecimento em geral; a epistemologia, em sentido estrito, centra-se no conhecimento científico.','São sinónimos — estudam exactamente a mesma coisa.','A epistemologia é uma área da matemática; a gnosiologia é uma área da biologia.'],answer:1,feedbackOk:'Correcto. A gnosiologia é mais ampla. A epistemologia (estrito) foca-se especificamente no conhecimento científico.',feedbackNok:'Não. A gnosiologia é o estudo geral do conhecimento; a epistemologia (estrito) foca-se no conhecimento científico.'},
-  {type:'mcq',q:'Na dicotomia sujeito-objecto, a relação entre os dois é:',opts:['Reversível — sujeito e objecto podem trocar de funções.','Opcional — o conhecimento pode existir sem objecto.','Irreversível — o sujeito apreende o objecto, e essa função não pode ser trocada.','Simétrica — sujeito e objecto têm exactamente as mesmas funções.'],answer:2,feedbackOk:'Correcto. A relação é irreversível: o sujeito apreende, o objecto é apreendido.',feedbackNok:'Incorreto. A relação sujeito-objecto é irreversível.'},
-  {type:'mcq',q:'Quem fundou o método fenomenológico aplicado ao conhecimento?',opts:['René Descartes','John Locke','Edmund Husserl','David Hume'],answer:2,feedbackOk:'Correcto. Edmund Husserl é o fundador do método fenomenológico.',feedbackNok:'Incorreto. O fundador foi Edmund Husserl.'},
-  {type:'mcq',q:'A dúvida cartesiana difere do cepticismo porque:',opts:['Descartes duvida de tudo e conclui que não podemos conhecer nada.','A dúvida cartesiana é um método (dúvida metódica) para encontrar a verdade, não um fim em si mesma.','Descartes só duvida dos sentidos, não da razão.','A dúvida cartesiana não é universal.'],answer:1,feedbackOk:'Correcto. A dúvida cartesiana é metódica — é um instrumento para chegar à verdade.',feedbackNok:'Incorreto. A dúvida de Descartes serve como método para encontrar a verdade.'},
-  {type:'mcq',q:'Qual é a primeira verdade indubitável que Descartes descobre?',opts:['A existência de Deus como ser perfeito.','A realidade do mundo físico exterior.','“Cogito, ergo sum” — penso, logo existo.','Os axiomas da matemática são sempre verdadeiros.'],answer:2,feedbackOk:'Correcto. O cogito é a primeira certeza.',feedbackNok:'Incorreto. A primeira verdade é o cogito: penso, logo existo.'},
-  {type:'mcq',q:'Para Descartes, as ideias inatas têm a sua origem:',opts:['Na experiência sensorial do mundo externo.','Na razão — surgem de forma evidente, clara e distinta, independentemente da experiência.','Nas tradições culturais transmitidas pela educação.','No corpo humano, através das sensações físicas.'],answer:1,feedbackOk:'Correcto. As ideias inatas vêm da razão.',feedbackNok:'Incorreto. Para Descartes, as ideias inatas vêm da razão, não da experiência.'},
-  {type:'mcq',q:'Segundo o empirismo, um conhecimento só é válido se for:',opts:['A priori — antes de qualquer experiência.','A posteriori — confirmado pela experiência sensorial.','Lógico — derivado por dedução pura.','Inato — presente desde o nascimento.'],answer:1,feedbackOk:'Correcto. Para os empiristas, todo o conhecimento válido é a posteriori.',feedbackNok:'Incorreto. O empirismo defende que o conhecimento válido é a posteriori.'},
-  {type:'mcq',q:'O realismo ingénuo difere do realismo crítico principalmente porque:',opts:['O realismo ingénuo nega a existência de objectos reais; o crítico afirma-a.','O realismo ingénuo aceita os dados dos sentidos sem questionar; o crítico reconhece que não apreendemos os objectos exactamente como são.','O realismo crítico é uma forma de idealismo.','Não há diferença.'],answer:1,feedbackOk:'Correcto. O realismo ingénuo é pré-filosófico; o crítico reconhece que a percepção pode não ser exacta.',feedbackNok:'Incorreto. A diferença: o realismo crítico reconhece que apreender os objectos exactamente como são não é possível.'},
-  {type:'mcq',q:'Para o idealismo, os objectos do conhecimento são:',opts:['Entidades reais que existem independentemente da consciência.','Apenas ideias ou conceitos que existem na consciência do sujeito.','Dados fornecidos pela experiência sensorial.','Verdades matemáticas derivadas por dedução.'],answer:1,feedbackOk:'Correcto. O idealismo defende que os objectos apenas têm existência na consciência do sujeito.',feedbackNok:'Incorreto. O idealismo: os objectos não existem independentemente da consciência.'},
-  {type:'text',q:'Explica com as tuas próprias palavras a diferença entre racionalismo e empirismo em relação à origem do conhecimento.',keywords:['razão','experiência','sentidos','inato','a priori','a posteriori','tabula rasa','descartes','locke','universal'],feedbackModel:'O racionalismo (Descartes) defende que o conhecimento tem a sua origem na razão — existem ideias inatas (a priori). O empirismo (Locke, Hume) defende que o conhecimento tem a sua origem na experiência sensorial — a mente nasce como tabula rasa e o conhecimento é sempre a posteriori.'},
-  {type:'text',q:'Descreve os três níveis da dúvida cartesiana e explica como Descartes chega ao cogito.',keywords:['sentidos','matemática','deus','cogito','penso','existo','hiperbólica','indubitável','método'],feedbackModel:'Descartes duvida: (1) dos sentidos; (2) das verdades matemáticas; (3) da realidade em geral (Deus enganador — dúvida hiperbólica). Ao duvidar, percebe que para duvidar tem de pensar, e para pensar tem de existir: Cogito, ergo sum.'},
-  {type:'text',q:'Qual a diferença entre realismo e idealismo? Usa o exemplo do giz se achares útil.',keywords:['realismo','idealismo','consciência','objecto','real','ideal','existe','independente','giz','sujeito'],feedbackModel:'O realismo defende que os objectos existem independentemente da consciência. O idealismo defende que os objectos apenas existem na consciência do sujeito. No exemplo do giz: para o realista, o giz existe fora de mim; para o idealista psicológico, só existe enquanto percebido; para o idealista lógico, é um conceito construído pelo pensamento.'}
+
+const catLabels = {
+  gnosio: 'Gnosiologia',
+  racion: 'Racionalismo',
+  empir: 'Empirismo',
+  natureza: 'Natureza do Conhecimento',
+  filosofos: 'Filósofos-chave',
+  consciencia: 'Consciência Moral & Liberdade',
+  etica: 'Ética & Justiça',
+  dhumanos: 'Direitos Humanos',
+  religiao: 'Experiência Religiosa',
+};
+
+let deck = [...allCards];
+let fcIdx = 0;
+let fcFlipped = false;
+let fcKnown = 0;
+let fcReview = 0;
+let fcRated = 0;
+
+function filterCards(cat, btn) {
+  document.querySelectorAll('.fc-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  deck = cat === 'all' ? [...allCards] : allCards.filter(c => c.cat === cat);
+  fcIdx = 0; fcKnown = 0; fcReview = 0; fcRated = 0;
+  document.getElementById('fc-complete').style.display = 'none';
+  showCard();
+  updateFcStats();
+}
+
+function shuffleCards() {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  fcIdx = 0; fcKnown = 0; fcReview = 0; fcRated = 0;
+  document.getElementById('fc-complete').style.display = 'none';
+  showCard();
+  updateFcStats();
+}
+
+function showCard() {
+  if (fcIdx >= deck.length) {
+    completeFc();
+    return;
+  }
+  const c = deck[fcIdx];
+  document.getElementById('fc-q').textContent = c.q;
+  document.getElementById('fc-a').textContent = c.a;
+  document.getElementById('fc-cat').textContent = catLabels[c.cat] || c.cat;
+  document.getElementById('fc-cat-back').textContent = catLabels[c.cat] || c.cat;
+  document.getElementById('fc-counter').textContent = `${fcIdx + 1} / ${deck.length}`;
+  document.getElementById('fc-prev').disabled = fcIdx === 0;
+  document.getElementById('fc-next').disabled = fcIdx >= deck.length - 1;
+  document.getElementById('fc-prog').style.width = `${(fcRated / deck.length) * 100}%`;
+  document.getElementById('fc-remain').textContent = deck.length - fcRated;
+
+  // reset flip
+  if (fcFlipped) {
+    document.getElementById('fc-scene').classList.remove('flipped');
+    fcFlipped = false;
+    document.getElementById('fc-rating').style.display = 'none';
+  }
+}
+
+function flipCard() {
+  fcFlipped = !fcFlipped;
+  document.getElementById('fc-scene').classList.toggle('flipped', fcFlipped);
+  document.getElementById('fc-rating').style.display = fcFlipped ? 'flex' : 'none';
+}
+
+function rateCard(r) {
+  if (r === 'knew') fcKnown++;
+  else fcReview++;
+  fcRated++;
+  updateFcStats();
+  fcIdx++;
+  showCard();
+}
+
+function updateFcStats() {
+  document.getElementById('fc-known').textContent = fcKnown;
+  document.getElementById('fc-review').textContent = fcReview;
+  document.getElementById('fc-remain').textContent = deck.length - fcRated;
+}
+
+function nextCard() {
+  if (fcIdx < deck.length - 1) {
+    fcIdx++;
+    showCard();
+  }
+}
+
+function prevCard() {
+  if (fcIdx > 0) {
+    fcIdx--;
+    showCard();
+  }
+}
+
+function completeFc() {
+  const el = document.getElementById('fc-complete');
+  el.style.display = 'block';
+  const pct = Math.round((fcKnown / deck.length) * 100);
+  document.getElementById('fc-complete-msg').textContent =
+    `Soubeste ${fcKnown} de ${deck.length} cartões (${pct}%). ${fcReview} para rever.`;
+  document.getElementById('fc-scene').style.display = 'none';
+  document.getElementById('fc-rating').style.display = 'none';
+  document.getElementById('fc-prog').style.width = '100%';
+  document.getElementById('fc-remain').textContent = '0';
+}
+
+function restartCards() {
+  deck = [...allCards];
+  fcIdx = 0; fcKnown = 0; fcReview = 0; fcRated = 0;
+  document.getElementById('fc-complete').style.display = 'none';
+  document.getElementById('fc-scene').style.display = '';
+  updateFcStats();
+  showCard();
+}
+
+function reviewOnly() {
+  // keep only unrated or "review" cards — simplest: just shuffle and show deck again
+  alert('Filtra por "Todos" e usa o baralhar. Os cartões marcados para rever serão incluídos.');
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('flashcards-page').classList.contains('active')) return;
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+  if (e.code === 'ArrowRight') nextCard();
+  if (e.code === 'ArrowLeft') prevCard();
+  if (e.key === '2' && fcFlipped) rateCard('knew');
+  if (e.key === '1' && fcFlipped) rateCard('review');
+});
+
+// ──────────────── QUIZ DATA ────────────────
+const quizData = [
+  {
+    type: 'mcq',
+    q: 'Qual a diferença principal entre gnosiologia e epistemologia (em sentido estrito)?',
+    opts: [
+      'A gnosiologia estuda apenas as ciências exactas; a epistemologia estuda o conhecimento em geral.',
+      'A gnosiologia estuda o conhecimento em geral; a epistemologia, em sentido estrito, centra-se no conhecimento científico.',
+      'São sinónimos — estudam exactamente a mesma coisa.',
+      'A epistemologia é uma área da matemática; a gnosiologia é uma área da biologia.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. A gnosiologia é mais ampla — engloba o conhecimento em geral. A epistemologia (estrito) foca-se especificamente no conhecimento científico, os seus métodos e limites.',
+    feedbackNok: 'Não. A gnosiologia é o estudo geral do conhecimento; a epistemologia (em sentido estrito) foca-se especificamente no conhecimento científico — os seus métodos, princípios e limites.'
+  },
+  {
+    type: 'mcq',
+    q: 'Na dicotomia sujeito-objecto, a relação entre os dois é:',
+    opts: [
+      'Reversível — sujeito e objecto podem trocar de funções.',
+      'Opcional — o conhecimento pode existir sem objecto.',
+      'Irreversível — o sujeito apreende o objecto, e essa função não pode ser trocada.',
+      'Simétrica — sujeito e objecto têm exactamente as mesmas funções.'
+    ],
+    answer: 2,
+    feedbackOk: 'Correcto. A relação é irreversível: o sujeito apreende, o objecto é apreendido. Não podem inverter as funções.',
+    feedbackNok: 'Incorreto. A relação sujeito-objecto é irreversível — cada um tem uma função fixa. O sujeito apreende; o objecto é apreendido.'
+  },
+  {
+    type: 'mcq',
+    q: 'Quem fundou o método fenomenológico aplicado ao conhecimento?',
+    opts: ['René Descartes', 'John Locke', 'Edmund Husserl', 'David Hume'],
+    answer: 2,
+    feedbackOk: 'Correcto. Edmund Husserl é o fundador do método fenomenológico e aplicou-o ao estudo do conhecimento.',
+    feedbackNok: 'Incorreto. O fundador do método fenomenológico foi Edmund Husserl. Descartes é o racionalista; Locke e Hume são empiristas.'
+  },
+  {
+    type: 'mcq',
+    q: 'A dúvida cartesiana difere do cepticismo porque:',
+    opts: [
+      'Descartes duvida de tudo e conclui que não podemos conhecer nada.',
+      'A dúvida cartesiana é um método (dúvida metódica) para encontrar a verdade, não um fim em si mesma.',
+      'Descartes só duvida dos sentidos, não da razão.',
+      'A dúvida cartesiana não é universal — aplica-se apenas à matemática.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. A dúvida cartesiana é metódica — é um instrumento para chegar à verdade, não uma posição final de "não podemos saber nada".',
+    feedbackNok: 'Incorreto. A dúvida de Descartes é universal e hiperbólica, mas serve como método para encontrar a verdade — ao contrário do cepticismo que nega a possibilidade de qualquer conhecimento.'
+  },
+  {
+    type: 'mcq',
+    q: 'Qual é a primeira verdade indubitável que Descartes descobre após a dúvida hiperbólica?',
+    opts: [
+      'A existência de Deus como ser perfeito.',
+      'A realidade do mundo físico exterior.',
+      '"Cogito, ergo sum" — penso, logo existo.',
+      'Os axiomas da matemática são sempre verdadeiros.'
+    ],
+    answer: 2,
+    feedbackOk: 'Correcto. O cogito é a primeira certeza: o próprio acto de duvidar/pensar prova que o pensador existe.',
+    feedbackNok: 'Incorreto. Depois de duvidar de tudo, Descartes descobre o cogito: para duvidar, tenho de pensar; para pensar, tenho de existir. Essa é a primeira verdade indubitável.'
+  },
+  {
+    type: 'mcq',
+    q: 'Para Descartes, as ideias inatas têm a sua origem:',
+    opts: [
+      'Na experiência sensorial do mundo externo.',
+      'Na razão — surgem de forma evidente, clara e distinta, independentemente da experiência.',
+      'Nas tradições culturais transmitidas pela educação.',
+      'No corpo humano, através das sensações físicas.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. As ideias inatas vêm da razão — surgem de forma evidente, clara e distinta, sem necessidade de experiência sensorial.',
+    feedbackNok: 'Incorreto. Para Descartes, as ideias inatas vêm da razão — não da experiência, da cultura, nem do corpo.'
+  },
+  {
+    type: 'mcq',
+    q: 'Segundo o empirismo, um conhecimento só é válido se for:',
+    opts: [
+      'A priori — antes de qualquer experiência.',
+      'A posteriori — confirmado pela experiência sensorial.',
+      'Lógico — derivado por dedução pura.',
+      'Inato — presente desde o nascimento.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. Para os empiristas, todo o conhecimento válido é a posteriori — tem de encontrar a sua origem na experiência sensorial.',
+    feedbackNok: 'Incorreto. O empirismo defende que o conhecimento válido é a posteriori (após a experiência). O a priori é o princípio do racionalismo.'
+  },
+  {
+    type: 'mcq',
+    q: 'O realismo ingénuo difere do realismo crítico principalmente porque:',
+    opts: [
+      'O realismo ingénuo nega a existência de objectos reais; o crítico afirma-a.',
+      'O realismo ingénuo aceita os dados dos sentidos sem questionar; o crítico reconhece que não apreendemos os objectos exactamente como são.',
+      'O realismo crítico é uma forma de idealismo; o ingénuo não.',
+      'Não há diferença — são a mesma posição filosófica.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. O realismo ingénuo é pré-filosófico (o que percebemos é directamente a realidade). O realismo crítico aceita objectos reais mas admite que a nossa percepção pode não ser exacta.',
+    feedbackNok: 'Incorreto. A diferença-chave: o realismo ingénuo não questiona a correspondência entre percepção e realidade; o realismo crítico reconhece que apreender os objectos exactamente como são não é possível.'
+  },
+  {
+    type: 'mcq',
+    q: 'Para o idealismo, os objectos do conhecimento são:',
+    opts: [
+      'Entidades reais que existem independentemente da consciência.',
+      'Apenas ideias ou conceitos que existem na consciência do sujeito.',
+      'Dados fornecidos pela experiência sensorial.',
+      'Verdades matemáticas derivadas por dedução.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. O idealismo defende que os objectos apenas têm existência na consciência do sujeito — são entidades lógicas ou psicológicas, não reais independentes.',
+    feedbackNok: 'Incorreto. O idealismo é a posição contrária ao realismo: os objectos não existem independentemente da consciência — são apenas ideias ou conceitos na mente do sujeito.'
+  },
+  {
+    type: 'text',
+    q: 'Explica com as tuas próprias palavras a diferença entre racionalismo e empirismo em relação à origem do conhecimento.',
+    keywords: ['razão','experiência','sentidos','inato','a priori','a posteriori','tabula rasa','descartes','locke','universal'],
+    feedbackModel: 'O racionalismo (Descartes) defende que o conhecimento tem a sua origem na razão — existem ideias inatas que nos surgem de forma clara e distinta, independentemente da experiência (a priori). O empirismo (Locke, Hume) defende que o conhecimento tem a sua origem na experiência sensorial — a mente nasce como tabula rasa e o conhecimento é sempre a posteriori, confirmado pelos sentidos.'
+  },
+  {
+    type: 'text',
+    q: 'Descreve os três níveis da dúvida cartesiana e explica como Descartes chega ao cogito.',
+    keywords: ['sentidos','matemática','deus','cogito','penso','existo','hiperbólica','indubitável','método'],
+    feedbackModel: 'Descartes duvida: (1) dos sentidos — enganaram-nos antes, podem sempre enganar; (2) das verdades matemáticas — se homens erram ao raciocinar, eu também posso; (3) da realidade em geral — e se existe um Deus que nos engana sempre? (dúvida hiperbólica). Ao duvidar, percebe que para duvidar tem de pensar, e para pensar tem de existir. Daí o cogito: "Penso, logo existo" — a primeira verdade indubitável.'
+  },
+  {
+    type: 'text',
+    q: 'Qual a diferença entre realismo e idealismo? Usa o exemplo do giz se achares útil.',
+    keywords: ['realismo','idealismo','consciência','objecto','real','ideal','existe','independente','giz','sujeito'],
+    feedbackModel: 'O realismo defende que os objectos existem independentemente da consciência — há uma realidade exterior. O idealismo defende que os objectos apenas existem na consciência do sujeito. No exemplo do giz: para o realista, o giz existe fora de mim; para o idealista psicológico, o giz só existe enquanto é percebido por mim; para o idealista lógico, o giz é um conceito construído pelo meu pensamento.'
+  },
+  {
+    type: 'mcq',
+    q: 'Segundo Imbamba, a consciência moral é:',
+    opts: [
+      'Apenas inata — nasce connosco e não pode ser modificada.',
+      'O conhecimento do nosso eu e dos seus actos internos, podendo ser inata, social, divina ou adquirida.',
+      'Exclusivamente social — determinada pelos valores da sociedade.',
+      'Uma capacidade racional que se desenvolveu na modernidade europeia.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. Para Imbamba, a consciência moral é o "conhecimento do nosso eu e dos seus actos internos" e tem 4 tipos: inata, social, divina e adquirida.',
+    feedbackNok: 'Incorreto. Imbamba define consciência moral como o "conhecimento do nosso eu e dos seus actos internos" e distingue 4 tipos: inata (nasce connosco), social (influência da sociedade), divina (comunicação de Deus) e adquirida (educação e experiência).'
+  },
+  {
+    type: 'mcq',
+    q: 'O "véu da ignorância" de John Rawls serve para:',
+    opts: [
+      'Demonstrar que o conhecimento moral é impossível.',
+      'Garantir que os princípios de justiça são escolhidos de forma imparcial, sem conhecer a posição social de cada um.',
+      'Provar que a ignorância é uma virtude na vida política.',
+      'Justificar a desigualdade social como inevitável.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. O véu da ignorância garante imparcialidade: ao não sabermos qual será o nosso lugar na sociedade, escolhemos princípios que sejam justos para todos — incluindo os mais desfavorecidos.',
+    feedbackNok: 'Incorreto. O véu da ignorância é um dispositivo teórico de Rawls para garantir que as pessoas escolham princípios de justiça de forma imparcial — sem saber a sua classe social, riqueza ou talentos.'
+  },
+  {
+    type: 'mcq',
+    q: 'O Artigo 1.º da Declaração Universal dos Direitos Humanos (1948) proclama que:',
+    opts: [
+      'Apenas os cidadãos de estados democráticos têm direitos fundamentais.',
+      'Todos os seres humanos nascem livres e iguais em dignidade e em direitos.',
+      'Os direitos humanos são concedidos pelo Estado e podem ser retirados.',
+      'A liberdade de expressão é o único direito verdadeiramente universal.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. O Art. 1.º da DUDH afirma que "Todos os seres humanos nascem livres e iguais em dignidade e em direitos. São dotados de razão e de consciência e devem agir uns para com os outros em espírito de fraternidade."',
+    feedbackNok: 'Incorreto. O Art. 1.º da DUDH proclama que todos os seres humanos nascem livres e iguais em dignidade e direitos — universalmente, não apenas para alguns.'
+  },
+  {
+    type: 'mcq',
+    q: 'Na visão Bantu-Kongo, o "Kalunga" representa:',
+    opts: [
+      'O ser supremo criador de tudo — equivalente a Deus.',
+      'A linha divisória entre o mundo dos vivos e o mundo dos antepassados (mortos).',
+      'O conjunto de rituais de iniciação praticados na floresta.',
+      'A força vital que anima todos os seres vivos.'
+    ],
+    answer: 1,
+    feedbackOk: 'Correcto. O Kalunga é a linha divisória entre o mundo dos vivos e o mundo dos mortos (antepassados). Os antepassados continuam presentes e activos na vida da comunidade.',
+    feedbackNok: 'Incorreto. O Kalunga é a linha divisória entre o mundo dos vivos e o mundo dos antepassados. Nzambi é o ser supremo; a força vital é o conceito de Placide Tempels.'
+  },
+  {
+    type: 'text',
+    q: 'Explica a diferença entre os dois princípios de justiça de John Rawls. Como se relacionam com o conceito de "véu da ignorância"?',
+    keywords: ['liberdade','igualdade','princípio','diferença','rawls','véu','ignorância','desfavorecidos','imparcial','posição'],
+    feedbackModel: 'Rawls propõe dois princípios: (1) o princípio das liberdades iguais — cada pessoa tem direito ao mais amplo sistema de liberdades básicas compatível com igual liberdade para todos; (2) o princípio da diferença — as desigualdades só são justas se beneficiarem os menos favorecidos e se os cargos forem abertos a todos. O véu da ignorância garante que estes princípios são escolhidos de forma imparcial: como não sabemos qual será o nosso lugar na sociedade, escolhemos princípios que protejam também os mais vulneráveis.'
+  },
+  {
+    type: 'text',
+    q: 'O que é a experiência religiosa na visão Bantu-Kongo? Refere os conceitos de Muntu, Kalunga e a importância da floresta.',
+    keywords: ['muntu','kalunga','floresta','sagrado','antepassados','comunidade','nzambi','relação','bantu','natural'],
+    feedbackModel: 'Na visão Bantu-Kongo, a religião é vivida de forma comunitária e integrada na natureza. O Muntu é o ser humano em relação — com os antepassados, a comunidade e Nzambi (o ser supremo). O Kalunga é a fronteira entre vivos e antepassados — estes continuam activos na vida comunitária. A floresta é espaço sagrado: biblioteca viva, templo natural e lugar de iniciação. O sagrado não está separado da natureza — a natureza É sagrada, o que implica responsabilidade ecológica.'
+  },
 ];
-let qAnswered=0,qCorrect=0,qWrong=0;
-function buildQuiz(){const ct=document.getElementById('quiz-questions-container');ct.innerHTML='';quizData.forEach((q,qi)=>{const div=document.createElement('div');div.className='quiz-q';div.id='qq-'+qi;const letters=['A','B','C','D'];let inner=`<div class="quiz-q-num">Pergunta ${qi+1} de ${quizData.length}</div>`;inner+=`<div class="quiz-q-type">${q.type==='mcq'?'Escolha múltipla':'Desenvolvimento'}</div>`;inner+=`<div class="quiz-q-text">${q.q}</div>`;if(q.type==='mcq'){q.opts.forEach((o,oi)=>{inner+=`<div class="quiz-opt" id="qopt-${qi}-${oi}" onclick="pickOpt(${qi},${oi})"><span class="quiz-opt-letter">${letters[oi]}</span>${o}</div>`;});}else{inner+=`<textarea class="quiz-textarea" id="qtxt-${qi}" placeholder="Escreve aqui a tua resposta..."></textarea>`;inner+=`<button class="quiz-check-btn" id="qbtn-${qi}" onclick="checkText(${qi})">Verificar</button>`;}inner+=`<div class="quiz-feedback" id="qfb-${qi}"></div>`;div.innerHTML=inner;ct.appendChild(div);});}
-function pickOpt(qi,oi){const q=quizData[qi];document.querySelectorAll(`[id^="qopt-${qi}-"]`).forEach(o=>o.classList.add('disabled'));const chosen=document.getElementById(`qopt-${qi}-${oi}`);const fb=document.getElementById(`qfb-${qi}`);if(oi===q.answer){chosen.classList.add('correct');fb.className='quiz-feedback show ok';fb.innerHTML=`<strong>&#10003; Correcto!</strong>${q.feedbackOk}`;qCorrect++;}else{chosen.classList.add('wrong');document.getElementById(`qopt-${qi}-${q.answer}`).classList.add('correct');fb.className='quiz-feedback show nok';fb.innerHTML=`<strong>&#10007; Incorreto.</strong>${q.feedbackNok}`;qWrong++;}qAnswered++;updateQuizProgress();if(qAnswered===quizData.length)finishQuiz();}
-function checkText(qi){const q=quizData[qi];const val=document.getElementById(`qtxt-${qi}`).value.toLowerCase();const hits=q.keywords.filter(k=>val.includes(k.toLowerCase()));const score=hits.length/q.keywords.length;document.getElementById(`qtxt-${qi}`).disabled=true;document.getElementById(`qbtn-${qi}`).disabled=true;const fb=document.getElementById(`qfb-${qi}`);if(score>=0.5){fb.className='quiz-feedback show ok';fb.innerHTML=`<strong>&#10003; Boa resposta! (${hits.length}/${q.keywords.length} conceitos-chave)</strong><br><br>${q.feedbackModel}`;qCorrect++;}else{fb.className='quiz-feedback show nok';fb.innerHTML=`<strong>&#10007; Faltou incluir mais conceitos (${hits.length}/${q.keywords.length}).</strong><br><br><em>Resposta modelo:</em> ${q.feedbackModel}`;qWrong++;}qAnswered++;updateQuizProgress();if(qAnswered===quizData.length)finishQuiz();}
-function updateQuizProgress(){document.getElementById('q-correct').textContent=qCorrect;document.getElementById('q-wrong').textContent=qWrong;const pct=Math.round((qAnswered/quizData.length)*100);document.getElementById('q-prog').style.width=pct+'%';document.getElementById('q-prog-label').textContent=`${qAnswered} / ${quizData.length}`;}
-function finishQuiz(){const pct=Math.round((qCorrect/quizData.length)*100);const el=document.getElementById('quiz-result');el.style.display='block';document.getElementById('q-final-score').textContent=`${qCorrect} / ${quizData.length}`;let msg='';if(pct>=83)msg='&#128293; Excelente! Dominas o programa.';else if(pct>=67)msg='&#128214; Sólido. Volta às secções onde erraste.';else msg='&#9888;&#65039; Ainda há margem. Revê o conteúdo e tenta de novo.';document.getElementById('q-final-msg').textContent=msg;el.scrollIntoView({behavior:'smooth'});}
-function restartQuiz(){qAnswered=0;qCorrect=0;qWrong=0;document.getElementById('quiz-result').style.display='none';document.getElementById('q-prog').style.width='0%';document.getElementById('q-prog-label').textContent='0 / 12';document.getElementById('q-correct').textContent='0';document.getElementById('q-wrong').textContent='0';buildQuiz();window.scrollTo({top:0,behavior:'smooth'});}
-showCard();buildQuiz();
+
+let qAnswered = 0;
+let qCorrect = 0;
+let qWrong = 0;
+
+function buildQuiz() {
+  const ct = document.getElementById('quiz-questions-container');
+  ct.innerHTML = '';
+  quizData.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    div.id = 'qq-' + qi;
+    const letters = ['A','B','C','D'];
+    let inner = `<div class="quiz-q-num">Pergunta ${qi + 1} de ${quizData.length}</div>`;
+    inner += `<div class="quiz-q-type">${q.type === 'mcq' ? 'Escolha múltipla' : 'Desenvolvimento'}</div>`;
+    inner += `<div class="quiz-q-text">${q.q}</div>`;
+    if (q.type === 'mcq') {
+      q.opts.forEach((o, oi) => {
+        inner += `<div class="quiz-opt" id="qopt-${qi}-${oi}" onclick="pickOpt(${qi},${oi})">
+          <span class="quiz-opt-letter">${letters[oi]}</span>${o}</div>`;
+      });
+    } else {
+      inner += `<textarea class="quiz-textarea" id="qtxt-${qi}" placeholder="Escreve aqui a tua resposta..."></textarea>`;
+      inner += `<button class="quiz-check-btn" id="qbtn-${qi}" onclick="checkText(${qi})">Verificar</button>`;
+    }
+    inner += `<div class="quiz-feedback" id="qfb-${qi}"></div>`;
+    div.innerHTML = inner;
+    ct.appendChild(div);
+  });
+}
+
+function pickOpt(qi, oi) {
+  const q = quizData[qi];
+  document.querySelectorAll(`[id^="qopt-${qi}-"]`).forEach(o => o.classList.add('disabled'));
+  const chosen = document.getElementById(`qopt-${qi}-${oi}`);
+  const fb = document.getElementById(`qfb-${qi}`);
+  if (oi === q.answer) {
+    chosen.classList.add('correct');
+    fb.className = 'quiz-feedback show ok';
+    fb.innerHTML = `<strong>✓ Correcto!</strong>${q.feedbackOk}`;
+    qCorrect++;
+  } else {
+    chosen.classList.add('wrong');
+    document.getElementById(`qopt-${qi}-${q.answer}`).classList.add('correct');
+    fb.className = 'quiz-feedback show nok';
+    fb.innerHTML = `<strong>✗ Incorreto.</strong>${q.feedbackNok}`;
+    qWrong++;
+  }
+  qAnswered++;
+  updateQuizProgress();
+  if (qAnswered === quizData.length) finishQuiz();
+}
+
+function checkText(qi) {
+  const q = quizData[qi];
+  const val = document.getElementById(`qtxt-${qi}`).value.toLowerCase();
+  const hits = q.keywords.filter(k => val.includes(k.toLowerCase()));
+  const score = hits.length / q.keywords.length;
+  document.getElementById(`qtxt-${qi}`).disabled = true;
+  document.getElementById(`qbtn-${qi}`).disabled = true;
+  const fb = document.getElementById(`qfb-${qi}`);
+  if (score >= 0.5) {
+    fb.className = 'quiz-feedback show ok';
+    fb.innerHTML = `<strong>✓ Boa resposta! (${hits.length}/${q.keywords.length} conceitos-chave)</strong>${q.feedbackModel}`;
+    qCorrect++;
+  } else {
+    fb.className = 'quiz-feedback show nok';
+    fb.innerHTML = `<strong>✗ Faltou incluir mais conceitos (${hits.length}/${q.keywords.length}).</strong><br><br><em>Resposta modelo:</em> ${q.feedbackModel}`;
+    qWrong++;
+  }
+  qAnswered++;
+  updateQuizProgress();
+  if (qAnswered === quizData.length) finishQuiz();
+}
+
+function updateQuizProgress() {
+  document.getElementById('q-correct').textContent = qCorrect;
+  document.getElementById('q-wrong').textContent = qWrong;
+  const pct = Math.round((qAnswered / quizData.length) * 100);
+  document.getElementById('q-prog').style.width = pct + '%';
+  document.getElementById('q-prog-label').textContent = `${qAnswered} / ${quizData.length}`;
+}
+
+function finishQuiz() {
+  const pct = Math.round((qCorrect / quizData.length) * 100);
+  const el = document.getElementById('quiz-result');
+  el.style.display = 'block';
+  document.getElementById('q-final-score').textContent = `${qCorrect} / ${quizData.length}`;
+  let msg = '';
+  if (pct >= 83) msg = '🔥 Excelente! Dominas o programa. Mantém este nível.';
+  else if (pct >= 67) msg = '📖 Sólido. Volta às secções onde erraste e volta a fazer o quiz.';
+  else msg = '⚠️ Ainda há margem. Revê o conteúdo, usa os flashcards e tenta de novo.';
+  document.getElementById('q-final-msg').textContent = msg;
+  el.scrollIntoView({ behavior: 'smooth' });
+}
+
+function restartQuiz() {
+  qAnswered = 0; qCorrect = 0; qWrong = 0;
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('q-prog').style.width = '0%';
+  document.getElementById('q-prog-label').textContent = '0 / 12';
+  document.getElementById('q-correct').textContent = '0';
+  document.getElementById('q-wrong').textContent = '0';
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ──────────────── INIT ────────────────
+showCard();
+buildQuiz();
 </script>
 </body>
 </html>
