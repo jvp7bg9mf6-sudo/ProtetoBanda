@@ -6,11 +6,12 @@
 <title>Lumen · A 3D Minimalist Gallery</title>
 <style>
   :root{
-    --fg:#eef1f7;
-    --muted:#9aa3b8;
-    --accent:#8b9dff;
-    --glass:rgba(20,24,40,0.45);
-    --glass-border:rgba(255,255,255,0.12);
+    --fg:#f3eee4;
+    --muted:#b3a892;
+    --accent:#d8b367;          /* warm gallery-light gold */
+    --accent-soft:#caa15a;
+    --glass:rgba(24,20,14,0.42);
+    --glass-border:rgba(255,244,220,0.14);
     --font:'Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -18,33 +19,32 @@
   body{
     font-family:var(--font);
     color:var(--fg);
-    background:#070912;
+    background:#06060a;
     cursor:grab;
-    user-select:none;
-    -webkit-user-select:none;
+    user-select:none;-webkit-user-select:none;
   }
   body.dragging{cursor:grabbing;}
 
-  /* ── Lively dark gradient background ── */
+  /* ── Lively dark gradient background (deep plum · indigo · teal, warm core) ── */
   #bg{
     position:fixed;inset:0;z-index:0;
     background:
-      radial-gradient(circle at 18% 22%, rgba(70,60,150,0.55), transparent 45%),
-      radial-gradient(circle at 82% 28%, rgba(20,90,140,0.5), transparent 48%),
-      radial-gradient(circle at 50% 88%, rgba(120,40,110,0.45), transparent 52%),
-      linear-gradient(135deg,#0a0c1a 0%,#0c1024 45%,#070912 100%);
-    background-size:200% 200%;
-    animation:drift 22s ease-in-out infinite;
+      radial-gradient(circle at 16% 20%, rgba(120,70,140,0.50), transparent 46%),
+      radial-gradient(circle at 84% 26%, rgba(40,90,130,0.48), transparent 50%),
+      radial-gradient(circle at 50% 92%, rgba(150,95,55,0.42), transparent 54%),
+      radial-gradient(circle at 70% 70%, rgba(30,110,120,0.34), transparent 50%),
+      linear-gradient(140deg,#0a0810 0%,#0c1020 48%,#070a12 100%);
+    background-size:220% 220%;
+    animation:drift 24s ease-in-out infinite;
   }
   @keyframes drift{
-    0%,100%{background-position:0% 0%, 100% 0%, 50% 100%, 0% 0%;}
-    33%{background-position:30% 20%, 70% 30%, 40% 70%, 0% 0%;}
-    66%{background-position:60% 10%, 40% 60%, 60% 90%, 0% 0%;}
+    0%,100%{background-position:0% 0%, 100% 0%, 50% 100%, 60% 60%, 0% 0%;}
+    33%{background-position:32% 22%, 70% 28%, 42% 72%, 40% 50%, 0% 0%;}
+    66%{background-position:62% 8%, 40% 62%, 60% 90%, 75% 70%, 0% 0%;}
   }
-  /* soft grain / glow particles */
   #bg::after{
     content:"";position:absolute;inset:0;
-    background:radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.55) 100%);
+    background:radial-gradient(circle at 50% 48%, transparent 58%, rgba(0,0,0,0.58) 100%);
   }
 
   #scene{position:fixed;inset:0;z-index:1;display:block;}
@@ -52,11 +52,9 @@
   /* ── Loading prompt ── */
   #loader{
     position:fixed;inset:0;z-index:30;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:22px;
-    background:rgba(7,9,18,0.85);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    background:rgba(6,6,10,0.86);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     transition:opacity .8s ease, visibility .8s ease;
   }
   #loader.hide{opacity:0;visibility:hidden;}
@@ -67,18 +65,15 @@
     animation:spin 0.9s linear infinite;
   }
   @keyframes spin{to{transform:rotate(360deg);}}
-  #loader .txt{
-    font-size:14px;letter-spacing:.32em;text-transform:uppercase;
-    color:var(--muted);
-  }
+  #loader .txt{font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);}
 
   /* ── Shared glass UI ── */
   .glass{
     background:var(--glass);
     border:1px solid var(--glass-border);
-    backdrop-filter:blur(16px) saturate(140%);
-    -webkit-backdrop-filter:blur(16px) saturate(140%);
-    box-shadow:0 8px 40px rgba(0,0,0,0.4);
+    backdrop-filter:blur(16px) saturate(135%);
+    -webkit-backdrop-filter:blur(16px) saturate(135%);
+    box-shadow:0 8px 40px rgba(0,0,0,0.45);
   }
 
   /* Title */
@@ -93,8 +88,7 @@
   /* ── Bottom-center info hint ── */
   #hint{
     position:fixed;bottom:26px;left:50%;transform:translateX(-50%);
-    z-index:10;
-    padding:12px 22px;border-radius:999px;
+    z-index:10;padding:12px 22px;border-radius:999px;
     font-size:12.5px;letter-spacing:.04em;color:var(--fg);
     display:flex;align-items:center;gap:10px;
     opacity:0;transition:opacity 1s ease .5s;
@@ -119,36 +113,35 @@
     transition:border-color .3s ease;
   }
   #autoBtn.on .ico{border-color:var(--accent);border-top-color:transparent;animation:spin 2.2s linear infinite;}
-  #autoBtn.on{border-color:rgba(139,157,255,0.5);}
+  #autoBtn.on{border-color:rgba(216,179,103,0.5);}
 
   /* ── Detail card modal ── */
   #modal{
     position:fixed;inset:0;z-index:40;
     display:flex;align-items:center;justify-content:center;padding:24px;
-    background:rgba(5,7,15,0.55);
+    background:rgba(4,4,8,0.55);
     backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
     opacity:0;visibility:hidden;transition:opacity .4s ease, visibility .4s ease;
   }
   #modal.open{opacity:1;visibility:visible;}
   #card{
-    width:min(860px,94vw);max-height:88vh;overflow:hidden;
+    width:min(880px,94vw);max-height:88vh;overflow:hidden;
     border-radius:18px;display:flex;
     transform:scale(.94) translateY(12px);transition:transform .45s cubic-bezier(.2,.9,.3,1.2);
   }
   #modal.open #card{transform:scale(1) translateY(0);}
   #card .media{
-    flex:1 1 52%;min-width:0;background:#0a0c18;position:relative;
+    flex:1 1 52%;min-width:0;background:#0a0a12;position:relative;
     display:flex;align-items:center;justify-content:center;overflow:hidden;
   }
   #card .media img{width:100%;height:100%;object-fit:cover;display:block;}
   #card .info{
-    flex:1 1 48%;padding:38px 34px;display:flex;flex-direction:column;gap:16px;
-    overflow-y:auto;
+    flex:1 1 48%;padding:38px 34px;display:flex;flex-direction:column;gap:15px;overflow-y:auto;
   }
   #card .meta{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);}
   #card h2{font-size:27px;font-weight:300;line-height:1.2;letter-spacing:.01em;}
   #card .artist{font-size:13px;color:var(--muted);font-style:italic;}
-  #card .desc{font-size:14.5px;line-height:1.7;color:#d4d9e6;}
+  #card .desc{font-size:14.5px;line-height:1.7;color:#e3dccd;}
   #card .swatch{display:flex;gap:8px;margin-top:auto;padding-top:10px;}
   #card .swatch span{width:26px;height:26px;border-radius:6px;border:1px solid var(--glass-border);}
   #closeBtn{
@@ -182,7 +175,7 @@
   <!-- Title -->
   <div id="brand">
     <div class="name">Lumen</div>
-    <div class="sub">A Minimalist Gallery in Space</div>
+    <div class="sub">Masterworks in Orbit</div>
   </div>
 
   <!-- Bottom-center info hint -->
@@ -221,86 +214,85 @@
 <script type="module">
 import * as THREE from 'three';
 
-/* ───────────────────────── Gallery data ───────────────────────── */
+/* ───────────── Real public-domain masterworks ─────────────
+   Images are loaded from Wikimedia's Special:FilePath endpoint (no fragile
+   hash paths). If any image fails to load (offline / blocked), the gallery
+   falls back to a generated minimalist canvas built from each work's palette. */
+const FP = name => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(name)}?width=900`;
+
 const ARTWORKS = [
-  { title:'Crimson Drift',   artist:'Ana Vasquez',  year:'2021', medium:'Acrylic on linen',
-    colors:['#e23744','#2b1418','#f0c1a0'],
-    desc:'A single ribbon of crimson cuts across a dusk-toned field, exploring how one bold gesture can hold an entire silence together.' },
-  { title:'Quiet Meridian',  artist:'Yusuke Tanabe', year:'2019', medium:'Oil on canvas',
-    colors:['#2f6f8f','#0e2330','#cfe4ec'],
-    desc:'Horizontal bands of blue dissolve into mist. The work meditates on the meridian — the line where the sea forgets where it ends.' },
-  { title:'Solar Index',     artist:'Mira Okonkwo', year:'2022', medium:'Pigment & gold leaf',
-    colors:['#f4a72c','#7a3b0c','#fde7b0'],
-    desc:'Concentric arcs of warm ochre radiate from an unseen sun, indexing light not as illumination but as a slow, patient weight.' },
-  { title:'Verdant Static',  artist:'Léo Marchand', year:'2020', medium:'Mixed media',
-    colors:['#3f8a4d','#10241a','#bfe6c2'],
-    desc:'Layers of green flicker like signal through foliage — a portrait of growth caught mid-transmission, alive and unresolved.' },
-  { title:'Lilac Interval',  artist:'Sofia Bellini', year:'2023', medium:'Soft pastel',
-    colors:['#9b7bd4','#241a3a','#e8def7'],
-    desc:'Two fields of violet pause against one another. The interval between them — barely a breath — is the real subject of the piece.' },
-  { title:'Ember Field',     artist:'Noah Halvorsen', year:'2018', medium:'Encaustic wax',
-    colors:['#d65a2e','#2a120a','#f6cba0'],
-    desc:'Beneath translucent wax, embers seem to cool and rekindle. A study of heat as memory, fading yet never quite extinguished.' },
-  { title:'Northern Cipher', artist:'Elin Sandberg', year:'2021', medium:'Indigo on paper',
-    colors:['#27496d','#0a1622','#9fc0d8'],
-    desc:'Pale marks scatter across deep indigo like a code half-remembered. A northern night written in a language of distance.' },
-  { title:'Bloom Theorem',   artist:'Priya Raman',   year:'2022', medium:'Watercolour',
-    colors:['#e06aa0','#2c1422','#f7d4e6'],
-    desc:'Petals open according to a logic of their own — soft, recursive, inevitable. Beauty proposed not as accident but as proof.' },
+  { title:'The Starry Night', artist:'Vincent van Gogh', year:'1889', medium:'Oil on canvas',
+    file:'Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
+    colors:['#f4d35e','#16386b','#3f7ca8'],
+    desc:'Swirling cobalt skies churn above a quiet village while eleven stars and a crescent moon blaze with halos of yellow. Painted from memory in a Saint-Rémy asylum, it turns turbulence into something close to prayer.' },
+  { title:'The Great Wave off Kanagawa', artist:'Katsushika Hokusai', year:'1831', medium:'Woodblock print',
+    file:'The_Great_Wave_off_Kanagawa.jpg',
+    colors:['#2e6f8e','#e7eef0','#1c2a33'],
+    desc:'A towering claw of foam rears over three slender boats as Mount Fuji sits tiny and serene on the horizon. The most reproduced image in the history of Japanese art, balancing terror and stillness in a single breath.' },
+  { title:'Girl with a Pearl Earring', artist:'Johannes Vermeer', year:'1665', medium:'Oil on canvas',
+    file:'1665_Girl_with_a_Pearl_Earring.jpg',
+    colors:['#c89b4a','#16202e','#3a6b8a'],
+    desc:'A girl turns toward us from velvet darkness, lips parted, a single pearl catching the light. Often called the “Mona Lisa of the North,” her gaze remains one of the most enigmatic in Western painting.' },
+  { title:'The Kiss', artist:'Gustav Klimt', year:'1908', medium:'Oil & gold leaf',
+    file:'The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg',
+    colors:['#d4af37','#7a5c1e','#caa14a'],
+    desc:'Two lovers dissolve into a single shimmering field of gold at the edge of a flowered cliff. The crowning work of Klimt’s “Golden Phase,” it fuses Byzantine mosaic with raw, modern intimacy.' },
+  { title:'The Scream', artist:'Edvard Munch', year:'1893', medium:'Tempera & pastel',
+    file:'The_Scream.jpg',
+    colors:['#e8843c','#b23a2e','#2b4a6b'],
+    desc:'A hollow figure clutches its face beneath a blood-orange sky as the landscape ripples with anxiety. Munch wrote that he felt “an infinite scream passing through nature” — and painted exactly that.' },
+  { title:'Impression, Sunrise', artist:'Claude Monet', year:'1872', medium:'Oil on canvas',
+    file:'Claude_Monet,_Impression,_soleil_levant.jpg',
+    colors:['#e07b39','#5b7a8a','#22323f'],
+    desc:'A small orange sun smolders through harbor mist, its reflection broken into loose, hurried strokes. The painting’s title gave an entire movement its name: Impressionism.' },
+  { title:'The Birth of Venus', artist:'Sandro Botticelli', year:'1485', medium:'Tempera on canvas',
+    file:'Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg',
+    colors:['#cdb98a','#5a7a6a','#d8c0a0'],
+    desc:'The goddess arrives full-grown on a scallop shell, blown to shore by the winds as spring scatters roses. A serene high point of the Italian Renaissance and its rediscovery of antique grace.' },
+  { title:'Mona Lisa', artist:'Leonardo da Vinci', year:'1503', medium:'Oil on poplar',
+    file:'Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg',
+    colors:['#9c7a44','#3a3320','#6b5a3a'],
+    desc:'Behind a soft, shifting smile and an atmospheric mountain landscape lies Leonardo’s mastery of sfumato — smoke-like transitions of light. The most famous portrait ever made.' },
 ];
 
-/* Build a clean minimalist canvas texture for each artwork (no external images needed) */
+/* Procedural fallback texture (also used as the modal image if the real one fails) */
 function makeArtTexture(art){
   const S=1024, c=document.createElement('canvas'); c.width=S; c.height=S;
   const x=c.getContext('2d');
   const [a,b,cc]=art.colors;
-  // backdrop wash
   const g=x.createLinearGradient(0,0,S,S);
   g.addColorStop(0,b); g.addColorStop(1,shade(b,18));
   x.fillStyle=g; x.fillRect(0,0,S,S);
 
-  // deterministic pseudo-random from title
   let seed=0; for(const ch of art.title) seed=(seed*31+ch.charCodeAt(0))%9973;
   const rnd=()=>{ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; };
 
-  // large soft form
-  x.save();
   const grd=x.createRadialGradient(S*(.3+rnd()*.4),S*(.3+rnd()*.4),40,S*.5,S*.5,S*.7);
   grd.addColorStop(0,a); grd.addColorStop(1,'rgba(0,0,0,0)');
-  x.globalAlpha=.85; x.fillStyle=grd; x.fillRect(0,0,S,S);
-  x.restore();
+  x.globalAlpha=.85; x.fillStyle=grd; x.fillRect(0,0,S,S); x.globalAlpha=1;
 
-  // a few minimalist bands / arcs
-  const mode=Math.floor(rnd()*3);
-  x.globalAlpha=.9;
-  if(mode===0){ // bands
-    for(let i=0;i<3;i++){ x.fillStyle=i%2?a:cc; const h=S*(.06+rnd()*.12); x.fillRect(0,S*(.2+i*.22),S,h); }
-  } else if(mode===1){ // arcs
-    for(let i=0;i<3;i++){ x.strokeStyle=i?cc:a; x.lineWidth=18+rnd()*30; x.beginPath();
-      x.arc(S*.5,S*.95,S*(.25+i*.22),Math.PI,0); x.stroke(); }
-  } else { // single ribbon + dot
-    x.strokeStyle=a; x.lineWidth=46; x.lineCap='round'; x.beginPath();
-    x.moveTo(S*.12,S*.78); x.bezierCurveTo(S*.4,S*.2,S*.6,S*.9,S*.9,S*.25); x.stroke();
-    x.fillStyle=cc; x.beginPath(); x.arc(S*(.25+rnd()*.5),S*(.25+rnd()*.5),34,0,7); x.fill();
-  }
-  // subtle vignette
+  const mode=Math.floor(rnd()*3); x.globalAlpha=.9;
+  if(mode===0){ for(let i=0;i<3;i++){ x.fillStyle=i%2?a:cc; const h=S*(.06+rnd()*.12); x.fillRect(0,S*(.2+i*.22),S,h); } }
+  else if(mode===1){ for(let i=0;i<3;i++){ x.strokeStyle=i?cc:a; x.lineWidth=18+rnd()*30; x.beginPath(); x.arc(S*.5,S*.95,S*(.25+i*.22),Math.PI,0); x.stroke(); } }
+  else { x.strokeStyle=a; x.lineWidth=46; x.lineCap='round'; x.beginPath(); x.moveTo(S*.12,S*.78); x.bezierCurveTo(S*.4,S*.2,S*.6,S*.9,S*.9,S*.25); x.stroke();
+    x.fillStyle=cc; x.beginPath(); x.arc(S*(.25+rnd()*.5),S*(.25+rnd()*.5),34,0,7); x.fill(); }
   const vg=x.createRadialGradient(S*.5,S*.5,S*.3,S*.5,S*.5,S*.75);
   vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.35)');
   x.globalAlpha=1; x.fillStyle=vg; x.fillRect(0,0,S,S);
 
-  const t=new THREE.CanvasTexture(c);
-  t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8;
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8;
   art._dataURL=c.toDataURL('image/jpeg',0.9);
   return t;
 }
 function shade(hex,amt){
   const n=parseInt(hex.slice(1),16);
-  let r=(n>>16)+amt, g=((n>>8)&255)+amt, b=(n&255)+amt;
-  r=Math.max(0,Math.min(255,r));g=Math.max(0,Math.min(255,g));b=Math.max(0,Math.min(255,b));
+  let r=Math.max(0,Math.min(255,(n>>16)+amt)),
+      g=Math.max(0,Math.min(255,((n>>8)&255)+amt)),
+      b=Math.max(0,Math.min(255,(n&255)+amt));
   return '#'+((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
 }
 
-/* ───────────────────────── Three.js scene ───────────────────────── */
+/* ───────────── Three.js scene ───────────── */
 const canvas=document.getElementById('scene');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -308,66 +300,77 @@ renderer.outputColorSpace=THREE.SRGBColorSpace;
 
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,100);
-camera.position.set(0,0.4,7.2);
+camera.position.set(0,0.4,7.4);
 
-// lights
-scene.add(new THREE.AmbientLight(0xb9c4ff,0.8));
-const key=new THREE.DirectionalLight(0xffffff,1.1); key.position.set(4,6,8); scene.add(key);
-const rim=new THREE.PointLight(0x8b9dff,1.6,30); rim.position.set(-6,2,-4); scene.add(rim);
-const warm=new THREE.PointLight(0xff8bb0,1.1,30); warm.position.set(6,-2,2); scene.add(warm);
+scene.add(new THREE.AmbientLight(0xcfd0e8,0.85));
+const key=new THREE.DirectionalLight(0xfff2dc,1.15); key.position.set(4,6,8); scene.add(key);
+const rim=new THREE.PointLight(0xd8b367,1.5,32); rim.position.set(-6,2,-4); scene.add(rim);
+const warm=new THREE.PointLight(0xff9bb0,1.0,30); warm.position.set(6,-2,2); scene.add(warm);
 
-// floating dust particles for liveliness
 (function dust(){
-  const N=260, geo=new THREE.BufferGeometry(), pos=new Float32Array(N*3);
+  const N=280, geo=new THREE.BufferGeometry(), pos=new Float32Array(N*3);
   for(let i=0;i<N;i++){ pos[i*3]=(Math.random()-.5)*22; pos[i*3+1]=(Math.random()-.5)*14; pos[i*3+2]=(Math.random()-.5)*22; }
   geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-  const mat=new THREE.PointsMaterial({color:0x9aa7ff,size:0.035,transparent:true,opacity:0.55,depthWrite:false});
+  const mat=new THREE.PointsMaterial({color:0xe9dcb8,size:0.034,transparent:true,opacity:0.5,depthWrite:false});
   const p=new THREE.Points(geo,mat); p.name='dust'; scene.add(p);
 })();
 
-// Gallery ring of framed paintings
 const ring=new THREE.Group(); scene.add(ring);
-const R=4.6, frames=[];
+const R=4.7, frames=[], frameRefs=[];
 const raycaster=new THREE.Raycaster(), pointer=new THREE.Vector2();
+const texLoader=new THREE.TextureLoader(); texLoader.setCrossOrigin('anonymous');
+
+const BASE_W=2.0, BASE_H=2.5, DEPTH=0.12, PLANE_ASPECT=BASE_W/BASE_H;
 
 ARTWORKS.forEach((art,i)=>{
   const a=(i/ARTWORKS.length)*Math.PI*2;
   const g=new THREE.Group();
   g.position.set(Math.sin(a)*R,0,Math.cos(a)*R);
-  g.lookAt(0,0,0); g.rotateY(Math.PI); // face outward toward viewer when in front
+  g.lookAt(0,0,0); g.rotateY(Math.PI);
 
-  // frame
-  const fw=2.0, fh=2.5, d=0.12;
   const frame=new THREE.Mesh(
-    new THREE.BoxGeometry(fw+0.22,fh+0.22,d),
-    new THREE.MeshStandardMaterial({color:0x111522,metalness:0.4,roughness:0.5})
+    new THREE.BoxGeometry(BASE_W+0.22,BASE_H+0.22,DEPTH),
+    new THREE.MeshStandardMaterial({color:0x14110b,metalness:0.45,roughness:0.5})
   );
   g.add(frame);
-  // mat board
-  const mat=new THREE.Mesh(new THREE.PlaneGeometry(fw+0.02,fh+0.02),
-    new THREE.MeshStandardMaterial({color:0x0c0f1a,roughness:0.9}));
-  mat.position.z=d/2+0.001; g.add(mat);
-  // canvas
-  const tex=makeArtTexture(art);
-  const canvasMesh=new THREE.Mesh(new THREE.PlaneGeometry(fw,fh),
-    new THREE.MeshStandardMaterial({map:tex,roughness:0.85,metalness:0.0}));
-  canvasMesh.position.z=d/2+0.01;
-  canvasMesh.userData.index=i;
-  g.add(canvasMesh);
-  frames.push(canvasMesh);
+  const matMat=new THREE.MeshStandardMaterial({color:0x0c0b10,roughness:0.9});
+  const mat=new THREE.Mesh(new THREE.PlaneGeometry(BASE_W+0.02,BASE_H+0.02),matMat);
+  mat.position.z=DEPTH/2+0.001; g.add(mat);
 
-  // little glowing spotlight pedestal under each
-  const glow=new THREE.Mesh(new THREE.CircleGeometry(1.1,32),
+  const tex=makeArtTexture(art);
+  const canvasMat=new THREE.MeshStandardMaterial({map:tex,roughness:0.82,metalness:0.0});
+  const canvasMesh=new THREE.Mesh(new THREE.PlaneGeometry(BASE_W,BASE_H),canvasMat);
+  canvasMesh.position.z=DEPTH/2+0.01; canvasMesh.userData.index=i;
+  g.add(canvasMesh); frames.push(canvasMesh);
+
+  const glow=new THREE.Mesh(new THREE.CircleGeometry(1.15,32),
     new THREE.MeshBasicMaterial({color:new THREE.Color(art.colors[0]),transparent:true,opacity:0.12}));
-  glow.rotation.x=-Math.PI/2; glow.position.y=-1.7; g.add(glow);
+  glow.rotation.x=-Math.PI/2; glow.position.y=-1.75; g.add(glow);
 
   ring.add(g);
+  const ref={group:g,frame,mat,canvasMesh}; frameRefs.push(ref);
+
+  // Try to load the real painting; on success swap the texture and fix aspect ratio.
+  texLoader.load(FP(art.file),
+    (real)=>{
+      real.colorSpace=THREE.SRGBColorSpace; real.anisotropy=8;
+      canvasMat.map=real; canvasMat.needsUpdate=true;
+      const img=real.image;
+      if(img && img.width && img.height){
+        const imgAspect=img.width/img.height;
+        const sx=imgAspect/PLANE_ASPECT;     // keep height fixed, scale width to match
+        frame.scale.x=sx; mat.scale.x=sx; canvasMesh.scale.x=sx;
+        art._loaded=true;
+      }
+    },
+    undefined,
+    ()=>{ /* keep procedural fallback */ }
+  );
 });
 
-/* ───────────────────────── Interaction ───────────────────────── */
+/* ───────────── Interaction ───────────── */
 let autoRotate=true, targetRotY=0, curRotY=0, velY=0;
-let dragging=false, lastX=0, lastY=0, tilt=0, targetTilt=0;
-let movedDist=0, downX=0, downY=0;
+let dragging=false, lastX=0, lastY=0, tilt=0, targetTilt=0, movedDist=0, downX=0, downY=0;
 
 const autoBtn=document.getElementById('autoBtn');
 autoBtn.addEventListener('click',(e)=>{
@@ -376,6 +379,7 @@ autoBtn.addEventListener('click',(e)=>{
   autoBtn.classList.toggle('on',autoRotate);
 });
 
+function evt(e){ return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY}; }
 function pointerDown(e){
   if(document.getElementById('modal').classList.contains('open')) return;
   dragging=true; movedDist=0;
@@ -384,23 +388,17 @@ function pointerDown(e){
 }
 function pointerMove(e){
   if(!dragging) return;
-  const p=evt(e);
-  const dx=p.x-lastX, dy=p.y-lastY;
+  const p=evt(e); const dx=p.x-lastX, dy=p.y-lastY;
   movedDist+=Math.abs(dx)+Math.abs(dy);
-  velY=dx*0.006;
-  targetRotY+=velY;
+  velY=dx*0.006; targetRotY+=velY;
   targetTilt=Math.max(-0.5,Math.min(0.5,targetTilt - dy*0.004));
   lastX=p.x; lastY=p.y;
 }
-function pointerUp(e){
+function pointerUp(){
   if(!dragging) return;
-  dragging=false;
-  document.body.classList.remove('dragging');
-  // treat as click if barely moved
-  if(movedDist<6){ tryPick(downX,downY); }
+  dragging=false; document.body.classList.remove('dragging');
+  if(movedDist<6) tryPick(downX,downY);
 }
-function evt(e){ return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY}; }
-
 canvas.addEventListener('mousedown',pointerDown);
 window.addEventListener('mousemove',pointerMove);
 window.addEventListener('mouseup',pointerUp);
@@ -409,18 +407,19 @@ window.addEventListener('touchmove',pointerMove,{passive:true});
 window.addEventListener('touchend',pointerUp);
 
 function tryPick(px,py){
-  pointer.x=(px/innerWidth)*2-1;
-  pointer.y=-(py/innerHeight)*2+1;
+  pointer.x=(px/innerWidth)*2-1; pointer.y=-(py/innerHeight)*2+1;
   raycaster.setFromCamera(pointer,camera);
   const hits=raycaster.intersectObjects(frames,false);
-  if(hits.length){ openCard(hits[0].object.userData.index); }
+  if(hits.length) openCard(hits[0].object.userData.index);
 }
 
-/* ───────────────────────── Modal card ───────────────────────── */
+/* ───────────── Modal card ───────────── */
 const modal=document.getElementById('modal');
 function openCard(i){
   const art=ARTWORKS[i];
-  document.getElementById('cardImg').src=art._dataURL;
+  const img=document.getElementById('cardImg');
+  img.onerror=()=>{ img.onerror=null; img.src=art._dataURL; };  // fall back to generated art
+  img.src=art._loaded ? FP(art.file) : art._dataURL;
   document.getElementById('cardTitle').textContent=art.title;
   document.getElementById('cardArtist').textContent=`${art.artist} · ${art.year}`;
   document.getElementById('cardMeta').textContent=art.medium;
@@ -434,7 +433,7 @@ document.getElementById('closeBtn').addEventListener('click',closeCard);
 modal.addEventListener('click',(e)=>{ if(e.target===modal) closeCard(); });
 window.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeCard(); });
 
-/* ───────────────────────── Resize & render loop ───────────────────────── */
+/* ───────────── Resize & render loop ───────────── */
 function resize(){
   renderer.setSize(innerWidth,innerHeight);
   camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
@@ -445,29 +444,24 @@ const clock=new THREE.Clock();
 function loop(){
   requestAnimationFrame(loop);
   const t=clock.getElapsedTime();
-
-  if(autoRotate && !dragging){ targetRotY+=0.0026; }
-  // inertia / smoothing
+  if(autoRotate && !dragging) targetRotY+=0.0026;
   curRotY+=(targetRotY-curRotY)*0.08;
   tilt+=(targetTilt-tilt)*0.08;
-  if(!dragging){ targetTilt*=0.96; }
+  if(!dragging) targetTilt*=0.96;
   ring.rotation.y=curRotY;
   ring.rotation.x=tilt*0.4;
   ring.position.y=Math.sin(t*0.6)*0.12;
 
   const dustObj=scene.getObjectByName('dust');
   if(dustObj){ dustObj.rotation.y=t*0.02; dustObj.rotation.x=Math.sin(t*0.1)*0.05; }
-
   rim.position.x=Math.sin(t*0.4)*6;
   warm.position.x=Math.cos(t*0.3)*6;
-
   renderer.render(scene,camera);
 }
 loop();
 
-/* ───────────────────────── Loading sequence ───────────────────────── */
+/* ───────────── Loading sequence ───────────── */
 window.addEventListener('load',()=>{
-  // small delay so the spinner reads as intentional
   setTimeout(()=>{
     document.getElementById('loader').classList.add('hide');
     document.getElementById('brand').style.opacity=1;
