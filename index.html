@@ -1,697 +1,480 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Livros são Portas</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400&family=Lora:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+<title>Lumen · A 3D Minimalist Gallery</title>
 <style>
-:root{
-  --cream:#f5f0e8;--surface:#fdfaf5;--ink:#1c1408;--muted:#6b5c42;--faint:#a09070;
-  --forest:#2b5016;--forest-mid:#3d6b18;--forest-light:#559a28;--forest-pale:#eaf2df;
-  --border:#d8cdb8;--border-light:#e8e0d0;--red:#b71c1c;--red-pale:#fde8e8;
-  --r:8px;--r-lg:12px;
-  --fd:'Playfair Display',serif;--fb:'Lora',serif;--fm:'DM Mono',monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--cream);color:var(--ink);font-family:var(--fb);-webkit-font-smoothing:antialiased;}
-input,select,textarea,button{font-family:var(--fb);font-size:14px;}
-::placeholder{color:var(--faint);}
-::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-@keyframes spin{to{transform:rotate(360deg);}}
-.fade{animation:fadeUp .3s ease forwards;}
-.hidden{display:none!important;}
+  :root{
+    --fg:#eef1f7;
+    --muted:#9aa3b8;
+    --accent:#8b9dff;
+    --glass:rgba(20,24,40,0.45);
+    --glass-border:rgba(255,255,255,0.12);
+    --font:'Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;width:100%;overflow:hidden;}
+  body{
+    font-family:var(--font);
+    color:var(--fg);
+    background:#070912;
+    cursor:grab;
+    user-select:none;
+    -webkit-user-select:none;
+  }
+  body.dragging{cursor:grabbing;}
 
-/* ── Layout ── */
-.screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;background:var(--cream);}
-.center{text-align:center;max-width:360px;width:100%;}
-.max{max-width:740px;margin:0 auto;padding:24px;}
+  /* ── Lively dark gradient background ── */
+  #bg{
+    position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(circle at 18% 22%, rgba(70,60,150,0.55), transparent 45%),
+      radial-gradient(circle at 82% 28%, rgba(20,90,140,0.5), transparent 48%),
+      radial-gradient(circle at 50% 88%, rgba(120,40,110,0.45), transparent 52%),
+      linear-gradient(135deg,#0a0c1a 0%,#0c1024 45%,#070912 100%);
+    background-size:200% 200%;
+    animation:drift 22s ease-in-out infinite;
+  }
+  @keyframes drift{
+    0%,100%{background-position:0% 0%, 100% 0%, 50% 100%, 0% 0%;}
+    33%{background-position:30% 20%, 70% 30%, 40% 70%, 0% 0%;}
+    66%{background-position:60% 10%, 40% 60%, 60% 90%, 0% 0%;}
+  }
+  /* soft grain / glow particles */
+  #bg::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.55) 100%);
+  }
 
-/* ── Nav ── */
-.nav{background:var(--surface);border-bottom:1px solid var(--border-light);padding:0 24px;position:sticky;top:0;z-index:100;}
-.nav-top{max-width:740px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
-.nav-logo{font-family:var(--fd);font-weight:700;font-size:15px;color:var(--ink);display:flex;align-items:center;gap:10px;}
-.nav-logo .dot{width:28px;height:28px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;}
-.nav-tabs{max-width:740px;margin:0 auto;display:flex;}
-.nav-tab{padding:10px 16px;background:none;border:none;cursor:pointer;font-size:13px;font-family:var(--fb);font-weight:400;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;}
-.nav-tab.active{font-weight:600;color:var(--forest);border-bottom-color:var(--forest);}
-.btn-sair{background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;font-family:var(--fm);padding:6px 10px;border-radius:8px;}
+  #scene{position:fixed;inset:0;z-index:1;display:block;}
 
-/* ── Cards ── */
-.card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--r-lg);padding:20px;box-shadow:0 2px 8px rgba(28,20,8,.08);}
-.card-list{display:flex;flex-direction:column;gap:8px;}
-.card-clickable{cursor:pointer;transition:box-shadow .15s;}
-.card-clickable:hover{box-shadow:0 4px 20px rgba(28,20,8,.14);}
+  /* ── Loading prompt ── */
+  #loader{
+    position:fixed;inset:0;z-index:30;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:22px;
+    background:rgba(7,9,18,0.85);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    transition:opacity .8s ease, visibility .8s ease;
+  }
+  #loader.hide{opacity:0;visibility:hidden;}
+  .spinner{
+    width:46px;height:46px;border-radius:50%;
+    border:2px solid rgba(255,255,255,0.12);
+    border-top-color:var(--accent);
+    animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  #loader .txt{
+    font-size:14px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--muted);
+  }
 
-/* ── Stats ── */
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
-.stat-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--r-lg);padding:16px 10px;text-align:center;box-shadow:0 2px 8px rgba(28,20,8,.08);}
-.stat-num{font-family:var(--fd);font-size:26px;font-weight:800;color:var(--forest);line-height:1;}
-.stat-label{font-size:10px;color:var(--muted);font-family:var(--fm);letter-spacing:.07em;text-transform:uppercase;margin-top:5px;}
+  /* ── Shared glass UI ── */
+  .glass{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(16px) saturate(140%);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    box-shadow:0 8px 40px rgba(0,0,0,0.4);
+  }
 
-/* ── Volunteer card ── */
-.vol-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--r-lg);padding:14px 16px;box-shadow:0 2px 8px rgba(28,20,8,.08);cursor:pointer;transition:box-shadow .15s;}
-.vol-card:hover{box-shadow:0 4px 20px rgba(28,20,8,.14);}
-.vol-row{display:flex;align-items:center;gap:12px;}
-.vol-info{flex:1;min-width:0;}
-.vol-name{font-weight:600;font-size:14px;color:var(--ink);}
-.vol-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
-.vol-sub{font-size:11px;color:var(--faint);font-family:var(--fm);}
-.see-detail{font-size:11px;color:var(--forest-mid);font-family:var(--fm);font-weight:600;}
-.vol-hrs{font-family:var(--fm);font-size:12px;flex-shrink:0;}
+  /* Title */
+  #brand{
+    position:fixed;top:28px;left:50%;transform:translateX(-50%);
+    z-index:10;text-align:center;pointer-events:none;
+    opacity:0;transition:opacity 1s ease .3s;
+  }
+  #brand .name{font-size:20px;letter-spacing:.5em;font-weight:300;text-transform:uppercase;}
+  #brand .sub{margin-top:6px;font-size:11px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;}
 
-/* ── Progress bar ── */
-.prog-wrap{width:100%;height:4px;background:var(--border-light);border-radius:99px;overflow:hidden;margin:6px 0;}
-.prog-fill{height:100%;border-radius:99px;background:var(--forest);transition:width .6s;}
-.prog-fill.done{background:var(--forest-light);}
+  /* ── Bottom-center info hint ── */
+  #hint{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%);
+    z-index:10;
+    padding:12px 22px;border-radius:999px;
+    font-size:12.5px;letter-spacing:.04em;color:var(--fg);
+    display:flex;align-items:center;gap:10px;
+    opacity:0;transition:opacity 1s ease .5s;
+  }
+  #hint .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);}
+  #hint b{font-weight:600;color:var(--accent);}
 
-/* ── Avatar ── */
-.avatar{border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-family:var(--fd);}
+  /* ── Auto-rotate button (lower right) ── */
+  #autoBtn{
+    position:fixed;bottom:26px;right:26px;z-index:10;
+    display:flex;align-items:center;gap:9px;
+    padding:11px 18px;border-radius:999px;cursor:pointer;
+    color:var(--fg);font-size:12.5px;letter-spacing:.06em;
+    transition:transform .2s ease, background .3s ease, border-color .3s ease;
+    opacity:0;
+  }
+  #autoBtn.show{opacity:1;}
+  #autoBtn:hover{transform:translateY(-2px);}
+  #autoBtn .ico{
+    width:14px;height:14px;border-radius:50%;
+    border:2px solid var(--muted);border-top-color:transparent;
+    transition:border-color .3s ease;
+  }
+  #autoBtn.on .ico{border-color:var(--accent);border-top-color:transparent;animation:spin 2.2s linear infinite;}
+  #autoBtn.on{border-color:rgba(139,157,255,0.5);}
 
-/* ── Badge ── */
-.badge{font-size:11px;font-weight:500;padding:2px 9px;border-radius:99px;font-family:var(--fm);}
+  /* ── Detail card modal ── */
+  #modal{
+    position:fixed;inset:0;z-index:40;
+    display:flex;align-items:center;justify-content:center;padding:24px;
+    background:rgba(5,7,15,0.55);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    opacity:0;visibility:hidden;transition:opacity .4s ease, visibility .4s ease;
+  }
+  #modal.open{opacity:1;visibility:visible;}
+  #card{
+    width:min(860px,94vw);max-height:88vh;overflow:hidden;
+    border-radius:18px;display:flex;
+    transform:scale(.94) translateY(12px);transition:transform .45s cubic-bezier(.2,.9,.3,1.2);
+  }
+  #modal.open #card{transform:scale(1) translateY(0);}
+  #card .media{
+    flex:1 1 52%;min-width:0;background:#0a0c18;position:relative;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  #card .media img{width:100%;height:100%;object-fit:cover;display:block;}
+  #card .info{
+    flex:1 1 48%;padding:38px 34px;display:flex;flex-direction:column;gap:16px;
+    overflow-y:auto;
+  }
+  #card .meta{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);}
+  #card h2{font-size:27px;font-weight:300;line-height:1.2;letter-spacing:.01em;}
+  #card .artist{font-size:13px;color:var(--muted);font-style:italic;}
+  #card .desc{font-size:14.5px;line-height:1.7;color:#d4d9e6;}
+  #card .swatch{display:flex;gap:8px;margin-top:auto;padding-top:10px;}
+  #card .swatch span{width:26px;height:26px;border-radius:6px;border:1px solid var(--glass-border);}
+  #closeBtn{
+    position:absolute;top:14px;right:14px;z-index:2;
+    width:36px;height:36px;border-radius:50%;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--fg);font-size:18px;line-height:1;
+    transition:transform .2s ease, background .3s ease;
+  }
+  #closeBtn:hover{transform:rotate(90deg);}
 
-/* ── Buttons ── */
-.btn{padding:10px 20px;border-radius:var(--r);font-family:var(--fb);font-size:14px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;}
-.btn:disabled{opacity:.55;cursor:not-allowed;}
-.btn-primary{background:var(--forest);color:#fff;}
-.btn-primary:hover:not(:disabled){background:#3d6b18;}
-.btn-secondary{background:transparent;color:var(--forest);border:1px solid var(--forest);}
-.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}
-.btn-danger{background:var(--red);color:#fff;}
-.btn-full{width:100%;}
-.btn-back{background:none;border:none;cursor:pointer;color:var(--muted);font-family:var(--fm);font-size:12px;letter-spacing:.05em;padding:4px 0;display:flex;align-items:center;gap:6px;margin-bottom:24px;}
-
-/* ── Form ── */
-.field{display:flex;flex-direction:column;gap:7px;}
-.label{font-size:11px;font-family:var(--fm);font-weight:500;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;}
-.input{width:100%;padding:10px 14px;background:#fff;border:1px solid var(--border);border-radius:var(--r);color:var(--ink);font-size:14px;outline:none;transition:border-color .2s;}
-.input:focus{border-color:var(--forest);}
-.input.err{border-color:var(--red);}
-.input-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='11' height='7' viewBox='0 0 11 7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236b5c42' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.grade-btns{display:flex;gap:6px;flex-wrap:wrap;}
-.grade-btn{flex:1 0 auto;padding:8px 4px;border-radius:var(--r);border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:11px;font-family:var(--fm);transition:all .15s;}
-.grade-btn.active{border-color:var(--forest);background:var(--forest);color:#fff;}
-.grade-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
-.grade-filter-btn{padding:5px 13px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:12px;font-family:var(--fm);transition:all .15s;}
-.grade-filter-btn.active{border-color:var(--forest);background:var(--forest);color:#fff;}
-
-/* ── Alerts ── */
-.alert{font-size:13px;padding:9px 14px;border-radius:var(--r);font-family:var(--fm);}
-.alert-error{color:var(--red);background:var(--red-pale);}
-.alert-success{color:var(--forest);background:var(--forest-pale);}
-
-/* ── Modal ── */
-.modal-backdrop{position:fixed;inset:0;z-index:500;background:rgba(28,20,8,.6);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;}
-.modal{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:640px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(28,20,8,.2);}
-.modal-header{padding:20px 20px 16px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:14px;flex-shrink:0;}
-.modal-close{background:var(--cream);border:none;cursor:pointer;width:32px;height:32px;border-radius:50%;font-size:18px;color:var(--muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.modal-progress{padding:14px 20px;border-bottom:1px solid var(--border-light);flex-shrink:0;}
-.modal-body{overflow-y:auto;padding:16px 20px 32px;flex:1;}
-.session-row{padding:14px 0;border-bottom:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
-.session-row:last-child{border-bottom:none;}
-.session-activity{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:4px;}
-.session-date{font-size:12px;color:var(--muted);font-family:var(--fm);}
-.session-notes{font-size:13px;color:var(--muted);margin-top:6px;font-style:italic;}
-.session-hrs{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--forest);flex-shrink:0;}
-.section-label{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px;}
-.empty{text-align:center;padding:48px 24px;color:var(--muted);font-style:italic;}
-
-/* ── Home page ── */
-.home-bg-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);font-family:var(--fd);font-weight:800;font-size:clamp(160px,35vw,320px);color:var(--forest);opacity:.035;user-select:none;pointer-events:none;line-height:1;}
-.home-icon{width:60px;height:60px;border-radius:50%;background:var(--forest);margin:0 auto 22px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(43,80,22,.35);}
-.home-tag{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;}
-.home-title{font-family:var(--fd);font-size:clamp(30px,7vw,42px);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:20px;}
-.home-sub{font-size:14px;color:var(--muted);margin-bottom:36px;font-style:italic;}
-.home-btns{display:flex;flex-direction:column;gap:12px;}
-.home-footer{margin-top:30px;color:var(--faint);font-size:11px;font-family:var(--fm);}
-
-/* ── Profile ── */
-.profile-header{background:var(--surface);border-bottom:1px solid var(--border-light);padding:16px 24px 0;}
-.profile-hinner{max-width:560px;margin:0 auto;}
-.profile-top{display:flex;align-items:flex-end;gap:14px;padding-bottom:20px;}
-.profile-name{font-family:var(--fd);font-size:24px;font-weight:700;line-height:1.2;color:var(--ink);}
-.profile-badges{display:flex;gap:10px;margin-top:6px;align-items:center;}
-.profile-content{max-width:560px;margin:0 auto;padding:20px 24px 48px;}
-.progress-ring-wrap{position:relative;flex-shrink:0;}
-.progress-info{flex:1;min-width:150px;}
-.prog-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
-.prog-stat-num{font-family:var(--fd);font-size:18px;font-weight:800;color:#3a2e1a;line-height:1;}
-.prog-stat-label{font-size:9px;color:var(--muted);font-family:var(--fm);text-transform:uppercase;margin-top:2px;}
-
-/* ── Del btn ── */
-.del-btn{background:none;border:none;cursor:pointer;color:var(--faint);font-size:20px;line-height:1;padding:4px 8px;}
-.del-btn:hover{color:var(--red);}
-
-/* ── Search ── */
-.search-results{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 8px rgba(28,20,8,.09);}
-.search-item{width:100%;padding:12px 16px;display:flex;align-items:center;gap:12px;border:none;border-top:1px solid var(--border-light);background:none;cursor:pointer;text-align:left;}
-.search-item:first-child{border-top:none;}
-.search-item:hover{background:var(--forest-pale);}
+  @media (max-width:680px){
+    #card{flex-direction:column;max-height:90vh;overflow-y:auto;}
+    #card .media{min-height:230px;flex:none;}
+    #brand .name{font-size:16px;letter-spacing:.35em;}
+    #hint{font-size:11px;padding:10px 16px;}
+    #hint .full{display:none;}
+  }
 </style>
 </head>
 <body>
+  <div id="bg"></div>
+  <canvas id="scene"></canvas>
 
-<!-- ════════════════════════════════════════════════ -->
-<!--  SCREENS                                         -->
-<!-- ════════════════════════════════════════════════ -->
-
-<!-- HOME -->
-<div id="screen-home" class="screen">
-  <div class="home-bg-num">50</div>
-  <div class="center fade" style="position:relative;">
-    <div class="home-icon">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 4h9a3 3 0 013 3v14l-6-3.5L6 21V4z" fill="white" opacity=".95"/><path d="M12 4h6a2 2 0 012 2v16l-4.5-2.8L12 22V4z" fill="white" opacity=".45"/></svg>
-    </div>
-    <p class="home-tag">Registo de horas comunitárias</p>
-    <h1 class="home-title">Livros são<br/><em style="color:var(--forest)">Portas</em></h1>
-    <p class="home-sub">Meta: <strong style="color:#3a2e1a;font-style:normal">50 horas</strong> de leitura comunitária</p>
-    <div class="home-btns">
-      <button class="btn btn-primary btn-full" style="padding:14px;font-size:15px;" onclick="showCoordLogin()">Coordenador</button>
-      <button class="btn btn-secondary btn-full" style="padding:14px;font-size:15px;" onclick="showVolLogin()">Ver o meu perfil</button>
-    </div>
-    <p class="home-footer">Dados partilhados em tempo real</p>
+  <!-- Loading prompt -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <div class="txt">Loading gallery...</div>
   </div>
-</div>
 
-<!-- COORD LOGIN -->
-<div id="screen-coord-login" class="screen hidden">
-  <div style="width:100%;max-width:380px;" class="fade">
-    <button class="btn-back" onclick="showHome()">← Voltar</button>
-    <h2 style="font-family:var(--fd);font-size:28px;font-weight:700;margin-bottom:6px;">Acesso Coordenador</h2>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:24px;">Introduz o código de acesso.</p>
-    <div style="display:flex;flex-direction:column;gap:16px;">
-      <div class="field">
-        <label class="label">Código de acesso</label>
-        <input id="coord-pass" type="password" class="input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doCoordLogin()"/>
+  <!-- Title -->
+  <div id="brand">
+    <div class="name">Lumen</div>
+    <div class="sub">A Minimalist Gallery in Space</div>
+  </div>
+
+  <!-- Bottom-center info hint -->
+  <div id="hint" class="glass">
+    <span class="dot"></span>
+    <span><b>Drag</b> to rotate the gallery<span class="full"> · </span></span>
+    <span class="full"><b>Click</b> a painting to enlarge</span>
+  </div>
+
+  <!-- Auto-rotate toggle -->
+  <button id="autoBtn" class="glass on">
+    <span class="ico"></span>
+    <span>Auto-rotate</span>
+  </button>
+
+  <!-- Detail card modal -->
+  <div id="modal">
+    <div id="card" class="glass">
+      <div class="media">
+        <div id="closeBtn" class="glass">×</div>
+        <img id="cardImg" alt=""/>
       </div>
-      <div id="coord-err" class="alert alert-error hidden"></div>
-      <button class="btn btn-primary btn-full" style="padding:12px;" onclick="doCoordLogin()">Entrar</button>
-    </div>
-  </div>
-</div>
-
-<!-- VOL LOGIN -->
-<div id="screen-vol-login" class="screen hidden">
-  <div style="width:100%;max-width:420px;" class="fade">
-    <button class="btn-back" onclick="showHome()">← Voltar</button>
-    <h2 style="font-family:var(--fd);font-size:28px;font-weight:700;margin-bottom:20px;">O meu perfil</h2>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div class="field">
-        <label class="label">Ano</label>
-        <div class="grade-filter" id="vol-login-grade-filter">
-          <button class="grade-filter-btn active" onclick="volLoginGrade('')">Todos</button>
-          <button class="grade-filter-btn" onclick="volLoginGrade('10º Ano')">10º Ano</button>
-          <button class="grade-filter-btn" onclick="volLoginGrade('11º Ano')">11º Ano</button>
-          <button class="grade-filter-btn" onclick="volLoginGrade('12º Ano')">12º Ano</button>
-        </div>
+      <div class="info">
+        <div class="meta" id="cardMeta">Oil on canvas</div>
+        <h2 id="cardTitle">Title</h2>
+        <div class="artist" id="cardArtist">Artist</div>
+        <div class="desc" id="cardDesc">Description</div>
+        <div class="swatch" id="cardSwatch"></div>
       </div>
-      <div class="field">
-        <label class="label">Nome</label>
-        <input id="vol-search" type="text" class="input" placeholder="Pesquisa pelo teu nome..." oninput="renderVolSearch()"/>
-      </div>
-      <div id="vol-search-results"></div>
     </div>
   </div>
-</div>
 
-<!-- DASHBOARD -->
-<div id="screen-dashboard" class="hidden">
-  <div class="nav">
-    <div class="nav-top">
-      <div class="nav-logo">
-        <div class="dot"><svg width="14" height="14" viewBox="0 0 28 28" fill="none"><path d="M6 4h9a3 3 0 013 3v14l-6-3.5L6 21V4z" fill="white" opacity=".95"/><path d="M12 4h6a2 2 0 012 2v16l-4.5-2.8L12 22V4z" fill="white" opacity=".45"/></svg></div>
-        Livros são Portas
-      </div>
-      <button class="btn-sair" onclick="showHome()">Sair</button>
-    </div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" id="tab-btn-overview" onclick="switchTab('overview')">Visão geral</button>
-      <button class="nav-tab" id="tab-btn-log" onclick="switchTab('log')">Registar horas</button>
-      <button class="nav-tab" id="tab-btn-members" onclick="switchTab('members')">Membros</button>
-    </div>
-  </div>
-  <div class="max">
-    <div id="tab-overview" class="fade"></div>
-    <div id="tab-log" class="hidden"></div>
-    <div id="tab-members" class="hidden"></div>
-  </div>
-</div>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
 
-<!-- PROFILE -->
-<div id="screen-profile" class="hidden">
-  <div class="profile-header">
-    <div class="profile-hinner">
-      <button class="btn-back" onclick="showHome()">← Voltar</button>
-      <div class="profile-top" id="profile-top"></div>
-    </div>
-  </div>
-  <div class="profile-content" id="profile-content"></div>
-</div>
+/* ───────────────────────── Gallery data ───────────────────────── */
+const ARTWORKS = [
+  { title:'Crimson Drift',   artist:'Ana Vasquez',  year:'2021', medium:'Acrylic on linen',
+    colors:['#e23744','#2b1418','#f0c1a0'],
+    desc:'A single ribbon of crimson cuts across a dusk-toned field, exploring how one bold gesture can hold an entire silence together.' },
+  { title:'Quiet Meridian',  artist:'Yusuke Tanabe', year:'2019', medium:'Oil on canvas',
+    colors:['#2f6f8f','#0e2330','#cfe4ec'],
+    desc:'Horizontal bands of blue dissolve into mist. The work meditates on the meridian — the line where the sea forgets where it ends.' },
+  { title:'Solar Index',     artist:'Mira Okonkwo', year:'2022', medium:'Pigment & gold leaf',
+    colors:['#f4a72c','#7a3b0c','#fde7b0'],
+    desc:'Concentric arcs of warm ochre radiate from an unseen sun, indexing light not as illumination but as a slow, patient weight.' },
+  { title:'Verdant Static',  artist:'Léo Marchand', year:'2020', medium:'Mixed media',
+    colors:['#3f8a4d','#10241a','#bfe6c2'],
+    desc:'Layers of green flicker like signal through foliage — a portrait of growth caught mid-transmission, alive and unresolved.' },
+  { title:'Lilac Interval',  artist:'Sofia Bellini', year:'2023', medium:'Soft pastel',
+    colors:['#9b7bd4','#241a3a','#e8def7'],
+    desc:'Two fields of violet pause against one another. The interval between them — barely a breath — is the real subject of the piece.' },
+  { title:'Ember Field',     artist:'Noah Halvorsen', year:'2018', medium:'Encaustic wax',
+    colors:['#d65a2e','#2a120a','#f6cba0'],
+    desc:'Beneath translucent wax, embers seem to cool and rekindle. A study of heat as memory, fading yet never quite extinguished.' },
+  { title:'Northern Cipher', artist:'Elin Sandberg', year:'2021', medium:'Indigo on paper',
+    colors:['#27496d','#0a1622','#9fc0d8'],
+    desc:'Pale marks scatter across deep indigo like a code half-remembered. A northern night written in a language of distance.' },
+  { title:'Bloom Theorem',   artist:'Priya Raman',   year:'2022', medium:'Watercolour',
+    colors:['#e06aa0','#2c1422','#f7d4e6'],
+    desc:'Petals open according to a logic of their own — soft, recursive, inevitable. Beauty proposed not as accident but as proof.' },
+];
 
-<!-- MODAL -->
-<div id="detail-modal" class="modal-backdrop hidden" onclick="closeModal(event)">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header" id="modal-header"></div>
-    <div class="modal-progress" id="modal-progress"></div>
-    <div class="modal-body" id="modal-body"></div>
-  </div>
-</div>
+/* Build a clean minimalist canvas texture for each artwork (no external images needed) */
+function makeArtTexture(art){
+  const S=1024, c=document.createElement('canvas'); c.width=S; c.height=S;
+  const x=c.getContext('2d');
+  const [a,b,cc]=art.colors;
+  // backdrop wash
+  const g=x.createLinearGradient(0,0,S,S);
+  g.addColorStop(0,b); g.addColorStop(1,shade(b,18));
+  x.fillStyle=g; x.fillRect(0,0,S,S);
 
-<!-- ════════════════════════════════════════════════ -->
-<!--  JAVASCRIPT                                      -->
-<!-- ════════════════════════════════════════════════ -->
-<script>
-/* ── Firebase ── */
-firebase.initializeApp({
-  apiKey:"AIzaSyBTmPVFSFtDvnBuXy-cx_ogB7XodqCogkM",
-  authDomain:"biblioteca-comunitaria-a93f9.firebaseapp.com",
-  projectId:"biblioteca-comunitaria-a93f9",
-  storageBucket:"biblioteca-comunitaria-a93f9.firebasestorage.app",
-  messagingSenderId:"603000168473",
-  appId:"1:603000168473:web:514caec661c58d674dca88"
+  // deterministic pseudo-random from title
+  let seed=0; for(const ch of art.title) seed=(seed*31+ch.charCodeAt(0))%9973;
+  const rnd=()=>{ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; };
+
+  // large soft form
+  x.save();
+  const grd=x.createRadialGradient(S*(.3+rnd()*.4),S*(.3+rnd()*.4),40,S*.5,S*.5,S*.7);
+  grd.addColorStop(0,a); grd.addColorStop(1,'rgba(0,0,0,0)');
+  x.globalAlpha=.85; x.fillStyle=grd; x.fillRect(0,0,S,S);
+  x.restore();
+
+  // a few minimalist bands / arcs
+  const mode=Math.floor(rnd()*3);
+  x.globalAlpha=.9;
+  if(mode===0){ // bands
+    for(let i=0;i<3;i++){ x.fillStyle=i%2?a:cc; const h=S*(.06+rnd()*.12); x.fillRect(0,S*(.2+i*.22),S,h); }
+  } else if(mode===1){ // arcs
+    for(let i=0;i<3;i++){ x.strokeStyle=i?cc:a; x.lineWidth=18+rnd()*30; x.beginPath();
+      x.arc(S*.5,S*.95,S*(.25+i*.22),Math.PI,0); x.stroke(); }
+  } else { // single ribbon + dot
+    x.strokeStyle=a; x.lineWidth=46; x.lineCap='round'; x.beginPath();
+    x.moveTo(S*.12,S*.78); x.bezierCurveTo(S*.4,S*.2,S*.6,S*.9,S*.9,S*.25); x.stroke();
+    x.fillStyle=cc; x.beginPath(); x.arc(S*(.25+rnd()*.5),S*(.25+rnd()*.5),34,0,7); x.fill();
+  }
+  // subtle vignette
+  const vg=x.createRadialGradient(S*.5,S*.5,S*.3,S*.5,S*.5,S*.75);
+  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.35)');
+  x.globalAlpha=1; x.fillStyle=vg; x.fillRect(0,0,S,S);
+
+  const t=new THREE.CanvasTexture(c);
+  t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8;
+  art._dataURL=c.toDataURL('image/jpeg',0.9);
+  return t;
+}
+function shade(hex,amt){
+  const n=parseInt(hex.slice(1),16);
+  let r=(n>>16)+amt, g=((n>>8)&255)+amt, b=(n&255)+amt;
+  r=Math.max(0,Math.min(255,r));g=Math.max(0,Math.min(255,g));b=Math.max(0,Math.min(255,b));
+  return '#'+((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
+}
+
+/* ───────────────────────── Three.js scene ───────────────────────── */
+const canvas=document.getElementById('scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,100);
+camera.position.set(0,0.4,7.2);
+
+// lights
+scene.add(new THREE.AmbientLight(0xb9c4ff,0.8));
+const key=new THREE.DirectionalLight(0xffffff,1.1); key.position.set(4,6,8); scene.add(key);
+const rim=new THREE.PointLight(0x8b9dff,1.6,30); rim.position.set(-6,2,-4); scene.add(rim);
+const warm=new THREE.PointLight(0xff8bb0,1.1,30); warm.position.set(6,-2,2); scene.add(warm);
+
+// floating dust particles for liveliness
+(function dust(){
+  const N=260, geo=new THREE.BufferGeometry(), pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){ pos[i*3]=(Math.random()-.5)*22; pos[i*3+1]=(Math.random()-.5)*14; pos[i*3+2]=(Math.random()-.5)*22; }
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const mat=new THREE.PointsMaterial({color:0x9aa7ff,size:0.035,transparent:true,opacity:0.55,depthWrite:false});
+  const p=new THREE.Points(geo,mat); p.name='dust'; scene.add(p);
+})();
+
+// Gallery ring of framed paintings
+const ring=new THREE.Group(); scene.add(ring);
+const R=4.6, frames=[];
+const raycaster=new THREE.Raycaster(), pointer=new THREE.Vector2();
+
+ARTWORKS.forEach((art,i)=>{
+  const a=(i/ARTWORKS.length)*Math.PI*2;
+  const g=new THREE.Group();
+  g.position.set(Math.sin(a)*R,0,Math.cos(a)*R);
+  g.lookAt(0,0,0); g.rotateY(Math.PI); // face outward toward viewer when in front
+
+  // frame
+  const fw=2.0, fh=2.5, d=0.12;
+  const frame=new THREE.Mesh(
+    new THREE.BoxGeometry(fw+0.22,fh+0.22,d),
+    new THREE.MeshStandardMaterial({color:0x111522,metalness:0.4,roughness:0.5})
+  );
+  g.add(frame);
+  // mat board
+  const mat=new THREE.Mesh(new THREE.PlaneGeometry(fw+0.02,fh+0.02),
+    new THREE.MeshStandardMaterial({color:0x0c0f1a,roughness:0.9}));
+  mat.position.z=d/2+0.001; g.add(mat);
+  // canvas
+  const tex=makeArtTexture(art);
+  const canvasMesh=new THREE.Mesh(new THREE.PlaneGeometry(fw,fh),
+    new THREE.MeshStandardMaterial({map:tex,roughness:0.85,metalness:0.0}));
+  canvasMesh.position.z=d/2+0.01;
+  canvasMesh.userData.index=i;
+  g.add(canvasMesh);
+  frames.push(canvasMesh);
+
+  // little glowing spotlight pedestal under each
+  const glow=new THREE.Mesh(new THREE.CircleGeometry(1.1,32),
+    new THREE.MeshBasicMaterial({color:new THREE.Color(art.colors[0]),transparent:true,opacity:0.12}));
+  glow.rotation.x=-Math.PI/2; glow.position.y=-1.7; g.add(glow);
+
+  ring.add(g);
 });
-const db = firebase.firestore();
 
-/* ── State ── */
-const GOAL = 50;
-const COORD_PASS = "livros2027";
-const GRADE_COLORS = {"10º Ano":{bg:"#fff0d4",c:"#7a4f00"},"11º Ano":{bg:"#deeafc",c:"#1c3054"},"12º Ano":{bg:"#ead5fc",c:"#3b1060"}};
-const AVATAR_COLORS = ["#2b5016","#7a3f10","#1c3054","#3b1060","#004d40","#4e342e"];
-let volunteers = [], sessions = [], volLoginGradeFilter = "", currentProfile = null;
-let unsubVols, unsubSess;
+/* ───────────────────────── Interaction ───────────────────────── */
+let autoRotate=true, targetRotY=0, curRotY=0, velY=0;
+let dragging=false, lastX=0, lastY=0, tilt=0, targetTilt=0;
+let movedDist=0, downX=0, downY=0;
 
-/* ── Helpers ── */
-const genId = () => Math.random().toString(36).slice(2)+Date.now().toString(36);
-const fmtDate = d => d ? new Date(d+"T12:00:00").toLocaleDateString("pt-PT",{day:"2-digit",month:"short",year:"numeric"}) : "";
-const show = id => document.getElementById(id).classList.remove("hidden");
-const hide = id => document.getElementById(id).classList.add("hidden");
-const $ = id => document.getElementById(id);
+const autoBtn=document.getElementById('autoBtn');
+autoBtn.addEventListener('click',(e)=>{
+  e.stopPropagation();
+  autoRotate=!autoRotate;
+  autoBtn.classList.toggle('on',autoRotate);
+});
 
-function avatarHtml(name, size=44){
-  const init = name.split(" ").filter(Boolean).map(w=>w[0]).slice(0,2).join("").toUpperCase();
-  const c = AVATAR_COLORS[(name.charCodeAt(0)+(name.charCodeAt(1)||0))%AVATAR_COLORS.length];
-  return `<div class="avatar" style="width:${size}px;height:${size}px;background:${c};font-size:${Math.round(size*.36)}px;">${init}</div>`;
+function pointerDown(e){
+  if(document.getElementById('modal').classList.contains('open')) return;
+  dragging=true; movedDist=0;
+  const p=evt(e); lastX=downX=p.x; lastY=downY=p.y;
+  document.body.classList.add('dragging');
+}
+function pointerMove(e){
+  if(!dragging) return;
+  const p=evt(e);
+  const dx=p.x-lastX, dy=p.y-lastY;
+  movedDist+=Math.abs(dx)+Math.abs(dy);
+  velY=dx*0.006;
+  targetRotY+=velY;
+  targetTilt=Math.max(-0.5,Math.min(0.5,targetTilt - dy*0.004));
+  lastX=p.x; lastY=p.y;
+}
+function pointerUp(e){
+  if(!dragging) return;
+  dragging=false;
+  document.body.classList.remove('dragging');
+  // treat as click if barely moved
+  if(movedDist<6){ tryPick(downX,downY); }
+}
+function evt(e){ return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY}; }
+
+canvas.addEventListener('mousedown',pointerDown);
+window.addEventListener('mousemove',pointerMove);
+window.addEventListener('mouseup',pointerUp);
+canvas.addEventListener('touchstart',pointerDown,{passive:true});
+window.addEventListener('touchmove',pointerMove,{passive:true});
+window.addEventListener('touchend',pointerUp);
+
+function tryPick(px,py){
+  pointer.x=(px/innerWidth)*2-1;
+  pointer.y=-(py/innerHeight)*2+1;
+  raycaster.setFromCamera(pointer,camera);
+  const hits=raycaster.intersectObjects(frames,false);
+  if(hits.length){ openCard(hits[0].object.userData.index); }
 }
 
-function badgeHtml(grade){
-  const p = GRADE_COLORS[grade]||GRADE_COLORS["11º Ano"];
-  return `<span class="badge" style="background:${p.bg};color:${p.c};">${grade}</span>`;
+/* ───────────────────────── Modal card ───────────────────────── */
+const modal=document.getElementById('modal');
+function openCard(i){
+  const art=ARTWORKS[i];
+  document.getElementById('cardImg').src=art._dataURL;
+  document.getElementById('cardTitle').textContent=art.title;
+  document.getElementById('cardArtist').textContent=`${art.artist} · ${art.year}`;
+  document.getElementById('cardMeta').textContent=art.medium;
+  document.getElementById('cardDesc').textContent=art.desc;
+  const sw=document.getElementById('cardSwatch'); sw.innerHTML='';
+  art.colors.forEach(col=>{ const s=document.createElement('span'); s.style.background=col; sw.appendChild(s); });
+  modal.classList.add('open');
 }
+function closeCard(){ modal.classList.remove('open'); }
+document.getElementById('closeBtn').addEventListener('click',closeCard);
+modal.addEventListener('click',(e)=>{ if(e.target===modal) closeCard(); });
+window.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeCard(); });
 
-function progBar(pct){
-  const w = Math.min(pct,100);
-  const cls = w>=100?"done":"";
-  return `<div class="prog-wrap"><div class="prog-fill ${cls}" style="width:${w}%"></div></div>`;
+/* ───────────────────────── Resize & render loop ───────────────────────── */
+function resize(){
+  renderer.setSize(innerWidth,innerHeight);
+  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
 }
+addEventListener('resize',resize); resize();
 
-function volHours(vid){
-  return sessions.filter(s=>s.volunteerId===vid).reduce((a,b)=>a+(b.hours||0),0);
+const clock=new THREE.Clock();
+function loop(){
+  requestAnimationFrame(loop);
+  const t=clock.getElapsedTime();
+
+  if(autoRotate && !dragging){ targetRotY+=0.0026; }
+  // inertia / smoothing
+  curRotY+=(targetRotY-curRotY)*0.08;
+  tilt+=(targetTilt-tilt)*0.08;
+  if(!dragging){ targetTilt*=0.96; }
+  ring.rotation.y=curRotY;
+  ring.rotation.x=tilt*0.4;
+  ring.position.y=Math.sin(t*0.6)*0.12;
+
+  const dustObj=scene.getObjectByName('dust');
+  if(dustObj){ dustObj.rotation.y=t*0.02; dustObj.rotation.x=Math.sin(t*0.1)*0.05; }
+
+  rim.position.x=Math.sin(t*0.4)*6;
+  warm.position.x=Math.cos(t*0.3)*6;
+
+  renderer.render(scene,camera);
 }
+loop();
 
-/* ── Screens ── */
-function showHome(){
-  ["screen-home","screen-coord-login","screen-vol-login","screen-dashboard","screen-profile"].forEach(s=>{
-    s==="screen-home" ? show(s) : hide(s);
-  });
-  if(unsubVols){unsubVols();unsubVols=null;}
-  if(unsubSess){unsubSess();unsubSess=null;}
-  volunteers=[]; sessions=[];
-}
-
-function showCoordLogin(){ hide("screen-home"); show("screen-coord-login"); $("coord-pass").value=""; hide("coord-err"); }
-function showVolLogin(){ hide("screen-home"); show("screen-vol-login"); $("vol-search").value=""; $("vol-search-results").innerHTML=""; }
-
-function doCoordLogin(){
-  const p=$("coord-pass").value;
-  if(p===COORD_PASS){ hide("screen-coord-login"); showDashboard(); }
-  else { const el=$("coord-err"); el.textContent="Código incorrecto. Tenta de novo."; show("coord-err"); }
-}
-
-function showDashboard(){
-  show("screen-dashboard");
-  switchTab("overview");
-  startFirebaseListeners();
-}
-
-function startFirebaseListeners(){
-  unsubVols = db.collection("livros").doc("volunteers").onSnapshot(snap=>{
-    volunteers = snap.exists ? (snap.data().items||[]) : [];
-    renderCurrentTab();
-  });
-  unsubSess = db.collection("livros").doc("sessions").onSnapshot(snap=>{
-    sessions = snap.exists ? (snap.data().items||[]) : [];
-    renderCurrentTab();
-  });
-}
-
-function saveVols(){ db.collection("livros").doc("volunteers").set({items:volunteers}); }
-function saveSess(){ db.collection("livros").doc("sessions").set({items:sessions}); }
-
-/* ── Dashboard tabs ── */
-let currentTab = "overview";
-function switchTab(tab){
-  currentTab = tab;
-  ["overview","log","members"].forEach(t=>{
-    const btn=$("tab-btn-"+t), el=$("tab-"+t);
-    if(t===tab){ btn.classList.add("active"); show("tab-"+t); }
-    else{ btn.classList.remove("active"); hide("tab-"+t); }
-  });
-  renderCurrentTab();
-}
-
-function renderCurrentTab(){
-  if(currentTab==="overview") renderOverview();
-  else if(currentTab==="log") renderLog();
-  else if(currentTab==="members") renderMembers();
-}
-
-/* ── OVERVIEW TAB ── */
-let overviewGradeFilter = "";
-function renderOverview(){
-  const totalH = sessions.reduce((s,x)=>s+(x.hours||0),0);
-  const filtered = overviewGradeFilter ? volunteers.filter(v=>v.grade===overviewGradeFilter) : volunteers;
-  const withH = filtered.map(v=>({...v,hours:volHours(v.id),pct:Math.min((volHours(v.id)/GOAL)*100,100)})).sort((a,b)=>b.hours-a.hours);
-
-  const gradeFilterHtml = ["","10º Ano","11º Ano","12º Ano"].map(g=>`
-    <button class="grade-filter-btn${overviewGradeFilter===g?' active':''}" onclick="setOverviewGrade('${g}')">
-      ${g||"Todos"}
-    </button>`).join("");
-
-  const cardsHtml = withH.length===0
-    ? `<div class="card empty">Nenhum voluntário inscrito ainda.</div>`
-    : withH.map(v=>`
-      <div class="vol-card" onclick="openModal('${v.id}')">
-        <div class="vol-row">
-          ${avatarHtml(v.name,42)}
-          <div class="vol-info">
-            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:6px;">
-              <span class="vol-name">${v.name}</span>
-              <span class="vol-hrs" style="color:${v.pct>=100?'var(--forest-light)':'var(--muted)'};">${v.hours}h / ${GOAL}h</span>
-            </div>
-            ${progBar(v.pct)}
-            <div class="vol-meta">
-              <div style="display:flex;align-items:center;gap:8px;">
-                ${badgeHtml(v.grade)}
-                <span class="vol-sub">${v.program||"—"}</span>
-              </div>
-              <span class="see-detail">Ver detalhes →</span>
-            </div>
-          </div>
-        </div>
-      </div>`).join("");
-
-  $("tab-overview").innerHTML = `
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-num">${volunteers.length}</div><div class="stat-label">Voluntários</div></div>
-      <div class="stat-card"><div class="stat-num">${totalH}<span style="font-size:14px">h</span></div><div class="stat-label">Horas totais</div></div>
-      <div class="stat-card"><div class="stat-num">${sessions.length}</div><div class="stat-label">Sessões</div></div>
-    </div>
-    <div class="grade-filter">${gradeFilterHtml}</div>
-    <div class="card-list">${cardsHtml}</div>`;
-}
-
-function setOverviewGrade(g){ overviewGradeFilter=g; renderOverview(); }
-
-/* ── DETAIL MODAL ── */
-function openModal(vid){
-  const v = volunteers.find(x=>x.id===vid); if(!v)return;
-  const mine = sessions.filter(s=>s.volunteerId===vid).sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const hours = mine.reduce((a,b)=>a+(b.hours||0),0);
-  const pct = Math.min((hours/GOAL)*100,100);
-
-  $("modal-header").innerHTML=`
-    ${avatarHtml(v.name,48)}
-    <div style="flex:1;min-width:0;">
-      <h3 style="font-family:var(--fd);font-size:20px;font-weight:700;color:var(--ink);line-height:1.2;">${v.name}</h3>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
-        ${badgeHtml(v.grade)}
-        <span style="font-size:12px;color:var(--muted);font-family:var(--fm);">${v.program||"—"}</span>
-      </div>
-    </div>
-    <button class="modal-close" onclick="$('detail-modal').classList.add('hidden')">×</button>`;
-
-  $("modal-progress").innerHTML=`
-    <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-      <span style="font-size:13px;font-weight:600;color:var(--ink);">${hours}h completadas</span>
-      <span style="font-size:13px;font-family:var(--fm);color:${pct>=100?'var(--forest-light)':'var(--muted)'};font-weight:${pct>=100?600:400};">${Math.round(pct)}% da meta</span>
-    </div>
-    ${progBar(pct)}`;
-
-  const sessHtml = mine.length===0
-    ? `<p class="empty">Nenhuma sessão registada ainda.</p>`
-    : mine.map((s,i)=>`
-      <div class="session-row">
-        <div style="flex:1;">
-          <div class="session-activity">${s.activity||"—"}</div>
-          <div class="session-date">${fmtDate(s.date)}</div>
-          ${s.notes?`<p class="session-notes">${s.notes}</p>`:""}
-        </div>
-        <span class="session-hrs">${s.hours}h</span>
-      </div>`).join("");
-
-  $("modal-body").innerHTML=`
-    <p class="section-label">Historial de sessões (${mine.length})</p>
-    ${sessHtml}`;
-
-  show("detail-modal");
-}
-
-function closeModal(e){ if(e.target.id==="detail-modal") $("detail-modal").classList.add("hidden"); }
-
-/* ── LOG HOURS TAB ── */
-let logForm = { volunteerId:"", date:new Date().toISOString().split("T")[0], hours:"", activity:"", notes:"" };
-function renderLog(){
-  const options = ["10º Ano","11º Ano","12º Ano"].map(g=>`
-    <optgroup label="${g}">
-      ${volunteers.filter(v=>v.grade===g).sort((a,b)=>a.name.localeCompare(b.name)).map(v=>`
-        <option value="${v.id}" ${logForm.volunteerId===v.id?'selected':''}>${v.name}${v.program?` — ${v.program}`:''}</option>`).join("")}
-    </optgroup>`).join("");
-
-  $("tab-log").innerHTML=`
-    <div class="card">
-      <h3 style="font-family:var(--fd);font-size:19px;font-weight:600;margin-bottom:20px;">Registar sessão</h3>
-      <div style="display:flex;flex-direction:column;gap:16px;">
-        <div class="field">
-          <label class="label">Voluntário</label>
-          <select class="input input-select" id="log-vol" onchange="logForm.volunteerId=this.value">
-            <option value="">Selecciona um voluntário...</option>
-            ${options}
-          </select>
-        </div>
-        <div class="form-grid">
-          <div class="field"><label class="label">Data</label><input type="date" class="input" id="log-date" value="${logForm.date}" onchange="logForm.date=this.value"/></div>
-          <div class="field"><label class="label">Horas</label><input type="number" class="input" id="log-hours" value="${logForm.hours}" min="0.5" max="8" step="0.5" placeholder="Ex: 1.5" onchange="logForm.hours=this.value"/></div>
-        </div>
-        <div class="field">
-          <label class="label">Actividade</label>
-          <input type="text" class="input" id="log-activity" value="${logForm.activity}" placeholder="Descreve a actividade realizada..." oninput="logForm.activity=this.value"/>
-        </div>
-        <div class="field">
-          <label class="label">Notas (opcional)</label>
-          <textarea class="input" id="log-notes" rows="3" placeholder="Observações sobre a sessão..." style="resize:vertical;" oninput="logForm.notes=this.value">${logForm.notes}</textarea>
-        </div>
-        <div id="log-msg"></div>
-        <button class="btn btn-primary btn-full" style="padding:12px;" onclick="submitLog()">Registar sessão</button>
-      </div>
-    </div>`;
-}
-
-function submitLog(){
-  const vid = $("log-vol").value;
-  const hrs = parseFloat($("log-hours").value);
-  const msg = $("log-msg");
-  if(!vid){ msg.innerHTML='<div class="alert alert-error">Selecciona um voluntário.</div>'; return; }
-  if(!hrs||isNaN(hrs)||hrs<=0){ msg.innerHTML='<div class="alert alert-error">Indica as horas (ex: 1.5).</div>'; return; }
-  sessions.push({id:genId(),volunteerId:vid,date:$("log-date").value,hours:hrs,activity:$("log-activity").value,notes:$("log-notes").value.trim()});
-  saveSess();
-  logForm = {volunteerId:"",date:new Date().toISOString().split("T")[0],hours:"",activity:"",notes:""};
-  msg.innerHTML='<div class="alert alert-success">Sessão registada com sucesso.</div>';
-  setTimeout(()=>{msg.innerHTML='';renderLog();},2500);
-}
-
-/* ── MEMBERS TAB ── */
-let membersForm = {name:"",grade:"10º Ano",program:""};
-let membersGradeFilter = "";
-function renderMembers(){
-  const grades=["10º Ano","11º Ano","12º Ano"];
-  const gradeFilterHtml = ["","10º Ano","11º Ano","12º Ano"].map(g=>`
-    <button class="grade-filter-btn${membersGradeFilter===g?' active':''}" onclick="setMembersGrade('${g}')">
-      ${g||"Todos"}
-    </button>`).join("");
-
-  const filt = (membersGradeFilter?volunteers.filter(v=>v.grade===membersGradeFilter):volunteers).slice().sort((a,b)=>a.name.localeCompare(b.name));
-  const listHtml = filt.length===0
-    ? `<div class="card empty">Nenhum voluntário inscrito ainda.</div>`
-    : filt.map(v=>{
-        const vH=volHours(v.id);
-        return `<div class="card" style="padding:12px 16px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            ${avatarHtml(v.name,38)}
-            <div style="flex:1;min-width:0;">
-              <div style="font-weight:600;font-size:14px;color:var(--ink);">${v.name}</div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--fm);margin-top:3px;flex-wrap:wrap;">
-                <span>${v.program||"—"}</span><span>·</span>${badgeHtml(v.grade)}<span>·</span>
-                <span style="color:${vH>=GOAL?'var(--forest-light)':'var(--muted)'};">${vH}h</span>
-              </div>
-            </div>
-            <button class="del-btn" onclick="deleteVol('${v.id}')">×</button>
-          </div>
-        </div>`;}).join("");
-
-  $("tab-members").innerHTML=`
-    <div style="display:flex;flex-direction:column;gap:20px;">
-      <div class="card">
-        <h3 style="font-family:var(--fd);font-size:19px;font-weight:600;margin-bottom:20px;">Adicionar voluntário</h3>
-        <div style="display:flex;flex-direction:column;gap:14px;">
-          <div class="field">
-            <label class="label">Nome completo</label>
-            <input type="text" class="input" id="mem-name" value="${membersForm.name}" placeholder="Nome do voluntário" oninput="membersForm.name=this.value"/>
-          </div>
-          <div class="form-grid">
-            <div class="field">
-              <label class="label">Ano</label>
-              <div class="grade-btns">
-                ${grades.map(g=>`<button class="grade-btn${membersForm.grade===g?' active':''}" onclick="setMemGrade('${g}')">${g}</button>`).join("")}
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Programa</label>
-              <input type="text" class="input" id="mem-program" value="${membersForm.program}" placeholder="Ex: Leitura Viva" oninput="membersForm.program=this.value"/>
-            </div>
-          </div>
-          <div id="mem-err"></div>
-          <button class="btn btn-primary btn-full" style="padding:11px;" onclick="addMember()">Adicionar voluntário</button>
-        </div>
-      </div>
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <span style="font-family:var(--fm);font-size:12px;color:var(--muted);">${filt.length} voluntário${filt.length!==1?'s':''}</span>
-          <div class="grade-filter" style="margin:0;">${gradeFilterHtml}</div>
-        </div>
-        <div class="card-list">${listHtml}</div>
-      </div>
-    </div>`;
-}
-
-function setMemGrade(g){ membersForm.grade=g; renderMembers(); }
-function setMembersGrade(g){ membersGradeFilter=g; renderMembers(); }
-
-function addMember(){
-  const name=$("mem-name").value.trim(), program=$("mem-program").value.trim();
-  const err=$("mem-err");
-  if(!name){err.innerHTML='<div class="alert alert-error">Indica o nome completo.</div>';return;}
-  if(!program){err.innerHTML='<div class="alert alert-error">Indica o nome do programa.</div>';return;}
-  volunteers.push({id:genId(),name,grade:membersForm.grade,program});
-  saveVols();
-  membersForm={name:"",grade:"10º Ano",program:""};
-}
-
-function deleteVol(id){
-  volunteers=volunteers.filter(v=>v.id!==id);
-  sessions=sessions.filter(s=>s.volunteerId!==id);
-  saveVols(); saveSess();
-}
-
-/* ── VOL LOGIN ── */
-function volLoginGrade(g){
-  volLoginGradeFilter=g;
-  document.querySelectorAll("#vol-login-grade-filter .grade-filter-btn").forEach(btn=>{
-    btn.classList.toggle("active", btn.textContent.trim()===(g||"Todos"));
-  });
-  renderVolSearch();
-}
-
-function renderVolSearch(){
-  const q=$("vol-search").value.trim().toLowerCase();
-  const res=$("vol-search-results");
-  if(!q){res.innerHTML="";return;}
-  const matches=volunteers.filter(v=>v.name.toLowerCase().includes(q)&&(!volLoginGradeFilter||v.grade===volLoginGradeFilter)).slice(0,6);
-  if(matches.length===0){res.innerHTML='<div class="search-results"><p style="padding:16px;text-align:center;color:var(--muted);font-style:italic;font-size:13px;">Nenhum resultado</p></div>';return;}
-  res.innerHTML=`<div class="search-results">${matches.map(v=>`
-    <button class="search-item" onclick="showProfile('${v.id}')">
-      ${avatarHtml(v.name,36)}
-      <div style="flex:1;"><div style="font-weight:600;font-size:14px;color:var(--ink);">${v.name}</div><div style="font-size:12px;color:var(--muted);font-family:var(--fm);">${v.program||"—"}</div></div>
-      ${badgeHtml(v.grade)}
-    </button>`).join("")}
-  </div>`;
-}
-
-/* ── PROFILE ── */
-function showProfile(vid){
-  const v=volunteers.find(x=>x.id===vid); if(!v)return;
-  currentProfile=vid;
-  hide("screen-vol-login");
-
-  // Start listener for sessions
-  startFirebaseListeners();
-
-  // Wait a tick for data then render
-  setTimeout(()=>renderProfile(vid),400);
-  show("screen-profile");
-}
-
-function renderProfile(vid){
-  const v=volunteers.find(x=>x.id===vid); if(!v)return;
-  const mine=sessions.filter(s=>s.volunteerId===vid).sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const hours=mine.reduce((a,b)=>a+(b.hours||0),0), pct=(hours/50)*100, rem=Math.max(50-hours,0);
-  const sw=10,sz=130,r=(sz-sw)/2,circ=2*Math.PI*r,dash=(Math.min(pct,100)/100)*circ;
-  const strokeColor=pct>=100?"#559a28":"#2b5016";
-
-  $("profile-top").innerHTML=`
-    ${avatarHtml(v.name,52)}
-    <div>
-      <div class="profile-name">${v.name}</div>
-      <div class="profile-badges">${badgeHtml(v.grade)}<span style="font-size:12px;color:var(--muted);font-family:var(--fm);">${v.program||"—"}</span></div>
-    </div>`;
-
-  const sessHtml=mine.length===0
-    ?`<div class="card empty">Nenhuma sessão ainda.</div>`
-    :mine.map(s=>`<div class="card" style="padding:14px 16px;margin-bottom:8px;">
-        <div style="display:flex;justify-content:space-between;gap:12px;">
-          <div><div style="font-weight:600;font-size:14px;color:var(--ink);margin-bottom:2px;">${s.activity||"—"}</div>
-            <div style="font-size:12px;color:var(--muted);font-family:var(--fm);">${fmtDate(s.date)}</div>
-            ${s.notes?`<p style="font-size:13px;color:var(--muted);margin-top:4px;font-style:italic;">${s.notes}</p>`:""}
-          </div>
-          <span style="font-family:var(--fd);font-size:17px;font-weight:700;color:var(--forest);flex-shrink:0;">${s.hours}h</span>
-        </div>
-      </div>`).join("");
-
-  $("profile-content").innerHTML=`
-    <div class="card" style="margin-bottom:20px;padding:24px;">
-      <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-        <div class="progress-ring-wrap">
-          <svg width="${sz}" height="${sz}" style="transform:rotate(-90deg)">
-            <circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="var(--border-light)" stroke-width="${sw}"/>
-            <circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="${strokeColor}" stroke-width="${sw}"
-              stroke-dasharray="${dash} ${circ}" stroke-linecap="round"/>
-          </svg>
-          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-            <span style="font-family:var(--fd);font-size:22px;font-weight:800;color:var(--forest);line-height:1;">${hours}h</span>
-            <span style="font-size:9px;color:var(--muted);font-family:var(--fm);margin-top:2px;">de 50h</span>
-          </div>
-        </div>
-        <div class="progress-info">
-          ${progBar(pct)}
-          <p style="margin-top:6px;font-size:12px;color:var(--muted);font-family:var(--fm);">${Math.round(Math.min(pct,100))}% da meta</p>
-          <div class="prog-stats">
-            <div><div class="prog-stat-num">${hours}h</div><div class="prog-stat-label">completadas</div></div>
-            <div><div class="prog-stat-num" style="color:${rem===0?'#559a28':'#7a3f10'}">${rem===0?"Meta!":rem+"h"}</div><div class="prog-stat-label">${rem===0?"atingida":"em falta"}</div></div>
-            <div><div class="prog-stat-num">${mine.length}</div><div class="prog-stat-label">sessões</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <h3 style="font-family:var(--fd);font-size:18px;font-weight:600;margin-bottom:12px;color:var(--ink);">Historial de sessões</h3>
-    ${sessHtml}`;
-}
-
-/* ── Init ── */
-showHome();
+/* ───────────────────────── Loading sequence ───────────────────────── */
+window.addEventListener('load',()=>{
+  // small delay so the spinner reads as intentional
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hide');
+    document.getElementById('brand').style.opacity=1;
+    document.getElementById('hint').style.opacity=1;
+    autoBtn.classList.add('show');
+  },1100);
+});
 </script>
 </body>
 </html>
